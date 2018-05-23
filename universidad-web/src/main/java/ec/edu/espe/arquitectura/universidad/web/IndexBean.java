@@ -13,6 +13,7 @@ import ec.edu.espe.arquitectura.universidad.service.SegRegistroAccesoService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
 import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
 import java.io.Serializable;
+import java.util.Date;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -49,6 +50,7 @@ public class IndexBean implements Serializable {
                 this.usuarioSessionBean.setUsuario(usuario);
                 this.registroAccesoService.crear(registroAcceso(usuario.getCodigo()));
                 usuario.setIntentosErroneos(0);
+                usuario.setFechaUltimoAcceso(new Date());
                 this.usuarioService.modificar(usuario);
                 return "menuPrincipal";
             } else if (usuario.getEstado().equals(EstadoSegUsuarioEnum.BLO)) {
