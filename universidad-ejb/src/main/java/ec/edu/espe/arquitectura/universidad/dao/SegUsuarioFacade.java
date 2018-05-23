@@ -40,7 +40,7 @@ public class SegUsuarioFacade extends AbstractFacade<SegUsuario> {
             usuario.setEstado(EstadoSegUsuarioEnum.ACT);
             usuario.setIntentosErroneos(0);
             this.edit(usuario);
-            System.out.println("Se ha desbloqueado el usuario: " +usuario.getCodigo());
+            System.err.println("Se ha desbloqueado el usuario: " +usuario.getCodigo());
         }
     }
     

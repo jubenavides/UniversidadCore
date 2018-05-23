@@ -13,6 +13,7 @@ import ec.edu.espe.arquitectura.universidad.service.SegPerfilService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
 import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -107,6 +108,12 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
         super.reset();
         this.segUsuario = new SegUsuario();
         this.segUsuarios = this.segUsuarioService.obtenerTodos();
+    }
+    
+    public void buscar(){
+        this.segUsuarios = new ArrayList<>();
+        this.segUsuarios.add(this.segUsuarioService.obtenerPorCodigoUsuario(this.segUsuario.getCodigo()));
+        this.segUsuario = new SegUsuario();
     }
 
     private String generarClave() {

@@ -9,6 +9,11 @@
     <ui:composition template="/templates/plantilla.xhtml">
         <ui:define name="contenido">
             <p:panel id="mainPnl" header="Usuarios" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda">
+                    <p:outputLabel for="bscCodigo" value="Buscar Usuario:" />
+                    <p:inputText id="bscCodigo" value="#{segUsuarioBean.segUsuario.codigo}" disabled="#{segUsuarioBean.enModificar}" />
+                    <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{segUsuarioBean.buscar()}" update="@form" />
+                </p:panel>
                 <p:dataTable var="usuario" value="#{segUsuarioBean.segUsuarios}"
                              selectionMode="single" selection="#{segUsuarioBean.segUsuarioSel}" rowKey="#{usuario.codigo}">
                     <p:ajax event="rowSelect" update="@form" />
