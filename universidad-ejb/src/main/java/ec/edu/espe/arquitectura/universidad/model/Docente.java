@@ -7,9 +7,12 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,10 +32,10 @@ public class Docente implements Serializable {
     @Column(name = "COD_DOCENTE", nullable = false, length = 10)
     private String codigo;
 
-    @Column(name = "NOMBRES", nullable = false, length = 25)
+    @Column(name = "NOMBRES", nullable = false, length = 50)
     private String nombres;
 
-    @Column(name = "APELLIDOS", nullable = false, length = 25)
+    @Column(name = "APELLIDOS", nullable = false, length = 50)
     private String apellidos;
 
     @Column(name = "IDENTIFICACION", nullable = false, length = 10)
@@ -53,8 +56,9 @@ public class Docente implements Serializable {
     @Column(name = "CARGA_HORARIA", nullable = false)
     private Integer cargaHoraria;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", length = 3)
-    private String estado;
+    private EstadoBaseEnum estado;
 
     @JoinColumn(name = "COD_DEPARTAMENTO", referencedColumnName = "COD_DEPARTAMENTO", nullable = false, insertable = false, updatable = false)
     @ManyToOne
@@ -139,11 +143,11 @@ public class Docente implements Serializable {
         this.cargaHoraria = cargaHoraria;
     }
 
-    public String getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 

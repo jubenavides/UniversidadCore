@@ -1,25 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -28,30 +24,22 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "UBICACION")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u")
-    , @NamedQuery(name = "Ubicacion.findByCodUbicacion", query = "SELECT u FROM Ubicacion u WHERE u.codUbicacion = :codUbicacion")
-    , @NamedQuery(name = "Ubicacion.findByDescripcion", query = "SELECT u FROM Ubicacion u WHERE u.descripcion = :descripcion")})
 public class Ubicacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "COD_UBICACION")
-    private String codUbicacion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "DESCRIPCION")
+    @Column(name = "COD_UBICACION", nullable = false, length = 3)
+    private String codigo;
+    
+    @Column(name = "DESCRIPCION", nullable = false, length = 50)
     private String descripcion;
-    @OneToMany(mappedBy = "codUbicacionPadre")
-    private Collection<Ubicacion> ubicacionCollection;
+    
     @JoinColumn(name = "COD_UBICACION_PADRE", referencedColumnName = "COD_UBICACION")
     @ManyToOne
     private Ubicacion codUbicacionPadre;
+    
+    //verificar sirve para ver todos los horarios hay en una ubicacion
     @OneToMany(mappedBy = "codUbicacion")
     private Collection<Horario> horarioCollection;
 
@@ -59,20 +47,20 @@ public class Ubicacion implements Serializable {
     }
 
     public Ubicacion(String codUbicacion) {
-        this.codUbicacion = codUbicacion;
+        this.codigo = codUbicacion;
     }
 
     public Ubicacion(String codUbicacion, String descripcion) {
-        this.codUbicacion = codUbicacion;
+        this.codigo = codUbicacion;
         this.descripcion = descripcion;
     }
 
-    public String getCodUbicacion() {
-        return codUbicacion;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodUbicacion(String codUbicacion) {
-        this.codUbicacion = codUbicacion;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescripcion() {
@@ -81,15 +69,6 @@ public class Ubicacion implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    @XmlTransient
-    public Collection<Ubicacion> getUbicacionCollection() {
-        return ubicacionCollection;
-    }
-
-    public void setUbicacionCollection(Collection<Ubicacion> ubicacionCollection) {
-        this.ubicacionCollection = ubicacionCollection;
     }
 
     public Ubicacion getCodUbicacionPadre() {
@@ -112,7 +91,7 @@ public class Ubicacion implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codUbicacion != null ? codUbicacion.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -123,7 +102,7 @@ public class Ubicacion implements Serializable {
             return false;
         }
         Ubicacion other = (Ubicacion) object;
-        if ((this.codUbicacion == null && other.codUbicacion != null) || (this.codUbicacion != null && !this.codUbicacion.equals(other.codUbicacion))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -131,7 +110,7 @@ public class Ubicacion implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.Ubicacion[ codUbicacion=" + codUbicacion + " ]";
+        return "Ubicacion{" + "codUbicacion=" + codigo + ", descripcion=" + descripcion + ", codUbicacionPadre=" + codUbicacionPadre + ", horarioCollection=" + horarioCollection + '}';
     }
-    
+
 }

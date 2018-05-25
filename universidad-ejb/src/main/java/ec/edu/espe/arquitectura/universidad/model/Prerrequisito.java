@@ -10,6 +10,8 @@ package ec.edu.espe.arquitectura.universidad.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,30 +22,28 @@ import javax.persistence.Table;
  * @author jolube
  */
 @Entity
-@Table(name = "DETALLE_MALLA")
-public class DetalleMalla implements Serializable {
+@Table(name = "PRERREQUISITO")
+public class Prerrequisito implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name = "COD_DETALLE_MALLA", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD_PRERREQUISITO")
     private Integer codigo;
     
-    @Column(name = "NIVEL")
-    private Integer nivel;
-    
-    @JoinColumn(name = "COD_ASIGNATURA", referencedColumnName = "COD_ASIGNATURA", nullable = false, updatable =  false, insertable = false)
+    @JoinColumn(name = "COD_MAT_MALLA", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = false, updatable = false)
     @ManyToOne
-    private Asignatura codAsignatura;
+    private DetalleMalla codMateria;
     
-    @JoinColumn(name = "COD_MALLA", referencedColumnName = "COD_MALLA", nullable = false, updatable =  false, insertable = false)
+    @JoinColumn(name = "COD_MAT_PRE", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = false, updatable = false)
     @ManyToOne
-    private Malla codMalla;
-
-    public DetalleMalla() {
+    private DetalleMalla codPreRequisito;
+    
+    public Prerrequisito() {
     }
 
-    public DetalleMalla(Integer codigo) {
+    public Prerrequisito(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -55,28 +55,20 @@ public class DetalleMalla implements Serializable {
         this.codigo = codigo;
     }
 
-    public Integer getNivel() {
-        return nivel;
+    public DetalleMalla getCodMateria() {
+        return codMateria;
     }
 
-    public void setNivel(Integer nivel) {
-        this.nivel = nivel;
+    public void setCodMateria(DetalleMalla codMateria) {
+        this.codMateria = codMateria;
     }
 
-    public Asignatura getCodAsignatura() {
-        return codAsignatura;
+    public DetalleMalla getCodPreRequisito() {
+        return codPreRequisito;
     }
 
-    public void setCodAsignatura(Asignatura codAsignatura) {
-        this.codAsignatura = codAsignatura;
-    }
-
-    public Malla getCodMalla() {
-        return codMalla;
-    }
-
-    public void setCodMalla(Malla codMalla) {
-        this.codMalla = codMalla;
+    public void setCodPreRequisito(DetalleMalla codPreRequisito) {
+        this.codPreRequisito = codPreRequisito;
     }
 
     @Override
@@ -89,10 +81,10 @@ public class DetalleMalla implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetalleMalla)) {
+        if (!(object instanceof Prerrequisito)) {
             return false;
         }
-        DetalleMalla other = (DetalleMalla) object;
+        Prerrequisito other = (Prerrequisito) object;
         if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
@@ -101,7 +93,7 @@ public class DetalleMalla implements Serializable {
 
     @Override
     public String toString() {
-        return "DetalleMalla{" + "codigo=" + codigo + ", codAsignatura=" + codAsignatura + ", codMalla=" + codMalla + '}';
+        return "Prerrequisito{" + "codigo=" + codigo + ", codMateria=" + codMateria + ", codPreRequisito=" + codPreRequisito + '}';
     }
 
 }

@@ -12,7 +12,6 @@ import ec.edu.espe.arquitectura.universidad.model.SegUsuario;
 import ec.edu.espe.arquitectura.universidad.service.SegPerfilService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
 import ec.edu.espe.arquitectura.universidad.util.BCrypt;
-import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -90,13 +90,13 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
                 this.segUsuario.setClave(generarClave());
                 this.segUsuario.setIntentosErroneos(0);
                 this.segUsuarioService.crear(this.segUsuario);
-                FacesUtil.addMessageInfo("Se agregó el Usuario: " + this.segUsuario.getCodigo() + ", " + this.segUsuario.getNombre());
-            }
-            else{
+                Messages.addFlashGlobalInfo("Se agregó el Usuario: " + this.segUsuario.getCodigo() + ", " + this.segUsuario.getNombre());
+            } else {
+                this.segUsuario.setClave(BCrypt.hashpw(this.segUsuario.getClave(), BCrypt.gensalt()));
                 this.segUsuarioService.modificar(segUsuario);
             }
         } catch (Exception ex) {
-            FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
+            Messages.addGlobalError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
 
         super.reset();
@@ -110,10 +110,15 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
         this.segUsuario = new SegUsuario();
         this.segUsuarios = this.segUsuarioService.obtenerTodos();
     }
-    
-    public void buscar(){
+
+    public void buscar() {
         this.segUsuarios = new ArrayList<>();
-        this.segUsuarios.add(this.segUsuarioService.obtenerPorCodigoUsuario(this.segUsuario.getCodigo()));
+        SegUsuario usrEncontrado = this.segUsuarioService.obtenerPorCodigoUsuario(this.segUsuario.getCodigo());
+        if (usrEncontrado != null) {
+            this.segUsuarios.add(usrEncontrado);
+        }else{
+            this.segUsuarios = null;
+        }
         this.segUsuario = new SegUsuario();
     }
 

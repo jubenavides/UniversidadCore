@@ -8,7 +8,7 @@
 package ec.edu.espe.arquitectura.universidad.model;
 
 
-import ec.edu.espe.arquitectura.universidad.enums.EstadoSegPerfilEnum;
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +36,7 @@ public class SegPerfil implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", nullable = false, length = 3)
-    private EstadoSegPerfilEnum estado;
+    private EstadoBaseEnum estado;
 
     public SegPerfil() {
     }
@@ -61,11 +61,11 @@ public class SegPerfil implements Serializable {
         this.nombre = nombre;
     }
 
-    public EstadoSegPerfilEnum getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSegPerfilEnum estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 

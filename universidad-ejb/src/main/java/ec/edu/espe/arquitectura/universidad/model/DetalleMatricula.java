@@ -1,30 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
+import ec.edu.espe.arquitectura.universidad.enums.AprobacionNRCEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -33,57 +33,51 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "DETALLE_MATRICULA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "DetalleMatricula.findAll", query = "SELECT d FROM DetalleMatricula d")
-    , @NamedQuery(name = "DetalleMatricula.findByCodDetalleMatricula", query = "SELECT d FROM DetalleMatricula d WHERE d.codDetalleMatricula = :codDetalleMatricula")
-    , @NamedQuery(name = "DetalleMatricula.findByCostoNrc", query = "SELECT d FROM DetalleMatricula d WHERE d.costoNrc = :costoNrc")
-    , @NamedQuery(name = "DetalleMatricula.findByAprobacionNrc", query = "SELECT d FROM DetalleMatricula d WHERE d.aprobacionNrc = :aprobacionNrc")})
 public class DetalleMatricula implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "COD_DETALLE_MATRICULA")
-    private Integer codDetalleMatricula;
+    private Integer codigo;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Min(value=0)
     @Column(name = "COSTO_NRC")
     private BigDecimal costoNrc;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "APROBACION_NRC")
-    private String aprobacionNrc;
-    @JoinColumn(name = "COD_MATRICULA", referencedColumnName = "COD_MATRICULA")
-    @ManyToOne(optional = false)
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "APROBACION_NRC", nullable = false, length = 3)
+    private AprobacionNRCEnum aprobacionNrc;
+    
+    @JoinColumn(name = "COD_MATRICULA", referencedColumnName = "COD_MATRICULA", nullable = false, insertable = false, updatable = false)
+    @ManyToOne
     private Matricula codMatricula;
+    
     @JoinColumns({
-        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC")
-        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO")})
+        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = false, updatable = false)
+        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Nrc nrc;
+    
+    //revisar me serviria para ver todas las calificaciones en una matricula
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detalleMatricula")
-    private Collection<Calificacion> calificacionCollection;
+    private List<Calificacion> calificacionList;
 
     public DetalleMatricula() {
     }
 
-    public DetalleMatricula(Integer codDetalleMatricula) {
-        this.codDetalleMatricula = codDetalleMatricula;
+    public DetalleMatricula(Integer codigo) {
+        this.codigo = codigo;
     }
 
-    public DetalleMatricula(Integer codDetalleMatricula, String aprobacionNrc) {
-        this.codDetalleMatricula = codDetalleMatricula;
-        this.aprobacionNrc = aprobacionNrc;
+    public Integer getCodigo() {
+        return codigo;
     }
 
-    public Integer getCodDetalleMatricula() {
-        return codDetalleMatricula;
-    }
-
-    public void setCodDetalleMatricula(Integer codDetalleMatricula) {
-        this.codDetalleMatricula = codDetalleMatricula;
+    public void SetCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
 
     public BigDecimal getCostoNrc() {
@@ -94,11 +88,11 @@ public class DetalleMatricula implements Serializable {
         this.costoNrc = costoNrc;
     }
 
-    public String getAprobacionNrc() {
+    public AprobacionNRCEnum getAprobacionNrc() {
         return aprobacionNrc;
     }
 
-    public void setAprobacionNrc(String aprobacionNrc) {
+    public void setAprobacionNrc(AprobacionNRCEnum aprobacionNrc) {
         this.aprobacionNrc = aprobacionNrc;
     }
 
@@ -119,18 +113,18 @@ public class DetalleMatricula implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Calificacion> getCalificacionCollection() {
-        return calificacionCollection;
+    public List<Calificacion> getCalificacionList() {
+        return calificacionList;
     }
 
-    public void setCalificacionCollection(Collection<Calificacion> calificacionCollection) {
-        this.calificacionCollection = calificacionCollection;
+    public void setCalificacionList(List<Calificacion> calificacionList) {
+        this.calificacionList = calificacionList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codDetalleMatricula != null ? codDetalleMatricula.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -141,7 +135,7 @@ public class DetalleMatricula implements Serializable {
             return false;
         }
         DetalleMatricula other = (DetalleMatricula) object;
-        if ((this.codDetalleMatricula == null && other.codDetalleMatricula != null) || (this.codDetalleMatricula != null && !this.codDetalleMatricula.equals(other.codDetalleMatricula))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -149,7 +143,7 @@ public class DetalleMatricula implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.DetalleMatricula[ codDetalleMatricula=" + codDetalleMatricula + " ]";
+        return "DetalleMatricula{" + "codigo=" + codigo + ", costoNrc=" + costoNrc + ", aprobacionNrc=" + aprobacionNrc + ", codMatricula=" + codMatricula + ", nrc=" + nrc + ", calificacionList=" + calificacionList + '}';
     }
-    
+
 }
