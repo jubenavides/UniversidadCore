@@ -7,6 +7,7 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
+import ec.edu.espe.arquitectura.universidad.enums.EstadoTemaEnum;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Date;
@@ -50,11 +51,11 @@ public class Tema implements Serializable {
     private Date fechaFin;
     
     @Column(name = "ESTADO", nullable = false,length = 2)
-    private String estado;
+    private EstadoTemaEnum estado;
     
     //revisar: cuando cargo un tema deseo ver los subtemas
-//    @OneToMany(mappedBy = "codigo")
-//    private List<Subtema> subtemas;
+    @OneToMany(mappedBy = "codTema")
+    private List<Subtema> subtemas;
     
     @JoinColumn(name = "COD_SILABO", referencedColumnName = "COD_SILABO", nullable = false, insertable = false, updatable = false)
     @ManyToOne
@@ -107,22 +108,18 @@ public class Tema implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-    public String getEstado() {
+    public EstadoTemaEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoTemaEnum estado) {
         this.estado = estado;
     }
 
-//    @XmlTransient
-//    public List<Subtema> getSubtemaList() {
-//        return subtemas;
-//    }
-//
-//    public void setSubtemaList(List<Subtema> subtemas) {
-//        this.subtemas = subtemas;
-//    }
+    @XmlTransient
+    public List<Subtema> getSubtemaList() {
+        return subtemas;
+    }
 
     public Silabo getCodSilabo() {
         return codSilabo;

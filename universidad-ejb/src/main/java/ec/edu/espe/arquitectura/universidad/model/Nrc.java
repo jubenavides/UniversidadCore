@@ -1,22 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -25,28 +24,26 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "NRC")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Nrc.findAll", query = "SELECT n FROM Nrc n")
-    , @NamedQuery(name = "Nrc.findByCodNrc", query = "SELECT n FROM Nrc n WHERE n.nrcPK.codNrc = :codNrc")
-    , @NamedQuery(name = "Nrc.findByCodPeriodo", query = "SELECT n FROM Nrc n WHERE n.nrcPK.codPeriodo = :codPeriodo")})
 public class Nrc implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected NrcPK nrcPK;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nrc")
-    private Collection<DetalleMatricula> detalleMatriculaCollection;
-    @OneToMany(mappedBy = "nrc")
-    private Collection<Horario> horarioCollection;
-    @JoinColumn(name = "COD_ASIGNATURA", referencedColumnName = "COD_ASIGNATURA")
-    @ManyToOne(optional = false)
+    private List<DetalleMatricula> detalleMatriculaList;
+    
+    @JoinColumn(name = "COD_ASIGNATURA", referencedColumnName = "COD_ASIGNATURA", nullable = false)
+    @ManyToOne
     private Asignatura codAsignatura;
+    
     @JoinColumn(name = "COD_DOCENTE", referencedColumnName = "COD_DOCENTE")
     @ManyToOne
     private Docente codDocente;
-    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    
+    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", insertable = false, updatable = false, nullable = false)
+    @ManyToOne
     private PeriodoLectivo periodoLectivo;
 
     public Nrc() {
@@ -69,21 +66,12 @@ public class Nrc implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DetalleMatricula> getDetalleMatriculaCollection() {
-        return detalleMatriculaCollection;
+    public List<DetalleMatricula> getDetalleMatriculaList() {
+        return detalleMatriculaList;
     }
 
-    public void setDetalleMatriculaCollection(Collection<DetalleMatricula> detalleMatriculaCollection) {
-        this.detalleMatriculaCollection = detalleMatriculaCollection;
-    }
-
-    @XmlTransient
-    public Collection<Horario> getHorarioCollection() {
-        return horarioCollection;
-    }
-
-    public void setHorarioCollection(Collection<Horario> horarioCollection) {
-        this.horarioCollection = horarioCollection;
+    public void setDetalleMatriculaList(List<DetalleMatricula> detalleMatriculaList) {
+        this.detalleMatriculaList = detalleMatriculaList;
     }
 
     public Asignatura getCodAsignatura() {
@@ -132,7 +120,7 @@ public class Nrc implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.Nrc[ nrcPK=" + nrcPK + " ]";
+        return "Nrc{" + "nrcPK=" + nrcPK + ", detalleMatriculaList=" + detalleMatriculaList + ", codAsignatura=" + codAsignatura + ", codDocente=" + codDocente + ", periodoLectivo=" + periodoLectivo + '}';
     }
-    
+
 }

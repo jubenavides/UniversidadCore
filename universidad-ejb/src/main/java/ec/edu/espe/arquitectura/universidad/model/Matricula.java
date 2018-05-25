@@ -1,27 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -30,59 +28,51 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "MATRICULA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Matricula.findAll", query = "SELECT m FROM Matricula m")
-    , @NamedQuery(name = "Matricula.findByCodMatricula", query = "SELECT m FROM Matricula m WHERE m.codMatricula = :codMatricula")
-    , @NamedQuery(name = "Matricula.findByPromedio", query = "SELECT m FROM Matricula m WHERE m.promedio = :promedio")
-    , @NamedQuery(name = "Matricula.findByCostoMatricula", query = "SELECT m FROM Matricula m WHERE m.costoMatricula = :costoMatricula")
-    , @NamedQuery(name = "Matricula.findByPagado", query = "SELECT m FROM Matricula m WHERE m.pagado = :pagado")})
 public class Matricula implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "COD_MATRICULA")
-    private String codMatricula;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "COD_MATRICULA", nullable = false, length = 10)
+    private String codigo;
+    
+    @Max(value=20)  
+    @Min(value=0)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "PROMEDIO")
     private BigDecimal promedio;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "COSTO_MATRICULA")
+    
+    @Min(value=0)
+    @Column(name = "COSTO_MATRICULA",nullable = false)
     private BigDecimal costoMatricula;
-    @Size(max = 3)
-    @Column(name = "PAGADO")
+    
+    @Column(name = "PAGADO", length = 3)
     private String pagado;
-    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE")
+    
+    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private Estudiante codEstudiante;
-    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO")
+    
+    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private PeriodoLectivo codPeriodo;
+    
+    //verificar me traeria todas las matriculas de un estudiante
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codMatricula")
-    private Collection<DetalleMatricula> detalleMatriculaCollection;
+    private List<DetalleMatricula> detalleMatriculaList;
 
     public Matricula() {
     }
 
     public Matricula(String codMatricula) {
-        this.codMatricula = codMatricula;
+        this.codigo = codMatricula;
     }
 
-    public Matricula(String codMatricula, BigDecimal costoMatricula) {
-        this.codMatricula = codMatricula;
-        this.costoMatricula = costoMatricula;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public String getCodMatricula() {
-        return codMatricula;
-    }
-
-    public void setCodMatricula(String codMatricula) {
-        this.codMatricula = codMatricula;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public BigDecimal getPromedio() {
@@ -126,18 +116,18 @@ public class Matricula implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DetalleMatricula> getDetalleMatriculaCollection() {
-        return detalleMatriculaCollection;
+    public List<DetalleMatricula> getDetalleMatriculaList() {
+        return detalleMatriculaList;
     }
 
-    public void setDetalleMatriculaCollection(Collection<DetalleMatricula> detalleMatriculaCollection) {
-        this.detalleMatriculaCollection = detalleMatriculaCollection;
+    public void setDetalleMatriculaList(List<DetalleMatricula> detalleMatriculaList) {
+        this.detalleMatriculaList = detalleMatriculaList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codMatricula != null ? codMatricula.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -148,7 +138,7 @@ public class Matricula implements Serializable {
             return false;
         }
         Matricula other = (Matricula) object;
-        if ((this.codMatricula == null && other.codMatricula != null) || (this.codMatricula != null && !this.codMatricula.equals(other.codMatricula))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -156,7 +146,7 @@ public class Matricula implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.Matricula[ codMatricula=" + codMatricula + " ]";
+        return "Matricula{" + "codigo=" + codigo + ", promedio=" + promedio + ", costoMatricula=" + costoMatricula + ", pagado=" + pagado + ", codEstudiante=" + codEstudiante + ", codPeriodo=" + codPeriodo + ", detalleMatriculaList=" + detalleMatriculaList + '}';
     }
-    
+
 }

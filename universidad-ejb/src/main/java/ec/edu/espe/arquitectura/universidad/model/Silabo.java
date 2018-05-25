@@ -42,12 +42,14 @@ public class Silabo implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaElaboracion;
 
-    @Column(name = "NIVEL", length = 10)
-    private String nivel;
-
     @JoinColumn(name = "COD_ASIGNATURA", referencedColumnName = "COD_ASIGNATURA", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private Asignatura codAsignatura;
+    
+    
+    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)
+    @ManyToOne
+    private PeriodoLectivo codPeriodo;
 
     //revisar : cuando veo un silabo si me interesa q se cargue todos los temas
     @OneToMany(mappedBy = "codSilabo")
@@ -89,20 +91,20 @@ public class Silabo implements Serializable {
         this.fechaElaboracion = fechaElaboracion;
     }
 
-    public String getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(String nivel) {
-        this.nivel = nivel;
-    }
-
     public Asignatura getCodAsignatura() {
         return codAsignatura;
     }
 
     public void setCodAsignatura(Asignatura codAsignatura) {
         this.codAsignatura = codAsignatura;
+    }
+
+    public PeriodoLectivo getCodPeriodo() {
+        return codPeriodo;
+    }
+
+    public void setCodPeriodo(PeriodoLectivo codPeriodo) {
+        this.codPeriodo = codPeriodo;
     }
 
     @XmlTransient
@@ -136,7 +138,7 @@ public class Silabo implements Serializable {
 
     @Override
     public String toString() {
-        return "Silabo{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", fechaElaboracion=" + fechaElaboracion + ", nivel=" + nivel + ", codAsignatura=" + codAsignatura + ", temas=" + temas + '}';
+        return "Silabo{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", fechaElaboracion=" + fechaElaboracion + ", codAsignatura=" + codAsignatura + ", codPeriodo=" + codPeriodo + ", temas=" + temas + '}';
     }
 
 }

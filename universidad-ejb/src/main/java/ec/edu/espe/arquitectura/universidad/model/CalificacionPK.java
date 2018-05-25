@@ -1,15 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -18,36 +18,33 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class CalificacionPK implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "COD_DETALLE_MATRICULA")
-    private int codDetalleMatricula;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "SEC_CALIFICACION")
-    private int secCalificacion;
+    @Column(name = "COD_DETALLE_MATRICULA", nullable = false)
+    private Integer codDetalleMatricula;
+
+    @Column(name = "SEC_CALIFICACION", nullable = false)
+    private Integer secCalificacion;
 
     public CalificacionPK() {
     }
 
-    public CalificacionPK(int codDetalleMatricula, int secCalificacion) {
+    public CalificacionPK(Integer codDetalleMatricula, Integer secCalificacion) {
         this.codDetalleMatricula = codDetalleMatricula;
         this.secCalificacion = secCalificacion;
     }
 
-    public int getCodDetalleMatricula() {
+    public Integer getCodDetalleMatricula() {
         return codDetalleMatricula;
     }
 
-    public void setCodDetalleMatricula(int codDetalleMatricula) {
+    public void setCodDetalleMatricula(Integer codDetalleMatricula) {
         this.codDetalleMatricula = codDetalleMatricula;
     }
 
-    public int getSecCalificacion() {
+    public Integer getSecCalificacion() {
         return secCalificacion;
     }
 
-    public void setSecCalificacion(int secCalificacion) {
+    public void setSecCalificacion(Integer secCalificacion) {
         this.secCalificacion = secCalificacion;
     }
 
@@ -77,7 +74,7 @@ public class CalificacionPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.CalificacionPK[ codDetalleMatricula=" + codDetalleMatricula + ", secCalificacion=" + secCalificacion + " ]";
+        return "CalificacionPK{" + "codDetalleMatricula=" + codDetalleMatricula + ", secCalificacion=" + secCalificacion + '}';
     }
-    
+
 }

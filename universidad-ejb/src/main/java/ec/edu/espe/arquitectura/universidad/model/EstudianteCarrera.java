@@ -7,9 +7,12 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,8 +32,9 @@ public class EstudianteCarrera implements Serializable {
     @Column(name = "COD_ESTUDIANTE_CARRERA", nullable = false, length = 5)
     private String codigo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", length = 3)
-    private String estado;
+    private EstadoBaseEnum estado;
 
     @JoinColumn(name = "COD_CARRERA", referencedColumnName = "COD_CARRERA", nullable = false, insertable = false, updatable = false)
     @ManyToOne
@@ -55,11 +59,11 @@ public class EstudianteCarrera implements Serializable {
         this.codigo = codigo;
     }
 
-    public String getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 
