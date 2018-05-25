@@ -27,6 +27,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -46,7 +52,12 @@
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-theme</artifactId>
             <version>1.0.0-RC15</version>
-        <!--<classifier>dev</classifier> uncompressed theme.css-->
+            <!--<classifier>dev</classifier> uncompressed theme.css-->
+        </dependency>
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>3.1</version>
         </dependency>
     </dependencies>
 

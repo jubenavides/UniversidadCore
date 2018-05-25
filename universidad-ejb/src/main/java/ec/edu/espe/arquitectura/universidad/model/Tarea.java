@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
@@ -26,31 +28,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "TAREA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Tarea.findAll", query = "SELECT t FROM Tarea t")
-    , @NamedQuery(name = "Tarea.findByCodTarea", query = "SELECT t FROM Tarea t WHERE t.codTarea = :codTarea")
-    , @NamedQuery(name = "Tarea.findByDescripcion", query = "SELECT t FROM Tarea t WHERE t.descripcion = :descripcion")
-    , @NamedQuery(name = "Tarea.findByPonderacion", query = "SELECT t FROM Tarea t WHERE t.ponderacion = :ponderacion")})
 public class Tarea implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "COD_TAREA")
-    private String codTarea;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "DESCRIPCION")
+    @Column(name = "COD_TAREA", nullable = false, length = 5)
+    private String codigo;
+    
+    @Column(name = "DESCRIPCION", nullable = false, length = 100)
     private String descripcion;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "PONDERACION")
+    @Column(name = "PONDERACION", nullable = false)
     private BigDecimal ponderacion;
+    
     @JoinColumn(name = "COD_SUBTEMA", referencedColumnName = "COD_SUBTEMA")
     @ManyToOne
     private Subtema codSubtema;
@@ -59,21 +51,15 @@ public class Tarea implements Serializable {
     }
 
     public Tarea(String codTarea) {
-        this.codTarea = codTarea;
+        this.codigo = codTarea;
     }
 
-    public Tarea(String codTarea, String descripcion, BigDecimal ponderacion) {
-        this.codTarea = codTarea;
-        this.descripcion = descripcion;
-        this.ponderacion = ponderacion;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public String getCodTarea() {
-        return codTarea;
-    }
-
-    public void setCodTarea(String codTarea) {
-        this.codTarea = codTarea;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescripcion() {
@@ -103,7 +89,7 @@ public class Tarea implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codTarea != null ? codTarea.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -114,7 +100,7 @@ public class Tarea implements Serializable {
             return false;
         }
         Tarea other = (Tarea) object;
-        if ((this.codTarea == null && other.codTarea != null) || (this.codTarea != null && !this.codTarea.equals(other.codTarea))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -122,7 +108,7 @@ public class Tarea implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.arquitectura.universidad.model.Tarea[ codTarea=" + codTarea + " ]";
+        return "Tarea{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", ponderacion=" + ponderacion + ", codSubtema=" + codSubtema + '}';
     }
-    
+
 }

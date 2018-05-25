@@ -7,7 +7,7 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
-import ec.edu.espe.arquitectura.universidad.enums.EstadoSegModuloEnum;
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class SegModulo implements Serializable {
     
     @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", nullable = false, length = 3)
-    private EstadoSegModuloEnum estado;
+    private EstadoBaseEnum estado;
     
     public SegModulo() {
     }
@@ -60,11 +60,11 @@ public class SegModulo implements Serializable {
         this.nombre = nombre;
     }
 
-    public EstadoSegModuloEnum getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSegModuloEnum estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 

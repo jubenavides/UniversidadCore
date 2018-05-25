@@ -6,19 +6,23 @@
 package ec.edu.espe.arquitectura.universidad.web;
 
 import ec.edu.espe.arquitectura.universidad.enums.EstadoSegUsuarioEnum;
+import ec.edu.espe.arquitectura.universidad.exceptions.UsuarioBloqueadoException;
 import ec.edu.espe.arquitectura.universidad.model.SegRegistroAcceso;
 import ec.edu.espe.arquitectura.universidad.model.SegUsuario;
 import ec.edu.espe.arquitectura.universidad.service.AutenticacionService;
 import ec.edu.espe.arquitectura.universidad.service.SegRegistroAccesoService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
-import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
+import ec.edu.espe.arquitectura.universidad.util.BCrypt;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -44,21 +48,23 @@ public class IndexBean implements Serializable {
     private SegRegistroAccesoService registroAccesoService;
 
     public String login() {
-        SegUsuario usuario = this.autenticacionService.login(this.codigoUsuario,this.clave);
-        if (usuario != null) {
-            if (usuario.getEstado().equals(EstadoSegUsuarioEnum.ACT)) {
-                this.usuarioSessionBean.setUsuario(usuario);
-                this.registroAccesoService.crear(registroAcceso(usuario.getCodigo()));
-                usuario.setIntentosErroneos(0);
-                usuario.setFechaUltimoAcceso(new Date());
-                this.usuarioService.modificar(usuario);
-                return "menuPrincipal";
-            } else if (usuario.getEstado().equals(EstadoSegUsuarioEnum.BLO)) {
-                FacesUtil.addMessageError(null, "No se puede iniciar sesión, su usuario se encuentra bloqueado");
-                return "index";
+        try {
+            SegUsuario usuario;
+            usuario = this.autenticacionService.login(this.codigoUsuario, this.clave);
+            if (usuario != null && BCrypt.checkpw(clave,usuario.getClave())) {
+                if (usuario.getEstado().equals(EstadoSegUsuarioEnum.ACT)) {
+                    this.usuarioSessionBean.setUsuario(usuario);
+                    this.registroAccesoService.crear(registroAcceso(usuario.getCodigo()));
+                    usuario.setIntentosErroneos(0);
+                    usuario.setFechaUltimoAcceso(new Date());
+                    this.usuarioService.modificar(usuario);
+                    return "menuPrincipal";
+                }
+            } else {
+                Messages.addGlobalError("Los datos ingresados no corresponden por favor verifique");
             }
-        } else {
-            FacesUtil.addMessageError(null, "Los datos ingresados son incorrectos");
+        } catch (UsuarioBloqueadoException ex) {
+            Messages.addGlobalError(ex.toString());
         }
         return "index";
     }

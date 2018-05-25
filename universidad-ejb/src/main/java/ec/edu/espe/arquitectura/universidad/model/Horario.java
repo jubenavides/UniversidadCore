@@ -1,24 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -26,28 +22,25 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "HORARIO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Horario.findAll", query = "SELECT h FROM Horario h")
-    , @NamedQuery(name = "Horario.findByCodHorario", query = "SELECT h FROM Horario h WHERE h.codHorario = :codHorario")})
 public class Horario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "COD_HORARIO")
-    private String codHorario;
-    @JoinColumn(name = "COD_FRANJA_MATRICULA", referencedColumnName = "COD_FRANJA_HORARIA")
+    @Column(name = "COD_HORARIO", nullable = false, length = 5)
+    private String codigo;
+    
+    @JoinColumn(name = "COD_FRANJA_MATRICULA", referencedColumnName = "COD_FRANJA_HORARIA", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private FranjaHoraria codFranjaMatricula;
+    
     @JoinColumns({
-        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC")
-        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO")})
+        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = false, updatable = false)
+        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)})
     @ManyToOne
     private Nrc nrc;
-    @JoinColumn(name = "COD_UBICACION", referencedColumnName = "COD_UBICACION")
+    
+    @JoinColumn(name = "COD_UBICACION", referencedColumnName = "COD_UBICACION", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private Ubicacion codUbicacion;
 
@@ -55,15 +48,15 @@ public class Horario implements Serializable {
     }
 
     public Horario(String codHorario) {
-        this.codHorario = codHorario;
+        this.codigo = codHorario;
     }
 
-    public String getCodHorario() {
-        return codHorario;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodHorario(String codHorario) {
-        this.codHorario = codHorario;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public FranjaHoraria getCodFranjaMatricula() {
@@ -93,7 +86,7 @@ public class Horario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codHorario != null ? codHorario.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -104,7 +97,7 @@ public class Horario implements Serializable {
             return false;
         }
         Horario other = (Horario) object;
-        if ((this.codHorario == null && other.codHorario != null) || (this.codHorario != null && !this.codHorario.equals(other.codHorario))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -112,7 +105,7 @@ public class Horario implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.Horario[ codHorario=" + codHorario + " ]";
+        return "Horario{" + "codigo=" + codigo + ", codFranjaMatricula=" + codFranjaMatricula + ", nrc=" + nrc + ", codUbicacion=" + codUbicacion + '}';
     }
-    
+
 }

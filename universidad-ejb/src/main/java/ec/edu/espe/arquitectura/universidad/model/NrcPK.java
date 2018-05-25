@@ -1,16 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -19,15 +18,10 @@ import javax.validation.constraints.Size;
 @Embeddable
 public class NrcPK implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "COD_NRC")
+    @Column(name = "COD_NRC", nullable = false, length = 5)
     private String codNrc;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 6)
-    @Column(name = "COD_PERIODO")
+
+    @Column(name = "COD_PERIODO", nullable = false, length = 6)
     private String codPeriodo;
 
     public NrcPK() {
@@ -82,5 +76,5 @@ public class NrcPK implements Serializable {
     public String toString() {
         return "ec.edu.espe.universidadCore.model.NrcPK[ codNrc=" + codNrc + ", codPeriodo=" + codPeriodo + " ]";
     }
-    
+
 }

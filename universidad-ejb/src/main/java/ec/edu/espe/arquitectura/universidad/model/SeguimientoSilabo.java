@@ -1,23 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,27 +21,22 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "SEGUIMIENTO_SILABO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "SeguimientoSilabo.findAll", query = "SELECT s FROM SeguimientoSilabo s")
-    , @NamedQuery(name = "SeguimientoSilabo.findByCodSubtema", query = "SELECT s FROM SeguimientoSilabo s WHERE s.seguimientoSilaboPK.codSubtema = :codSubtema")
-    , @NamedQuery(name = "SeguimientoSilabo.findByCodEstudiante", query = "SELECT s FROM SeguimientoSilabo s WHERE s.seguimientoSilaboPK.codEstudiante = :codEstudiante")
-    , @NamedQuery(name = "SeguimientoSilabo.findByRevisado", query = "SELECT s FROM SeguimientoSilabo s WHERE s.revisado = :revisado")})
 public class SeguimientoSilabo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected SeguimientoSilaboPK seguimientoSilaboPK;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2)
-    @Column(name = "REVISADO")
+    
+    @Column(name = "REVISADO",nullable = false, length = 2)
     private String revisado;
-    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    
+    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE", insertable = false, updatable = false, nullable = false)
+    @ManyToOne
     private Estudiante estudiante;
-    @JoinColumn(name = "COD_SUBTEMA", referencedColumnName = "COD_SUBTEMA", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    
+    @JoinColumn(name = "COD_SUBTEMA", referencedColumnName = "COD_SUBTEMA", insertable = false, updatable = false, nullable = false)
+    @ManyToOne
     private Subtema subtema;
 
     public SeguimientoSilabo() {
@@ -53,11 +44,6 @@ public class SeguimientoSilabo implements Serializable {
 
     public SeguimientoSilabo(SeguimientoSilaboPK seguimientoSilaboPK) {
         this.seguimientoSilaboPK = seguimientoSilaboPK;
-    }
-
-    public SeguimientoSilabo(SeguimientoSilaboPK seguimientoSilaboPK, String revisado) {
-        this.seguimientoSilaboPK = seguimientoSilaboPK;
-        this.revisado = revisado;
     }
 
     public SeguimientoSilabo(String codSubtema, String codEstudiante) {
@@ -118,7 +104,7 @@ public class SeguimientoSilabo implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.SeguimientoSilabo[ seguimientoSilaboPK=" + seguimientoSilaboPK + " ]";
+        return "SeguimientoSilabo{" + "seguimientoSilaboPK=" + seguimientoSilaboPK + ", revisado=" + revisado + ", estudiante=" + estudiante + ", subtema=" + subtema + '}';
     }
-    
+
 }
