@@ -44,7 +44,7 @@ public class IndexBean implements Serializable {
     private SegRegistroAccesoService registroAccesoService;
 
     public String login() {
-        SegUsuario usuario = this.autenticacionService.login(this.codigoUsuario, this.clave);
+        SegUsuario usuario = this.autenticacionService.login(this.codigoUsuario,this.clave);
         if (usuario != null) {
             if (usuario.getEstado().equals(EstadoSegUsuarioEnum.ACT)) {
                 this.usuarioSessionBean.setUsuario(usuario);

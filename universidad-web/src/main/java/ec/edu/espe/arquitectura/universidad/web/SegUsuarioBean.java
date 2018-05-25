@@ -11,6 +11,7 @@ import ec.edu.espe.arquitectura.universidad.model.SegPerfil;
 import ec.edu.espe.arquitectura.universidad.model.SegUsuario;
 import ec.edu.espe.arquitectura.universidad.service.SegPerfilService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
+import ec.edu.espe.arquitectura.universidad.util.BCrypt;
 import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -117,7 +118,8 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
     }
 
     private String generarClave() {
-        return "ARQUI" + this.segUsuario.getCodigo() + "2018";
+        String clave = "ARQUI" + this.segUsuario.getCodigo() + "2018";
+        return BCrypt.hashpw(clave, BCrypt.gensalt());
     }
 
     public List<SegUsuario> getSegUsuarios() {

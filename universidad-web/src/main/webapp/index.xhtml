@@ -12,8 +12,7 @@
                     <p:inputText id="usuario" value="#{indexBean.codigoUsuario}" required="true" 
                                  maxlength="15" requiredMessage="Debe ingresar el usuario" />
                     <p:outputLabel for="clave" value="Contraseña" />
-                    <p:password id="clave" value="#{indexBean.clave}" required="true" 
-                                maxlength="15" requiredMessage="Debe ingresar la contraseña"/>
+                    <p:password id="clave" value="#{indexBean.clave}" required="true"  requiredMessage="Debe ingresar la contraseña"/>
                 </p:panelGrid>
                 
                 <p:commandButton value="Aceptar" action="#{indexBean.login()}" ajax="false" style="align-self: center; margin-top: 10px;"/>
