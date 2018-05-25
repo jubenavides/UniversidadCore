@@ -113,7 +113,12 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
 
     public void buscar() {
         this.segUsuarios = new ArrayList<>();
-        this.segUsuarios.add(this.segUsuarioService.obtenerPorCodigoUsuario(this.segUsuario.getCodigo()));
+        SegUsuario usrEncontrado = this.segUsuarioService.obtenerPorCodigoUsuario(this.segUsuario.getCodigo());
+        if (usrEncontrado != null) {
+            this.segUsuarios.add(usrEncontrado);
+        }else{
+            this.segUsuarios = null;
+        }
         this.segUsuario = new SegUsuario();
     }
 
