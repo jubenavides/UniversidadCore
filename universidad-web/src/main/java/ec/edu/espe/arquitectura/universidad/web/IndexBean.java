@@ -11,7 +11,6 @@ import ec.edu.espe.arquitectura.universidad.model.SegUsuario;
 import ec.edu.espe.arquitectura.universidad.service.AutenticacionService;
 import ec.edu.espe.arquitectura.universidad.service.SegRegistroAccesoService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
-import ec.edu.espe.arquitectura.universidad.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.Date;
 import javax.faces.context.FacesContext;
@@ -19,6 +18,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -54,11 +54,11 @@ public class IndexBean implements Serializable {
                 this.usuarioService.modificar(usuario);
                 return "menuPrincipal";
             } else if (usuario.getEstado().equals(EstadoSegUsuarioEnum.BLO)) {
-                FacesUtil.addMessageError(null, "No se puede iniciar sesión, su usuario se encuentra bloqueado");
+                Messages.addGlobalError("No se puede iniciar sesión, su usuario se encuentra bloqueado.");
                 return "index";
             }
         } else {
-            FacesUtil.addMessageError(null, "Los datos ingresados son incorrectos");
+            Messages.addGlobalError("Los datos ingresados son incorrectos");
         }
         return "index";
     }
