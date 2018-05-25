@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
@@ -19,15 +21,10 @@ import javax.validation.constraints.Size;
 @Embeddable
 public class SeguimientoSilaboPK implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "COD_SUBTEMA")
+    @Column(name = "COD_SUBTEMA", nullable = false, length = 5)
     private String codSubtema;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "COD_ESTUDIANTE")
+    
+    @Column(name = "COD_ESTUDIANTE", nullable = false, length = 10)
     private String codEstudiante;
 
     public SeguimientoSilaboPK() {
@@ -80,7 +77,7 @@ public class SeguimientoSilaboPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.universidadCore.model.SeguimientoSilaboPK[ codSubtema=" + codSubtema + ", codEstudiante=" + codEstudiante + " ]";
+        return "SeguimientoSilaboPK{" + "codSubtema=" + codSubtema + ", codEstudiante=" + codEstudiante + '}';
     }
-    
+
 }

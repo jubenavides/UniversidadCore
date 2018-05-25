@@ -1,26 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Universidad Core
+ * Arquitectura de software
+ * NRC: 3747 
+ * Tutor: HENRY RAMIRO CORAL CORAL 
+ * 2018 (c) Universidad Core.
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -29,32 +24,26 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "SUBTEMA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Subtema.findAll", query = "SELECT s FROM Subtema s")
-    , @NamedQuery(name = "Subtema.findByCodSubtema", query = "SELECT s FROM Subtema s WHERE s.codSubtema = :codSubtema")
-    , @NamedQuery(name = "Subtema.findByDescripcion", query = "SELECT s FROM Subtema s WHERE s.descripcion = :descripcion")})
 public class Subtema implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "COD_SUBTEMA")
+    @Column(name = "COD_SUBTEMA",nullable = false, length = 5)
     private String codSubtema;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "DESCRIPCION")
+    
+    @Column(name = "DESCRIPCION", nullable = false, length = 100)
     private String descripcion;
+    
     @JoinColumn(name = "COD_TEMA", referencedColumnName = "COD_TEMA")
     @ManyToOne
     private Tema codTema;
+    
     @OneToMany(mappedBy = "codSubtema")
     private List<Tarea> tareaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subtema")
-    private List<SeguimientoSilabo> seguimientoSilaboList;
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subtema")
+//    private List<SeguimientoSilabo> seguimientoSilaboList;
 
     public Subtema() {
     }
@@ -101,14 +90,14 @@ public class Subtema implements Serializable {
         this.tareaList = tareaList;
     }
 
-    @XmlTransient
-    public List<SeguimientoSilabo> getSeguimientoSilaboList() {
-        return seguimientoSilaboList;
-    }
-
-    public void setSeguimientoSilaboList(List<SeguimientoSilabo> seguimientoSilaboList) {
-        this.seguimientoSilaboList = seguimientoSilaboList;
-    }
+//    @XmlTransient
+//    public List<SeguimientoSilabo> getSeguimientoSilaboList() {
+//        return seguimientoSilaboList;
+//    }
+//
+//    public void setSeguimientoSilaboList(List<SeguimientoSilabo> seguimientoSilaboList) {
+//        this.seguimientoSilaboList = seguimientoSilaboList;
+//    }
 
     @Override
     public int hashCode() {
@@ -132,7 +121,7 @@ public class Subtema implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.arquitectura.universidad.model.Subtema[ codSubtema=" + codSubtema + " ]";
+        return "Subtema{" + "codSubtema=" + codSubtema + ", descripcion=" + descripcion + ", codTema=" + codTema + ", tareaList=" + tareaList + '}';
     }
-    
+
 }

@@ -7,7 +7,7 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
-import ec.edu.espe.arquitectura.universidad.enums.EstadoSegFuncionalidadEnum;
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -39,7 +39,7 @@ public class SegFuncionalidad implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO",  length = 3, nullable = false)
-    private EstadoSegFuncionalidadEnum estado;
+    private EstadoBaseEnum estado;
 
     @JoinColumn(name = "COD_MODULO", referencedColumnName = "COD_MODULO", insertable = false, updatable = false)
     @ManyToOne
@@ -80,11 +80,11 @@ public class SegFuncionalidad implements Serializable {
         this.url = url;
     }
 
-    public EstadoSegFuncionalidadEnum getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSegFuncionalidadEnum estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 

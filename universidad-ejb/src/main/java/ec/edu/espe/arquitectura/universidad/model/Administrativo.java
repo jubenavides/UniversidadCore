@@ -30,19 +30,19 @@ public class Administrativo implements Serializable {
     @Column(name = "COD_ADMINISTRATIVO", nullable = false , length = 10)
     private String codigo;
     
-    @Column(name = "NOMBRES", nullable = false , length = 25)
+    @Column(name = "NOMBRES", nullable = false , length = 50)
     private String nombres;
     
-    @Column(name = "APELLIDOS", nullable = false, length = 25)
+    @Column(name = "APELLIDOS", nullable = false, length = 50)
     private String apellidos;
     
-    @Column(name = "DIRECCION", nullable = false, length = 50)
+    @Column(name = "DIRECCION", nullable = false, length = 150)
     private String direccion;
     
     @Column(name = "CORREO_PERSONAL", nullable = false, length = 50)
     private String correoPersonal;
     
-    @Column(name = "CORREO_INSTITUCIONAL", nullable = false)
+    @Column(name = "CORREO_INSTITUCIONAL", nullable = false, length = 50)
     private String correoInstitucional;
     
     @JoinColumn(name = "COD_UNIDAD", referencedColumnName = "COD_UNIDAD", nullable = false, insertable = false, updatable = false)

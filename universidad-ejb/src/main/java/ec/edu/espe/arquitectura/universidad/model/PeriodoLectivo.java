@@ -7,11 +7,14 @@
  */
 package ec.edu.espe.arquitectura.universidad.model;
 
+import ec.edu.espe.arquitectura.universidad.enums.EstadoBaseEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -49,8 +52,9 @@ public class PeriodoLectivo implements Serializable {
     @Column(name = "COMPONENTES_EVALUACION", nullable = false)
     private Integer componentesEvaluacion;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", nullable = false, length = 3)
-    private String estado;
+    private EstadoBaseEnum estado;
 
     public PeriodoLectivo() {
     }
@@ -59,11 +63,11 @@ public class PeriodoLectivo implements Serializable {
         this.codigo = codigo;
     }
 
-    public String getCodPeriodo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodPeriodo(String codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -107,11 +111,11 @@ public class PeriodoLectivo implements Serializable {
         this.componentesEvaluacion = componentesEvaluacion;
     }
 
-    public String getEstado() {
+    public EstadoBaseEnum getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoBaseEnum estado) {
         this.estado = estado;
     }
 
