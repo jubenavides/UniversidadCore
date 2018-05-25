@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>universidad</artifactId>
-    <groupId>ec.edu.espe.arquitectura.universidad</groupId>
-    <version>1</version>
-  </parent>
+        <artifactId>universidad</artifactId>
+        <groupId>ec.edu.espe.arquitectura.universidad</groupId>
+        <version>1</version>
+    </parent>
 
     <groupId>ec.edu.espe.arquitectura.universidad</groupId>
     <artifactId>universidad-web</artifactId>
@@ -36,6 +36,11 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>all-themes</artifactId>
+            <version>1.0.10</version>
         </dependency>
     </dependencies>
 
@@ -88,5 +93,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <url>http://repository.primefaces.org/</url>
+            <id>PrimeFaces-maven-lib</id>
+            <layout>default</layout>
+            <name>Repository for library PrimeFaces-maven-lib</name>
+        </repository>
+    </repositories>
 </project>
