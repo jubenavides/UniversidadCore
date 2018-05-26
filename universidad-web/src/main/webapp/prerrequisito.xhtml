@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Gesti&oacute;n Prerrequisitos de Materias" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="B&uacute;squeda de Materia">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel for="bscCodigo" value="Asignatura:" />
+                        <p:inputText id="bscCodigo" value=" " disabled="" />
+                        <p:commandButton id="buscarCmd" value="Buscar" icon="ui-icon-search"  update="@form" />
+                    </p:panelGrid>
+                </p:panel>
+                <p:dataTable var="detalleMalla" value="malla"> <!--selectionMode="single" selection="" rowKey="" -->
+                    <!--<p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />-->
+                    <p:column headerText="C&oacute;digo Detalle Malla">
+                        <h:outputText value="Id" />
+                    </p:column>
+                    <p:column headerText="Asignatura">
+                        <h:outputText value="Programacion" />
+                    </p:column>
+                    <p:column headerText="Malla Curricular">
+                        <h:outputText value="Malla Sistemas" />
+                    </p:column>
+                    <p:column headerText="Nivel">
+                        <h:outputText value="1" />
+                    </p:column>
+                </p:dataTable>
+       
+               
+                <p:commandButton value="Asignar"/> <!--actionListener="#" update="@form"/> -->
+                <p:commandButton value="Modificar"/> <!--actionListener="" update="@form" disabled=""/>-->
+                
+                <p:panel header="Prerrequisito" >
+                    <p:dataTable var="detalleMalla" value="malla">
+                        <p:column headerText="Asignatura">
+                            <h:outputText value="Programacion" />
+                        </p:column>
+                        <p:column headerText="Prerequisito de la Materia">
+                            <h:outputText value="Fundamentos de Progrmacion" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar"/> <!--actionListener="#" update="@form"/> -->
+                    <p:commandButton value="Eliminar" /><!--actionListener="" update="@form" disabled="#">-->
+                    <!--<p:confirm header="Confirmaci&#243;n" message="Desea eliminar el usuario" icon="ui-icon-alert" />-->
+
+                    <p:panel header="Lista de Asignaturas" style="margin-bottom:10px">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel for="asignatura" value="Asignaturas: " />
+                            <p:selectOneListbox id="asignatura" value=""  var="t" filter="true" filterMatchMode="contains"/>
+                            <f:selectItems value="Va" var="theme" itemLabel="" itemValue="" />
+                            <p:column>
+                                <h:outputText styleClass="ui-theme " />
+                            </p:column>
+                        </p:panelGrid>
+
+                    </p:panel>
+
+
+
+                        
+                
+
+                </p:panel>
+
+                
+                               
+            </p:panel>
+            
+            
+            
+        </ui:define>
+    </ui:composition>
+    
+</html>
