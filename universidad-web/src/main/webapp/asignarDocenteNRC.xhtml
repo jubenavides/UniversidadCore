@@ -10,53 +10,58 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:composition template="/templates/plantilla.xhtml">
+    <ui:composition template="/templates/plantilla.xhtml"> 
         <ui:define name="contenido">
-            <p:panel id="mainPnl" header="ASIGNAR NRC A DOCENTES" style="width: 80%; margin: auto;">
-                <p:dataTable>
-                           
-                    
-                   
+            
+            <p:panel id="mainPnl" header="Periodo" style="width: 50%;">
+                <p:panelGrid columns="2" >
+                    <p:outputLabel for="cbxPeriodo" value="Período Lectivo: " />
+                    <p:selectOneMenu id="cbxPeriodo" value="5" style="width:300px" required="true">
+                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
+                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:panel header="Registrar usuario" rendered="#{generarNRCBean.mostrar}" >
+
+                    <p:outputLabel for="cbxPeriodo2" value="Período Lectivo: " />
+                    <p:selectOneMenu id="cbxPeriodo2" value="5" style="width:300px" required="true">
+                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
+                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
+                    </p:selectOneMenu>
+                </p:panel>
+            </p:panel>
+            
+            <p:panel id="templatemainPnl" header="Lista de NRC" style="width: 50%;">
+                <p:dataTable var="docente" value="#{docenteBean.docentes}" emptyMessage= "No se encontraron docentes"  
+                             selectionMode="single" rowKey="#{docente.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="NRC">
                         <h:outputText value="" />
-                  
+                    </p:column>
+                    <p:column headerText="Materia">
+                        <h:outputText value="" />
+                    </p:column>
+                    <p:column headerText="Docente">
+                        <h:outputText value="" />
+                    </p:column>
                 </p:dataTable>
-                
-                
-                </p:panel>
-            
-                <p:panel header="NRC">
-                    <p:panelGrid columns="1">
-
-                        <p:outputLabel for="perfil" value="Escoja en NRC" />
-                        <h:selectOneMenu id="perfil" value="#{segUsuarioBean.codigoPerfil}" style="background-color: green" >
-                            <f:selectItems id="tipo" value="#{segUsuarioBean.segPerfiles}" var="tipoPerfil" itemValue="#{tipoPerfil.codigo}" itemLabel="#{tipoPerfil.nombre}"  />                          
-                        </h:selectOneMenu>
-                        <p:message for="perfil" />
-                        
-                        
-                    </p:panelGrid>
-                    <p:commandButton value="Asignar Docente" actionListener="#{segUsuarioBean.guardar}" update="@form" />
-                    
-                </p:panel>
-            
-            <p:panel header="DOCENTES">
-                    <p:panelGrid columns="1">
-
-                        <p:outputLabel for="perfil" value="Escoja el Docente" />
-                        <h:selectOneMenu id="perfil" value="#{segUsuarioBean.codigoPerfil}" style="background-color: green" >
-                            <f:selectItems id="tipo" value="#{segUsuarioBean.segPerfiles}" var="tipoPerfil" itemValue="#{tipoPerfil.codigo}" itemLabel="#{tipoPerfil.nombre}"  />                          
-                        </h:selectOneMenu>
-                        <p:message for="perfil" />
-                        
-                        
-                    </p:panelGrid>
-                    <p:commandButton value="Asignar" actionListener="#{segUsuarioBean.guardar}" update="@form" />
-                    
-                </p:panel>
-                
-                
-               
-           
+                <p:commandButton value="Asignar Docente" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
+            </p:panel>
+            <p:panel id="mainPnl" header="Lista de Docentes" style="width: 50%;">
+                <p:dataTable var="docente" value="#{docenteBean.docentes}" emptyMessage= "No se encontraron docentes" 
+                             selectionMode="single" rowKey="#{docente.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Docente">
+                        <h:outputText value="#{docente.nombres}" />
+                    </p:column>
+                    <p:column headerText="Docente">
+                        <h:outputText value="#{docente.apellidos}" />
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Asignar" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
+            </p:panel>
         </ui:define>
     </ui:composition>
 </html>
