@@ -15,9 +15,9 @@ and open the template in the editor.
             <p:panel id="mainPnl" header="Lista de Asignaturas" style="width: 80%; margin: auto;">
                 <p:panelGrid columns="2" >
                     <p:outputLabel for="cbxPeriodo" value="Período Lectivo: " />
-                    <p:selectOneMenu id="cbxPeriodo" value="5" style="width:300px" required="true">
-                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
-                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
+                    <p:selectOneMenu  id="cbxPeriodo"  style="width:300px" required="true" >
+                        <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
+                        <f:selectItems id="periodos" value="#{generarNRCBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:panel id="buscPnl" header="Búsqueda">
@@ -25,6 +25,7 @@ and open the template in the editor.
                     <p:panelGrid columns="3">
                         <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
                         <p:inputText id="bscCodigo" value="5"  />
+                        <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{generarNRCBean.buscarAsignatura()}" update="@form" />
                     </p:panelGrid>
 
                     <p:commandButton value="Generar" actionListener="#{generarNRCBean.generar()}" update="@form"/>
@@ -32,11 +33,7 @@ and open the template in the editor.
 
                 <p:panel header="Registrar usuario" rendered="#{generarNRCBean.mostrar}" >
 
-                    <p:outputLabel for="cbxPeriodo2" value="Período Lectivo: " />
-                    <p:selectOneMenu id="cbxPeriodo2" value="5" style="width:300px" required="true">
-                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
-                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
-                    </p:selectOneMenu>
+                    
                 </p:panel>
             </p:panel>
         </ui:define>

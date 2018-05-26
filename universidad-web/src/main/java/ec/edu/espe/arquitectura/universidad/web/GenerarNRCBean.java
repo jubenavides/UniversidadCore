@@ -7,9 +7,15 @@
  */
 package ec.edu.espe.arquitectura.universidad.web;
 
+import ec.edu.espe.arquitectura.universidad.model.PeriodoLectivo;
+import ec.edu.espe.arquitectura.universidad.model.Silabo;
+import ec.edu.espe.arquitectura.universidad.service.PeriodoLectivoService;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -20,19 +26,19 @@ import javax.inject.Named;
 @ViewScoped
 public class GenerarNRCBean implements Serializable {
 
-    private String periodo;
     private boolean mostrar;
+    private List<PeriodoLectivo> periodosLectivos;
+    
+    @Inject
+    private PeriodoLectivoService periodoLectivoService;
+    
+    @PostConstruct
+    public void init(){
+        this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
+    }
 
     public void generar() {
         this.mostrar = true;
-    }
-
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
     }
 
     public boolean isMostrar() {
@@ -43,4 +49,11 @@ public class GenerarNRCBean implements Serializable {
         this.mostrar = mostrar;
     }
 
+    public List<PeriodoLectivo> getPeriodosLectivos() {
+        return periodosLectivos;
+    }
+
+    public void setPeriodosLectivos(List<PeriodoLectivo> periodosLectivos) {
+        this.periodosLectivos = periodosLectivos;
+    }
 }
