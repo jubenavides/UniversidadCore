@@ -32,7 +32,7 @@
                     </p:column>
                     
                 </p:dataTable>
-                <p:commandButton value="Ver Sílabo" update="@form"/>
+                <p:commandButton value="Ver Sílabo" disabled="#{empty silaboBean.silaboSel}" update="@form"/>
             </p:panel>
         </ui:define>
     </ui:composition>
