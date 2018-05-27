@@ -73,14 +73,27 @@ public class GenerarNRCBean implements Serializable {
             this.secuenciaNrc = Integer.parseInt(this.nrcExistentes.get(ultimoNrc - 1).getNrcPK().getCodNrc().split("-")[1]);
             this.secuenciaNrc += 1;
         }
+        this.asignatura = new Asignatura();
     }
 
     public void generar() {
         mostrarForms();
     }
 
+    public void buscarAsignatura() {
+//        this.asignaturas = new ArrayList<>();
+        this.asignaturas = this.asignaturaService.obtenerPorNombreAsignatura(this.asignatura.getNombre());
+//        if (asig != null) {
+//            this.asignaturas.add(asig);
+//        } else {
+//            this.asignaturas.add(null);
+//        }
+//        this.asignatura = new Asignatura();
+    }
+
     public void listarNrcAsignatura() {
         this.nrcExistentesAsignatura = this.nrcService.listarNrcAsignatura(this.asignaturaSeleccionada);
+        mostrarForms();
         System.out.println("");
     }
 
@@ -128,7 +141,15 @@ public class GenerarNRCBean implements Serializable {
     }
 
     public void mostrarForms() {
-        this.mostrar = true;
+        if (!asignaturaSeleccionada.getCodigo().equals("")) {
+            this.mostrar = true;
+        } else {
+            this.mostrar = false;
+        }
+    }
+
+    public void ocultarForms() {
+        this.mostrar = false;
     }
 
     public List<Asignatura> getAsignaturas() {
@@ -187,4 +208,11 @@ public class GenerarNRCBean implements Serializable {
         this.nrcExistentesAsignatura = nrcExistentesAsignatura;
     }
 
+    public Asignatura getAsignatura() {
+        return asignatura;
+    }
+
+    public void setAsignatura(Asignatura asignatura) {
+        this.asignatura = asignatura;
+    }
 }

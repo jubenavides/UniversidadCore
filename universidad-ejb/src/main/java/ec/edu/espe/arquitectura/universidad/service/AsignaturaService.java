@@ -28,4 +28,8 @@ public class AsignaturaService implements AsignaturaServiceLocal {
         return this.asignaturaFacade.findAll();
     }
     
+    public List<Asignatura> obtenerPorNombreAsignatura(String nombreAsignatura){
+        return this.asignaturaFacade.obtenerPorNombreAsignatura(nombreAsignatura);
+    }
+    
 }

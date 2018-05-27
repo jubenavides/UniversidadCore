@@ -25,7 +25,7 @@ and open the template in the editor.
 
                     <p:panelGrid columns="3">
                         <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
-                        <p:inputText id="bscCodigo" value="5"  />
+                        <p:inputText id="bscCodigo" value="#{generarNRCBean.asignatura.nombre}"  />
                         <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{generarNRCBean.buscarAsignatura()}" update="@form" />
                     </p:panelGrid>
                     <p:dataTable var="asignatura" value="#{generarNRCBean.asignaturas}" emptyMessage="No se encontraron asignaturas registradas"
@@ -33,7 +33,7 @@ and open the template in the editor.
                                  selection="#{generarNRCBean.asignaturaSeleccionada}" 
                                  scrollable="true" scrollHeight="250" 
                                  >
-                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowSelect" update="@form" listener="#{generarNRCBean.ocultarForms()}"/>
                         <p:ajax event="rowUnselect" update="@form" />
                         <p:column headerText="Codigo" rendered="true">
                             <h:outputText value="#{asignatura.codigo}"/>
@@ -45,9 +45,9 @@ and open the template in the editor.
                             <h:outputText value="#{asignatura.codDepartamento.descripcion}" />
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton value="Cargar Materia" actionListener="#{generarNRCBean.listarNrcAsignatura()}" update="@form"/>
-<!--                        
-                    </p:commandButton>-->
+                    <p:commandButton value="Cargar Materia" actionListener="#{generarNRCBean.listarNrcAsignatura()}" update="@form" />
+                    <!--                        
+                                        </p:commandButton>-->
 
 
 
@@ -56,9 +56,9 @@ and open the template in the editor.
                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
-                <p:panel id="nrcAsignatura" header="NRC de la Asignatura #{generarNRCBean.asignaturaSeleccionada.nombre}" rendered="true" >
+                <p:panel id="nrcAsignatura" header="NRC de la Asignatura #{generarNRCBean.asignaturaSeleccionada.nombre}" rendered="#{generarNRCBean.mostrar}" >
                     <p:dataTable var="nrc" value="#{generarNRCBean.nrcExistentesAsignatura}" 
-                                 emptyMessage="No se encontraron usuarios registrados"
+                                 emptyMessage="No se encontraron NRC registrados para la materia"
                                  rowKey="#{nrc.nrcPK.codNrc}" >
                         <p:column headerText="NRC" >
                             <h:outputText value="#{nrc.nrcPK.codNrc}"/>
