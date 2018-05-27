@@ -15,15 +15,14 @@ import ec.edu.espe.arquitectura.universidad.service.AsignaturaService;
 import ec.edu.espe.arquitectura.universidad.service.NRCService;
 import ec.edu.espe.arquitectura.universidad.service.PeriodoLectivoService;
 import java.io.Serializable;
-import java.util.AbstractList;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -39,13 +38,12 @@ public class GenerarNRCBean implements Serializable {
     private List<PeriodoLectivo> periodosLectivos;
     private PeriodoLectivo periodoSeleccionado;
     private List<Nrc> nrcGenerados;
-    private Integer numNRC;
+    private int numNRC;
     private List<Asignatura> asignaturas;
     private List<Nrc> nrcExistentes;
     private List<Nrc> nrcExistentesAsignatura;
-    private Map<String, Integer> nrcCantidadCrear2;
-    private List<Integer> nrcCantidadCrear;
     private Integer secuenciaNrc;
+    private Nrc nrc;
 
     @Inject
     private PeriodoLectivoService periodoLectivoService;
@@ -60,20 +58,9 @@ public class GenerarNRCBean implements Serializable {
         this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
         this.asignaturas = this.asignaturaService.obtenerTodos();
         nrcGenerados = new ArrayList<>();
-        nrcCantidadCrear = new ArrayList<>();
-        nrcCantidadCrear2 = new HashMap<>();
-        for (int i = 0; i < asignaturas.size(); i++) {
-            nrcCantidadCrear.add(0);
-            nrcCantidadCrear2.put(asignaturas.get(i).getCodigo(), 0);
-        }
         this.secuenciaNrc = 0;
-        this.nrcExistentes = nrcService.obtenerTodos();
-        if (!this.nrcExistentes.isEmpty()) {
-            Integer ultimoNrc = this.nrcExistentes.size();
-            this.secuenciaNrc = Integer.parseInt(this.nrcExistentes.get(ultimoNrc - 1).getNrcPK().getCodNrc().split("-")[1]);
-            this.secuenciaNrc += 1;
-        }
         this.asignatura = new Asignatura();
+        this.periodoSeleccionado = new PeriodoLectivo();
     }
 
     public void generar() {
@@ -91,36 +78,50 @@ public class GenerarNRCBean implements Serializable {
 //        this.asignatura = new Asignatura();
     }
 
+    public void ocultarNrc() {
+        this.mostrar = false;
+    }
+
     public void listarNrcAsignatura() {
         this.nrcExistentesAsignatura = this.nrcService.listarNrcAsignatura(this.asignaturaSeleccionada);
         mostrarForms();
         System.out.println("");
     }
 
-    public void generarNrc() {
-        for (int i = 0; i < asignaturas.size(); i++) {
-            Integer cantNRC = 0;
-            cantNRC = nrcCantidadCrear2.get(i);
-            if (cantNRC > 0) {
-                for (int j = 0; j < cantNRC; j++) {
-                    Nrc nuevoNrc = new Nrc();
-                    nuevoNrc.setNrcPK(new NrcPK("N-" + secuenciaNrc, periodoSeleccionado.getCodigo()));
-                    nuevoNrc.setCodAsignatura(asignaturaSeleccionada);
-                    nrcGenerados.add(nuevoNrc);
-                }
-            }
-        }
-
+    public void listarNrcAsignaturaPeriodo() {
+        this.nrcExistentesAsignatura = this.nrcService.listarNrcAsignaturaPeriodo(this.asignaturaSeleccionada, this.periodoSeleccionado);
+        mostrarForms();
+        System.out.println("");
     }
 
-    public void asignarCantidadNRC(Integer index, Integer valor) {
-//        for (Map.Entry<String, Integer> nrc : nrcCantidadCrear2.entrySet()) {
-//            if (nrc.getKey().equals(cod)) {
-//                nrc.setValue(index);
-//                break;
-//            }
-//        }
-        nrcCantidadCrear.set(index, valor);
+    public void generarNrc() {
+        this.secuenciaNrc = 0;
+        this.nrcExistentes = nrcService.obtenerTodos();
+        if (!this.nrcExistentes.isEmpty()) {
+            Integer ultimoNrc = this.nrcExistentes.size();
+            this.secuenciaNrc = Integer.parseInt(this.nrcExistentes.get(ultimoNrc - 1).getNrcPK().getCodNrc().split("-")[1]);
+            this.secuenciaNrc++;
+        }
+        Integer cantNRC = 0;
+        cantNRC = this.numNRC;
+        DecimalFormat formateador = new DecimalFormat("000");
+        if (cantNRC > 0) {
+            for (int j = 0; j < cantNRC; j++) {
+                Nrc nuevoNrc = new Nrc();
+                nuevoNrc.setNrcPK(new NrcPK("N-" + formateador.format(this.secuenciaNrc), this.periodoSeleccionado.getCodigo()));
+                nuevoNrc.setCodAsignatura(asignaturaSeleccionada);
+                nuevoNrc.setCodDocente(null);
+                this.nrcGenerados.add(nuevoNrc);
+                try {
+                    this.nrcService.crearNrc(nuevoNrc);
+                    Messages.addFlashGlobalInfo("Se agregó el Nrc: " + nuevoNrc.getNrcPK().getCodNrc() + ", para la materia" + this.asignaturaSeleccionada.getNombre());
+                } catch (Exception ex) {
+                    Messages.addGlobalError(null, "Ocurrí\u00f3 un error al generar los Nrc");
+                }
+                secuenciaNrc++;
+            }
+            this.nrcExistentesAsignatura = this.nrcService.listarNrcAsignaturaPeriodo(asignaturaSeleccionada, periodoSeleccionado);
+        }
 
     }
 
@@ -160,11 +161,11 @@ public class GenerarNRCBean implements Serializable {
         this.asignaturas = asignaturas;
     }
 
-    public Integer getNumNRC() {
+    public int getNumNRC() {
         return numNRC;
     }
 
-    public void setNumNRC(Integer numNRC) {
+    public void setNumNRC(int numNRC) {
         this.numNRC = numNRC;
     }
 
@@ -215,4 +216,13 @@ public class GenerarNRCBean implements Serializable {
     public void setAsignatura(Asignatura asignatura) {
         this.asignatura = asignatura;
     }
+
+    public Nrc getNrc() {
+        return nrc;
+    }
+
+    public void setNrc(Nrc nrc) {
+        this.nrc = nrc;
+    }
+
 }

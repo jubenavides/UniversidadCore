@@ -10,6 +10,7 @@ package ec.edu.espe.arquitectura.universidad.service;
 import ec.edu.espe.arquitectura.universidad.dao.NrcFacade;
 import ec.edu.espe.arquitectura.universidad.model.Asignatura;
 import ec.edu.espe.arquitectura.universidad.model.Nrc;
+import ec.edu.espe.arquitectura.universidad.model.PeriodoLectivo;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -32,5 +33,13 @@ public class NRCService implements NRCServiceLocal {
 
     public List<Nrc> listarNrcAsignatura(Asignatura codAsignatura) {
         return this.nrcFacade.listarNrcAsignatura(codAsignatura);
+    }
+
+    public List<Nrc> listarNrcAsignaturaPeriodo(Asignatura codAsignatura, PeriodoLectivo codPeriodo) {
+        return this.nrcFacade.listarNrcAsignaturaPeriodo(codAsignatura, codPeriodo);
+    }
+
+    public void crearNrc(Nrc nrc) {
+        this.nrcFacade.create(nrc);
     }
 }
