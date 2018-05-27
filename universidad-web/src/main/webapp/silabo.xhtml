@@ -5,35 +5,41 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui">
     <ui:composition template="/templates/plantilla.xhtml">
         <ui:define name="contenido">
-            <p:panel id="mainPnl" header="Sílabos" style="width: 80%; margin: auto;">
-                <!--<p:panel id="buscPnl" header="Busqueda">
-                    <p:outputLabel for="bscCodigo" value="Buscar Sílabo por materia:" />
-                    <p:inputText id="bscCodigo" value="" disabled="" />
-                    <p:commandButton id="buscarCmd" value="Buscar" actionListener="" update="@form" />
-                </p:panel>-->
-                <p:dataTable var="silabo" value="#{silaboBean.silabos}" emptyMessage="No se encontraron sílabos registrados"
-                             selectionMode="single" selection="#{silaboBean.silaboSel}" rowKey="#{silabo.codigo}">
-                    <p:ajax event="rowSelect" update="@form" />
-                    <p:ajax event="rowUnselect" update="@form" />
-                    <p:column headerText="Codigo">
-                        <h:outputText value="#{silabo.codigo}" />
-                    </p:column>
-                    <p:column headerText="Asignatura">
-                        <h:outputText value="#{silabo.codAsignatura.nombre}" />
-                    </p:column>
-                    <p:column headerText="Periodo Lectivo">
-                        <h:outputText value="#{silabo.codPeriodo.codigo}" />
-                    </p:column>
-                    <p:column headerText="Fecha Elaboración">
-                        <h:outputText value="#{silabo.fechaElaboracion}" />
-                    </p:column>
-                    
-                </p:dataTable>
-                <p:commandButton value="Ver Sílabo" disabled="#{empty silaboBean.silaboSel}" update="@form"/>
-            </p:panel>
+                <p:panel id="mainPnl" header="Sílabos" style="width: 80%; margin: auto;">
+                    <!--<p:panel id="buscPnl" header="Busqueda">
+                        <p:outputLabel for="bscCodigo" value="Buscar Sílabo por materia:" />
+                        <p:inputText id="bscCodigo" value="" disabled="" />
+                        <p:commandButton id="buscarCmd" value="Buscar" actionListener="" update="@form" />
+                    </p:panel>-->
+                    <p:dataTable var="silabo" value="#{silaboBean.silabos}" emptyMessage="No se encontraron sílabos registrados"
+                                 selectionMode="single" selection="#{silaboBean.silaboSel}" rowKey="#{silabo.codigo}">
+                        <p:ajax event="rowSelect" update="@form"/>
+                        <p:ajax event="rowUnselect" update="@form"/>
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{silabo.codigo}"/>
+                        </p:column>
+                        <p:column headerText="Asignatura">
+                            <h:outputText value="#{silabo.codAsignatura.nombre}" />
+                        </p:column>
+                        <p:column headerText="Periodo Lectivo">
+                            <h:outputText value="#{silabo.codPeriodo.codigo}" />
+                        </p:column>
+                        <p:column headerText="Fecha Elaboración">
+                            <h:outputText value="#{silabo.fechaElaboracion}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:commandButton id="btnVer" 
+                                     value="Ver Sílabo" 
+                                     disabled="#{empty silaboBean.silaboSel}" 
+                                     actionListener="#{silaboBean.verSilabo()}" 
+                                     update="administrarSilaboForm"/>
+                </p:panel>
+            <ui:include src="administrarSilabo.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>

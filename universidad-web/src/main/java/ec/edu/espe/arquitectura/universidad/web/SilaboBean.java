@@ -18,7 +18,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.annotation.PostConstruct;
-
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -26,26 +26,33 @@ import javax.annotation.PostConstruct;
  */
 @Named
 @ViewScoped
-public class SilaboBean implements Serializable{
-    
+public class SilaboBean implements Serializable {
+
     private List<Silabo> silabos;
     private Silabo silabo;
     private Silabo silaboSel;
     private List<PeriodoLectivo> periodosLectivos;
     private String codigoPeriodoLectivo;
-    
+
     @Inject
     private SilaboService silaboService;
     @Inject
     private PeriodoLectivoService periodoLectivoService;
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         this.silabos = this.silaboService.obtenerTodos();
         this.silabo = new Silabo();
         this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
     }
-    
+
+    public void verSilabo() {
+        RequestContext.getCurrentInstance().execute("PF('administrarSilabo').show();");
+    }
+
+    public void cancelar() {
+        RequestContext.getCurrentInstance().execute("PF('administrarSilabo').hide();");
+    }
 
     public List<Silabo> getSilabos() {
         return silabos;
@@ -86,7 +93,5 @@ public class SilaboBean implements Serializable{
     public void setCodigoPeriodoLectivo(String codigoPeriodoLectivo) {
         this.codigoPeriodoLectivo = codigoPeriodoLectivo;
     }
-    
-    
-    
+
 }

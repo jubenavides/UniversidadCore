@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
       >
     <h:head>
         <title>UNIVERSIDAD CORE</title>
@@ -15,7 +16,7 @@
     </h:head>
     <h:body> 
         <div id="page">
-            
+
             <div id="content">
                 <h:form>
                     <p:menubar>
@@ -32,11 +33,12 @@
                         <p:menuitem value="Salir" icon="ui-icon-extlink" action="#{indexBean.logout()}" />
                     </p:menubar>
                     <p:spacer height="10px"/>
-                    <ui:insert name="contenido">
- 
-                    </ui:insert>
-                    <p>&nbsp;</p>
+<ui:insert name="contenido">
+
+                </ui:insert>
                 </h:form>
+                
+                <p>&nbsp;</p>
             </div>
             <div id="footer">
                 <div class="text-center center-block">
