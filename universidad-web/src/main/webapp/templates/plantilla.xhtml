@@ -25,6 +25,9 @@
                         <p:submenu label="Sílabo" >
                             <p:menuitem value="Gestionar sílabo" action="silabo" />
                         </p:submenu>
+                        <p:submenu label="Gestión NRC">
+                            <p:menuitem value="Generar NRC" action="generarNRC"/>
+                        </p:submenu>
                         <p:menuitem value="#{usuarioSesionBean.nombre}" url="#"/>
                         <p:menuitem value="Salir" icon="ui-icon-extlink" action="#{indexBean.logout()}" />
                     </p:menubar>

@@ -14,26 +14,62 @@ and open the template in the editor.
         <ui:define name="contenido">
             <p:panel id="mainPnl" header="Lista de Asignaturas" style="width: 80%; margin: auto;">
                 <p:panelGrid columns="2" >
-                    <p:outputLabel for="cbxPeriodo" value="Período Lectivo: " />
-                    <p:selectOneMenu  id="cbxPeriodo"  style="width:300px" required="true" >
+                    <p:outputLabel for="cbxPeriodo"  value="Período Lectivo: "/>
+                    <p:selectOneMenu  id="cbxPeriodo"  value="#{generarNRCBean.periodoSeleccionado}" style="width:300px" >
                         <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
                         <f:selectItems id="periodos" value="#{generarNRCBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
+                        <!--<p:ajax event="change" listener="#{generarNRCBean.mostrarForms()}" update="asignaturas" />-->
                     </p:selectOneMenu>
                 </p:panelGrid>
-                <p:panel id="buscPnl" header="Búsqueda">
+                <p:panel id="asignaturas" header="Búsqueda" rendered="true">
 
                     <p:panelGrid columns="3">
                         <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
                         <p:inputText id="bscCodigo" value="5"  />
                         <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{generarNRCBean.buscarAsignatura()}" update="@form" />
                     </p:panelGrid>
+                    <p:dataTable var="asignatura" value="#{generarNRCBean.asignaturas}" emptyMessage="No se encontraron asignaturas registradas"
+                                 selectionMode="single" rowKey="#{asignatura.codigo}" 
+                                 selection="#{generarNRCBean.asignaturaSeleccionada}" 
+                                 scrollable="true" scrollHeight="250" 
+                                 >
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Codigo" rendered="true">
+                            <h:outputText value="#{asignatura.codigo}"/>
+                        </p:column>
+                        <p:column headerText="Asignatura" >
+                            <h:outputText value="#{asignatura.nombre}" />
+                        </p:column>
+                        <p:column headerText="Departamento" >
+                            <h:outputText value="#{asignatura.codDepartamento.descripcion}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Cargar Materia" actionListener="#{generarNRCBean.listarNrcAsignatura()}" update="@form"/>
+<!--                        
+                    </p:commandButton>-->
 
-                    <p:commandButton value="Generar" actionListener="#{generarNRCBean.generar()}" update="@form"/>
+
+
                 </p:panel>
-
-                <p:panel header="Registrar usuario" rendered="#{generarNRCBean.mostrar}" >
-
-                    
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+                <p:panel id="nrcAsignatura" header="NRC de la Asignatura #{generarNRCBean.asignaturaSeleccionada.nombre}" rendered="true" >
+                    <p:dataTable var="nrc" value="#{generarNRCBean.nrcExistentesAsignatura}" 
+                                 emptyMessage="No se encontraron usuarios registrados"
+                                 rowKey="#{nrc.nrcPK.codNrc}" >
+                        <p:column headerText="NRC" >
+                            <h:outputText value="#{nrc.nrcPK.codNrc}"/>
+                        </p:column>
+                        <p:column headerText="Periodo" >
+                            <h:outputText value="#{nrc.periodoLectivo.codigo}" />
+                        </p:column>
+                        <p:column headerText="Asignatura" >
+                            <h:outputText value="#{nrc.codAsignatura.nombre}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panel>
             </p:panel>
         </ui:define>
