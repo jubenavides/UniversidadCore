@@ -12,8 +12,15 @@ and open the template in the editor.
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:o="http://omnifaces.org/ui">
     <ui:composition >
-    <p:dialog modal="true" showEffect="fade" hideEffect="fade" closeOnEscape="false" draggable="false" closable="false" 
-              resizable="false" appendTo="@(body)" widgetVar="administrarSilabo">
+    <p:dialog modal="true" 
+              showEffect="fade" 
+              hideEffect="fade" 
+              closeOnEscape="false" 
+              draggable="false" 
+              closable="false" 
+              resizable="false" 
+              appendTo="@(body)"
+              widgetVar="administrarSilabo">
         <o:form id="administrarSilaboForm" useRequestURI="true">
             <p:panel header="Silabo Detalle" style="width: 80%; margin: auto;" >
                 <p:fieldset legend="Detalles" style="margin-bottom:20px">
@@ -26,6 +33,9 @@ and open the template in the editor.
                                 Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,
                                 but given to ruthless violence whenever anything stands against the good of the family." />
                         </h:panelGroup>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <p:commandButton immediate="true" value="Cancelar" actionListener="#{silaboBean.cancelar()}"/>
                     </p:panelGrid>
                 </p:fieldset>
                 <!--<p:panel id="buscPnl" header="Busqueda">
