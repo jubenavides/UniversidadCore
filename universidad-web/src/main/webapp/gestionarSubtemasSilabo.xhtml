@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omnifaces.org/ui">
+    <ui:composition >
+    <p:dialog modal="true" 
+              showEffect="fade" 
+              hideEffect="fade" 
+              closeOnEscape="false" 
+              draggable="false" 
+              closable="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              widgetVar="gestionarSubtemasSilabo"
+              style="width: 90%; margin: auto;">
+        <o:form id="gestionarSubtemasSilaboForm" useRequestURI="true">
+            <p:panel id="gestionarSubtemasSilaboPanel" header="Subtemas" style="width: 80%; margin: auto;">
+                <p:dataTable var="subtema" value="#{silaboBean.subtemas}" emptyMessage="No se encontraron subtemas registrados"
+                             selectionMode="single" selection="#{silaboBean.subtemaSel}" rowKey="#{subtema.codSubtema}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Tema">
+                        <h:outputText value="#{subtema.codTema.nombre}" />
+                    </p:column>
+                    <p:column headerText="Codigo Subtema">
+                        <h:outputText value="#{subtema.codSubtema}" />
+                    </p:column>
+                    <p:column headerText="Descripción">
+                        <h:outputText value="#{subtema.descripcion}" />
+                    </p:column>
+                    
+                </p:dataTable>
+                <p:commandButton value="Agregar" actionListener="#{silaboBean.agregarSubtema()}" update="gestionarSubtemasSilaboForm"/>
+                <p:commandButton value="Modificar" actionListener="#{silaboBean.modificarSubtema()}" update="gestionarSubtemasSilaboForm" disabled="#{silaboBean.subtemaSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{silaboBean.eliminarSubtema()}" update="gestionarSubtemasSilaboForm" disabled="#{silaboBean.subtemaSel eq null}">
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el subtema #{silaboBean.subtemaSel.codSubtema}}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="Registrar subtema" rendered="#{silaboBean.verFormularioEdicion}">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel for="codigo" value="C&#243;digo" />
+                        <p:inputText id="codigo" value="#{silaboBean.subtema.codSubtema}" disabled="#{silaboBean.enModificar}" required="true" requiredMessage="Debe ingresar el codigo"/>
+                        <p:message for="codigo" />
+                        <p:outputLabel for="tema" value="Tema" />
+                        <h:selectOneMenu id="tema" value="#{silaboBean.codigoTema}" style="color: black" >
+                            <f:selectItems id="comboTemas" value="#{silaboBean.temas}" var="temaPadre" itemValue="#{temaPadre.codigo}" itemLabel="#{temaPadre.nombre}"  />                          
+                        </h:selectOneMenu>
+                        <p:message for="tema" />
+                        <p:outputLabel for="descripcion" value="Descripción" />
+                        <p:inputText id="descripcion" value="#{silaboBean.subtema.descripcion}"  required="true" requiredMessage="Debe ingresar una descripción"/>
+                        <p:message for="descripcion" />
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{silaboBean.guardarSubtema()}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{silaboBean.cancelarEdicion()}" update="@form" immediate="true"/>
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </o:form>
+    </p:dialog>
+</ui:composition>
+</html>
+
