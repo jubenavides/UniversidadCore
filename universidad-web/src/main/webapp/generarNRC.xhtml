@@ -13,13 +13,14 @@ and open the template in the editor.
     <ui:composition template="/templates/plantilla.xhtml">
         <ui:define name="contenido">
             <p:panel id="mainPnl" header="Lista de Asignaturas" style="width: 80%; margin: auto;">
-                <p:panelGrid columns="2" >
+                <p:panelGrid columns="3" >
                     <p:outputLabel for="cbxPeriodo"  value="Período Lectivo: "/>
-                    <p:selectOneMenu  id="cbxPeriodo"  value="#{generarNRCBean.periodoSeleccionado}" style="width:300px" >
+                    <p:selectOneMenu  id="cbxPeriodo"  value="#{generarNRCBean.periodoSeleccionado.codigo}" style="width:300px" required="true" requiredMessage="Debe seleccionar un período">
+                        <p:ajax event="itemSelect" listener="#{generarNRCBean.ocultarNrc()}" update="@form"/>
                         <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
                         <f:selectItems id="periodos" value="#{generarNRCBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
-                        <!--<p:ajax event="change" listener="#{generarNRCBean.mostrarForms()}" update="asignaturas" />-->
                     </p:selectOneMenu>
+                    <p:message for="cbxPeriodo" />
                 </p:panelGrid>
                 <p:panel id="asignaturas" header="Búsqueda" rendered="true">
 
@@ -34,7 +35,7 @@ and open the template in the editor.
                                  scrollable="true" scrollHeight="250" 
                                  >
                         <p:ajax event="rowSelect" update="@form" listener="#{generarNRCBean.ocultarForms()}"/>
-                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" listener="#{generarNRCBean.ocultarForms()}"/>
                         <p:column headerText="Codigo" rendered="true">
                             <h:outputText value="#{asignatura.codigo}"/>
                         </p:column>
@@ -45,9 +46,10 @@ and open the template in the editor.
                             <h:outputText value="#{asignatura.codDepartamento.descripcion}" />
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton value="Cargar Materia" actionListener="#{generarNRCBean.listarNrcAsignatura()}" update="@form" />
-                    <!--                        
-                                        </p:commandButton>-->
+                    <p:commandButton value="Cargar Materia" actionListener="#{generarNRCBean.listarNrcAsignaturaPeriodo()}" update="@form" >
+                        <!--<p:confirm header="Confirmaci&#243;n" message=" {generarNRCBean.periodoSeleccionado.codigo}" icon="ui-icon-alert" />-->
+                    </p:commandButton>
+                    
 
 
 
@@ -56,20 +58,30 @@ and open the template in the editor.
                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
-                <p:panel id="nrcAsignatura" header="NRC de la Asignatura #{generarNRCBean.asignaturaSeleccionada.nombre}" rendered="#{generarNRCBean.mostrar}" >
+                <p:panel id="nrcAsignatura" header="NRC's de la Asignatura #{generarNRCBean.asignaturaSeleccionada.nombre}" rendered="#{generarNRCBean.mostrar}" >
                     <p:dataTable var="nrc" value="#{generarNRCBean.nrcExistentesAsignatura}" 
                                  emptyMessage="No se encontraron NRC registrados para la materia"
                                  rowKey="#{nrc.nrcPK.codNrc}" >
                         <p:column headerText="NRC" >
                             <h:outputText value="#{nrc.nrcPK.codNrc}"/>
                         </p:column>
-                        <p:column headerText="Periodo" >
+                        <p:column headerText="Periodo" rendered="false">
                             <h:outputText value="#{nrc.periodoLectivo.codigo}" />
                         </p:column>
                         <p:column headerText="Asignatura" >
                             <h:outputText value="#{nrc.codAsignatura.nombre}" />
                         </p:column>
                     </p:dataTable>
+                    <p:separator/>
+                    <p:panelGrid columns="3">
+                        <h:outputLabel for="cantNRC" value="Cantidad de NRC a Generar:" />
+                        <p:spinner id="cantNRC" value="#{generarNRCBean.numNRC}" min="0" >
+                            <p:ajax update="@form"/>
+                        </p:spinner>
+                        <p:commandButton id="generarNrc" value="Generar" actionListener="#{generarNRCBean.generarNrc()}" update="@form" >
+                            <p:confirm header="Confirmaci&#243;n" message="Desea crear #{generarNRCBean.numNRC} NRC para la materia #{generarNRCBean.asignaturaSeleccionada.nombre} en el Período-#{generarNRCBean.periodoSeleccionado.codigo}?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:panelGrid>
                 </p:panel>
             </p:panel>
         </ui:define>

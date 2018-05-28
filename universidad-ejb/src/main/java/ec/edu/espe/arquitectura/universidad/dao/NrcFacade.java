@@ -7,6 +7,7 @@ package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.Asignatura;
 import ec.edu.espe.arquitectura.universidad.model.Nrc;
+import ec.edu.espe.arquitectura.universidad.model.PeriodoLectivo;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -37,6 +38,13 @@ public class NrcFacade extends AbstractFacade<Nrc> {
     public List<Nrc> listarNrcAsignatura(Asignatura codAsignatura) {
         Query q = this.em.createQuery("SELECT obj FROM Nrc obj WHERE obj.codAsignatura = ?1");
         q.setParameter(1, codAsignatura);
+        return q.getResultList();
+    }
+    
+    public List<Nrc> listarNrcAsignaturaPeriodo(Asignatura codAsignatura, PeriodoLectivo codPeriodo) {
+        Query q = this.em.createQuery("SELECT obj FROM Nrc obj WHERE obj.codAsignatura = ?1 AND obj.periodoLectivo = ?2");
+        q.setParameter(1, codAsignatura);
+        q.setParameter(2, codPeriodo);
         return q.getResultList();
     }
 }
