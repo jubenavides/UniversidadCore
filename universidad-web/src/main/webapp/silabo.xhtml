@@ -29,7 +29,7 @@
                             <h:outputText value="#{silabo.codPeriodo.codigo}" />
                         </p:column>
                         <p:column headerText="Fecha Elaboración">
-                            <h:outputText value="#{silabo.fechaElaboracion}" />
+                            <h:outputText value="#{silabo.fechaElaboracion}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText>
                         </p:column>
 
                     </p:dataTable>

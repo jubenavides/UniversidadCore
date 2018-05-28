@@ -17,32 +17,52 @@ and open the template in the editor.
               hideEffect="fade" 
               closeOnEscape="false" 
               draggable="false" 
-              closable="false" 
+              closable="true" 
               resizable="false" 
               appendTo="@(body)"
-              widgetVar="administrarSilabo">
+              widgetVar="administrarSilabo"
+              style="width: 90%; margin: auto;">
         <o:form id="administrarSilaboForm" useRequestURI="true">
-            <p:panel header="Silabo Detalle" style="width: 80%; margin: auto;" >
-                <p:fieldset legend="Detalles" style="margin-bottom:20px">
-                    <p:panelGrid id="detalleSilabo" columns="1">
-                        <h:panelGroup>
-                            <p:outputLabel value="ver: #{silaboSel.codigo}"/>
-                            <h:outputText
-                                value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.
-                                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business.
-                                Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,
-                                but given to ruthless violence whenever anything stands against the good of the family." />
-                        </h:panelGroup>
+            <p:panel header="Silabo #{silaboBean.silaboSel.codigo}: #{silaboBean.silaboSel.codAsignatura.nombre}" style="width: 90%; margin: auto;" >
+                
+                    <p:panelGrid id="detalleSilabo">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column colspan="7">Detalles</p:column>
+                            </p:row>
+                            
+                        </f:facet>
+                        <p:row>
+                                <p:column style="font-weight: bold;">Código Asignatura</p:column>
+                                <p:column >#{silaboBean.silaboSel.codAsignatura.codigo}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Asignatura</p:column>
+                                <p:column >#{silaboBean.silaboSel.codAsignatura.nombre}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Fecha de elaboración</p:column>
+                                <p:column><h:outputText value="#{silaboBean.silaboSel.fechaElaboracion}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Descripción</p:column>
+                                <p:column>#{silaboBean.silaboSel.descripcion}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Período Lectivo</p:column>
+                                <p:column>#{silaboBean.silaboSel.codPeriodo.codigo}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Vigencia</p:column>
+                                <p:column><h:outputText value="#{silaboBean.silaboSel.codPeriodo.fehaInicio}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText> a <h:outputText value="#{silaboBean.silaboSel.codPeriodo.fechaFin}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Créditos</p:column>
+                                <p:column>#{silaboBean.silaboSel.codAsignatura.numCreditos}</p:column>
+                            </p:row>
                     </p:panelGrid>
-                    <p:panelGrid columns="1">
-                        <p:commandButton immediate="true" value="Cancelar" actionListener="#{silaboBean.cancelar()}"/>
-                    </p:panelGrid>
-                </p:fieldset>
-                <!--<p:panel id="buscPnl" header="Busqueda">
-                    <p:outputLabel for="bscCodigo" value="Buscar Sílabo por materia:" />
-                    <p:inputText id="bscCodigo" value="" disabled="" />
-                    <p:commandButton id="buscarCmd" value="Buscar" actionListener="" update="@form" />
-                </p:panel>-->
+                
+                   
             </p:panel>
         </o:form>
     </p:dialog>
