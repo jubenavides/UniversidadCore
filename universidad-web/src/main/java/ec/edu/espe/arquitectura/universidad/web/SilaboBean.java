@@ -46,13 +46,15 @@ public class SilaboBean implements Serializable {
     private String codigoSubtema;
     private Subtema subtemaSel;
     private List<Tarea> tareas;
-    private Subtema tarea;
-    private Subtema tareaSel;
+    private Tarea tarea;
+    private Tarea tareaSel;
     
-    private boolean verFormularioEdicion;
+    private boolean verFormularioEdicionSubtemas;
+    private boolean verFormularioEdicionTareas;
     private boolean enAgregar;
     private boolean enModificar;
     private boolean mostrarCrudSubtemas;
+    private boolean mostrarCrudTareas;
 
     @Inject
     private SilaboService silaboService;
@@ -73,6 +75,7 @@ public class SilaboBean implements Serializable {
         this.subtemas = this.subtemaService.obtenerTodos();
         this.tareas = this.tareaService.obtenerTodos();
         this.temas = this.temaService.obtenerTodos();
+        this.setMostrarCrudSubtemas(false);
         this.cancelarEdicion();
     }
 
@@ -81,12 +84,19 @@ public class SilaboBean implements Serializable {
     }
     
     public void gestionarTareasSilabo() {
-        RequestContext.getCurrentInstance().execute("PF('gestionarTareasSilabo').show();");
+        this.setMostrarCrudTareas(true);
         
     }
     
     public void gestionarSubtemasSilabo() {
         this.setMostrarCrudSubtemas(true);
+    }
+    
+    public void cerrarSilabo(){
+        this.setMostrarCrudSubtemas(false);
+        this.setMostrarCrudTareas(false);
+        
+        
     }
 
     public void cancelar() {
@@ -95,7 +105,8 @@ public class SilaboBean implements Serializable {
     
     public void cancelarEdicion(){
         this.limpiarControles();
-        this.setVerFormularioEdicion(false);
+        this.setVerFormularioEdicionSubtemas(false);
+        this.setVerFormularioEdicionTareas(false);
         this.subtemaSel = null;
     }
     
@@ -105,13 +116,13 @@ public class SilaboBean implements Serializable {
     }
     
     public void agregarSubtema(){
-        this.setVerFormularioEdicion(true);
+        this.setVerFormularioEdicionSubtemas(true);
         this.setEnAgregar(true);
         this.subtema = new Subtema();    
     }
 
     public void modificarSubtema(){
-        this.setVerFormularioEdicion(true);
+        this.setVerFormularioEdicionSubtemas(true);
         this.setEnModificar(true);
         this.subtema = new Subtema();
         this.subtema.setCodSubtema(this.subtemaSel.getCodSubtema());
@@ -141,6 +152,46 @@ public class SilaboBean implements Serializable {
         }
         this.subtema = new Subtema();
         this.subtemas = this.subtemaService.obtenerTodos();
+        this.cancelarEdicion();
+    }
+    
+    public void agregarTarea(){
+        this.setVerFormularioEdicionTareas(true);
+        this.setEnAgregar(true);
+        this.tarea = new Tarea();    
+    }
+
+    public void modificarTarea(){
+        this.setVerFormularioEdicionTareas(true);
+        this.setEnModificar(true);
+        this.tarea = new Tarea();
+        this.tarea.setCodigo(this.tareaSel.getCodigo());
+        this.tarea.setCodSubtema(this.tareaSel.getCodSubtema());
+        this.tarea.setDescripcion(this.tareaSel.getDescripcion());
+    }
+
+    public void eliminarTarea(){
+        this.tareaService.eliminar(this.tareaSel.getCodigo());
+        this.tarea =  new Tarea();
+        this.tareas = this.tareaService.obtenerTodos();
+        this.cancelarEdicion();
+    }
+    
+    public void guardarTarea(){
+        
+        try{
+            this.tarea.setCodSubtema(this.subtemaService.obtenerPorCodigoSubtema(codigoSubtema));
+            if(this.getEnAgregar()){
+                this.tareaService.crear(this.tarea);          
+            }else{
+                this.tareaService.modificar(this.tarea); 
+            }
+            
+        }catch (Exception ex){
+            Messages.addGlobalError(null, "Ocurrí\u00f3 un error al guardar  la informaci\u00f3n");
+        }
+        this.tarea = new Tarea();
+        this.tareas = this.tareaService.obtenerTodos();
         this.cancelarEdicion();
     }
     
@@ -216,28 +267,28 @@ public class SilaboBean implements Serializable {
         this.tareas = tareas;
     }
 
-    public Subtema getTarea() {
+    public Tarea getTarea() {
         return tarea;
     }
 
-    public void setTarea(Subtema tarea) {
+    public void setTarea(Tarea tarea) {
         this.tarea = tarea;
     }
 
-    public Subtema getTareaSel() {
+    public Tarea getTareaSel() {
         return tareaSel;
     }
 
-    public void setTareaSel(Subtema tareaSel) {
+    public void setTareaSel(Tarea tareaSel) {
         this.tareaSel = tareaSel;
     }
 
-    public boolean getVerFormularioEdicion() {
-        return verFormularioEdicion;
+    public boolean getVerFormularioEdicionSubtemas() {
+        return verFormularioEdicionSubtemas;
     }
 
-    public void setVerFormularioEdicion(boolean verFormularioEdicion) {
-        this.verFormularioEdicion = verFormularioEdicion;
+    public void setVerFormularioEdicionSubtemas(boolean verFormularioEdicionSubtemas) {
+        this.verFormularioEdicionSubtemas = verFormularioEdicionSubtemas;
     }
 
     public boolean getEnAgregar() {
@@ -286,6 +337,22 @@ public class SilaboBean implements Serializable {
 
     public void setMostrarCrudSubtemas(boolean mostrarCrudSubtemas) {
         this.mostrarCrudSubtemas = mostrarCrudSubtemas;
+    }
+
+    public boolean isVerFormularioEdicionTareas() {
+        return verFormularioEdicionTareas;
+    }
+
+    public void setVerFormularioEdicionTareas(boolean verFormularioEdicionTareas) {
+        this.verFormularioEdicionTareas = verFormularioEdicionTareas;
+    }
+    
+    public boolean isMostrarCrudTareas() {
+        return mostrarCrudTareas;
+    }
+
+    public void setMostrarCrudTareas(boolean mostrarCrudTareas) {
+        this.mostrarCrudTareas = mostrarCrudTareas;
     }
     
     
