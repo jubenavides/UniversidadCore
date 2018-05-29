@@ -50,7 +50,7 @@ public class Tema implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
     
-    @Column(name = "ESTADO", nullable = false,length = 2)
+    @Column(name = "ESTADO", nullable = true,length = 2)
     private EstadoTemaEnum estado;
     
     //revisar: cuando cargo un tema deseo ver los subtemas

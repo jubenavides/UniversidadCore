@@ -6,10 +6,12 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.Asignatura;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -30,5 +32,11 @@ public class AsignaturaFacade extends AbstractFacade<Asignatura> {
     public AsignaturaFacade() {
         super(Asignatura.class);
     }
-    
+
+    public List<Asignatura> obtenerPorNombreAsignatura(String nombreAsignatura) {
+        Query q = this.em.createQuery("SELECT obj FROM Asignatura obj WHERE obj.nombre LIKE :nomBus");
+        q.setParameter("nomBus", "%" + nombreAsignatura + "%");
+        return q.getResultList();
+    }
+
 }

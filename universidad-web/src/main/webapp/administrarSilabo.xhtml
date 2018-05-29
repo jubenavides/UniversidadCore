@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omnifaces.org/ui">
+    <ui:composition >
+    <p:dialog modal="true" 
+              showEffect="fade" 
+              hideEffect="fade" 
+              closeOnEscape="false" 
+              draggable="false" 
+              closable="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              widgetVar="administrarSilabo"
+              style="width: 90%; margin: auto;">
+        <o:form id="administrarSilaboForm" useRequestURI="true">
+            <p:panel header="Silabo #{silaboBean.silaboSel.codigo}: #{silaboBean.silaboSel.codAsignatura.nombre}" style="width: 90%; margin: auto;" >
+                
+                    <p:panelGrid id="detalleSilabo">
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column colspan="7">Detalles</p:column>
+                            </p:row>
+                            
+                        </f:facet>
+                        <p:row>
+                                <p:column style="font-weight: bold;">Código Asignatura</p:column>
+                                <p:column >#{silaboBean.silaboSel.codAsignatura.codigo}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Asignatura</p:column>
+                                <p:column >#{silaboBean.silaboSel.codAsignatura.nombre}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Fecha de elaboración</p:column>
+                                <p:column><h:outputText value="#{silaboBean.silaboSel.fechaElaboracion}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Descripción</p:column>
+                                <p:column>#{silaboBean.silaboSel.descripcion}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Período Lectivo</p:column>
+                                <p:column>#{silaboBean.silaboSel.codPeriodo.codigo}</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Vigencia</p:column>
+                                <p:column><h:outputText value="#{silaboBean.silaboSel.codPeriodo.fehaInicio}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText> a <h:outputText value="#{silaboBean.silaboSel.codPeriodo.fechaFin}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText></p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;">Créditos</p:column>
+                                <p:column>#{silaboBean.silaboSel.codAsignatura.numCreditos}</p:column>
+                            </p:row>
+                    </p:panelGrid>
+                
+                   
+            </p:panel>
+        </o:form>
+    </p:dialog>
+</ui:composition>
+</html>

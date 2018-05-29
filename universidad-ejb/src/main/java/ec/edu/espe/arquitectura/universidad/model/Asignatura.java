@@ -48,7 +48,7 @@ public class Asignatura implements Serializable {
     @JoinColumn(name = "COD_DEPARTAMENTO", referencedColumnName = "COD_DEPARTAMENTO", nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private Departamento codDepartamento;
-
+  
     public Asignatura() {
     }
 
@@ -128,5 +128,5 @@ public class Asignatura implements Serializable {
     public String toString() {
         return "Asignatura{" + "codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", numCreditos=" + numCreditos + ", estado=" + estado + ", codDepartamento=" + codDepartamento + '}';
     }
-
+ 
 }
