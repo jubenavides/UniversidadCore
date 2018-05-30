@@ -85,10 +85,10 @@ public class DetalleMallaBean extends BaseBean implements Serializable{
         this.detalleMalla = detalleMalla;
     }
     
-    public String obtnerNombreAsignatura (String codigo) {
-        Asignatura asignaturaEncontrada = this.asignaturaService.obtenerPorCodigoAsignatura(codigo);
-        return asignaturaEncontrada.getNombre();
-    }
+    //public String obtnerNombreAsignatura (String codigo) {
+      //  Asignatura asignaturaEncontrada = this.asignaturaService.obtenerPorCodigoAsignatura(codigo);
+        //return asignaturaEncontrada.getNombre();
+    //}
     
     
     
