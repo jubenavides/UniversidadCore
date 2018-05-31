@@ -6,10 +6,12 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.DetalleMalla;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,4 +33,9 @@ public class DetalleMallaFacade extends AbstractFacade<DetalleMalla> {
         super(DetalleMalla.class);
     }
     
+    public List<DetalleMalla> findByLevel(Integer nivel) {
+        Query qry = this.em.createQuery("SELECT obj FROM DetalleMalla obj where obj.nivel<?1");
+        qry.setParameter(1,nivel);
+        return qry.getResultList();
+    }
 }

@@ -12,71 +12,65 @@
             <p:panel id="mainPnl" header="Gesti&oacute;n Prerrequisitos de Materias" style="width: 80%; margin: auto;">
                 <p:panel id="buscPnl" header="B&uacute;squeda de Materia">
                     <p:panelGrid columns="3">
-                        <p:outputLabel for="bscCodigo" value="Asignatura:" />
-                        <p:inputText id="bscCodigo" value=" " disabled="" />
-                        <p:commandButton id="buscarCmd" value="Buscar" icon="ui-icon-search"  update="@form" />
+                        <p:outputLabel for="bscCodigo" value="C&oacute;digo:" />
+                        <p:inputText id="bscCodigo" value="#{detalleMallaBean.detalleMalla.codigo}" disabled="#{detalleMallaBean.enModificar}" />
+                        <p:commandButton id="buscarCmd" value="Buscar" icon="ui-icon-search"  actionListener="#{detalleMallaBean.buscar()}" update="@form" />
                     </p:panelGrid>
                 </p:panel>
-                <p:dataTable var="detalleMalla" value="malla"> <!--selectionMode="single" selection="" rowKey="" -->
-                    <!--<p:ajax event="rowSelect" update="@form" />
-                    <p:ajax event="rowUnselect" update="@form" />-->
+                <p:dataTable var="detalleMalla" value="#{detalleMallaBean.detalleMallas}" emptyMessage = "No se encontraron datos registrados"
+                             selectionMode="single"  selection="#{prerrequisitoBean.detalleMallaSel}" rowKey="#{detalleMalla.codigo}"> 
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
                     <p:column headerText="C&oacute;digo Detalle Malla">
-                        <h:outputText value="Id" />
+                        <h:outputText value="#{detalleMalla.codigo}" />
                     </p:column>
                     <p:column headerText="Asignatura">
-                        <h:outputText value="Programacion" />
+                        <h:outputText value="#{detalleMalla.codAsignatura.nombre}" />
                     </p:column>
                     <p:column headerText="Malla Curricular">
-                        <h:outputText value="Malla Sistemas" />
+                        <h:outputText value="#{detalleMalla.codMalla.codigo}" />
                     </p:column>
                     <p:column headerText="Nivel">
-                        <h:outputText value="1" />
+                        <h:outputText value="#{detalleMalla.nivel}" />
                     </p:column>
                 </p:dataTable>
+                <p:commandButton value="Asignar Prerrequisito" actionListener="#{prerrequisitoBean.asignarPrerrequisito()}" update="@form"/> 
+                
        
-               
-                <p:commandButton value="Asignar"/> <!--actionListener="#" update="@form"/> -->
-                <p:commandButton value="Modificar"/> <!--actionListener="" update="@form" disabled=""/>-->
-                
-                <p:panel header="Prerrequisito" >
-                    <p:dataTable var="detalleMalla" value="malla">
-                        <p:column headerText="Asignatura">
-                            <h:outputText value="Programacion" />
-                        </p:column>
-                        <p:column headerText="Prerequisito de la Materia">
-                            <h:outputText value="Fundamentos de Progrmacion" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Agregar"/> <!--actionListener="#" update="@form"/> -->
-                    <p:commandButton value="Eliminar" /><!--actionListener="" update="@form" disabled="#">-->
-                    <!--<p:confirm header="Confirmaci&#243;n" message="Desea eliminar el usuario" icon="ui-icon-alert" />-->
-
-                    <p:panel header="Lista de Asignaturas" style="margin-bottom:10px">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel for="asignatura" value="Asignaturas: " />
-                            <p:selectOneListbox id="asignatura" value=""  var="t" filter="true" filterMatchMode="contains"/>
-                            <f:selectItems value="Va" var="theme" itemLabel="" itemValue="" />
-                            <p:column>
-                                <h:outputText styleClass="ui-theme " />
-                            </p:column>
-                        </p:panelGrid>
-
-                    </p:panel>
-
-
-
+                <p:panel header ="Asignación de Prerrequisitos" rendered="#{prerrequisitoBean.habilitaForm}">
+                    <p:panelGrid columns="2" >
+                        <p:outputLabel for="codigo" value="Código"/>
+                        <p:inputText id="codigo" value="#{prerrequisitoBean.prerrequisito.codigo}" disabled="#{prerrequisitoBean.enModificar}" readonly="true"/>
+                        <p:outputLabel for="codigoMateria" value="Asignatura"/>
+                        <p:inputText  id="codigoMateria"  value="#{prerrequisitoBean.prerrequisito.codMateria.codAsignatura} - #{prerrequisitoBean.detalleMallaSel.codAsignatura.nombre}" readonly="true" />
                         
-                
+                        <h:outputLabel for="multiple" value="Prerrequisitos:"/>
+                        <p:selectCheckboxMenu id="multiple" value="#{prerrequisitoBean.selectedPrerrequisitos}" label="Materias" multiple="true"
+                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                            <f:selectItems value="#{prerrequisitoBean.detMaasignaturasFiltro}" var="asignatura" itemLabel="#{asignatura.codigo} - #{detalleMallaBean.obtnerNombreAsignatura(asignatura.codAsignatura.codigo)}" itemValue="#{asignatura}"/>
+                        </p:selectCheckboxMenu>
+                        
+                    </p:panelGrid>
+                    
+                    <p:commandButton value="Guardar" update="displayItems" oncomplete="PF('itemDialog').show()" style="margin-top:10px;" actionListener="#{prerrequisitoBean.agregar()}"/>
+                    <p:dialog header="Prerrequisito de #{prerrequisitoBean.detalleMallaSel.codAsignatura.nombre}" modal="true" showEffect="fade" hideEffect="fade" widgetVar="itemDialog" width="250">
+                        <p:outputPanel id="displayItems">
+                            <p:dataList value="#{prerrequisitoBean.selectedPrerrequisitos}" var="materias" emptyMessage="Materias no seleccionadas">
+                                <f:facet name="header">
+                                    Código Materias
+                                </f:facet>
+                                #{materias.split(",")[2].split("=")[1]}
+                                
+                               
+                            </p:dataList>
+
+                        </p:outputPanel>
+                    </p:dialog>
 
                 </p:panel>
-
-                
-                               
             </p:panel>
-            
-            
-            
+
         </ui:define>
     </ui:composition>
-    
+
 </html>
