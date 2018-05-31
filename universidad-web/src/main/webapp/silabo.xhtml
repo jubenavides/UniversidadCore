@@ -29,17 +29,117 @@
                             <h:outputText value="#{silabo.codPeriodo.codigo}" />
                         </p:column>
                         <p:column headerText="Fecha Elaboración">
-                            <h:outputText value="#{silabo.fechaElaboracion}" />
+                            <h:outputText value="#{silabo.fechaElaboracion}"><f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText>
                         </p:column>
 
                     </p:dataTable>
                     <p:commandButton id="btnVer" 
-                                     value="Ver Sílabo" 
+                                     value="Ver Detalle" 
                                      disabled="#{empty silaboBean.silaboSel}" 
                                      actionListener="#{silaboBean.verSilabo()}" 
                                      update="administrarSilaboForm"/>
+                    <p:commandButton id="btnSubtemas" 
+                                     value="Gestionar Subtemas" 
+                                     disabled="#{empty silaboBean.silaboSel}" 
+                                     actionListener="#{silaboBean.gestionarSubtemasSilabo()}" 
+                                     update="@form"/>
+                    <p:commandButton id="btnTareas" 
+                                     value="Gestionar Tareas" 
+                                     disabled="#{empty silaboBean.silaboSel}" 
+                                     actionListener="#{silaboBean.gestionarTareasSilabo()}" 
+                                     update="@form"/>
+                    <p:commandButton id="btnCerrarSilabo" 
+                                     value="Cerrar Sílabo"
+                                     disabled="#{!silaboBean.mostrarCrudSubtemas} or #{!silaboBean.mostrarCrudTareas}"
+                                     actionListener="#{silaboBean.cerrarSilabo()}" 
+                                     update="@form"/>
                 </p:panel>
+            <p:panel id="gestionarSubtemasSilaboPanel" header="Subtemas" style="width: 80%; margin: auto;" rendered="#{silaboBean.mostrarCrudSubtemas}">
+                <p:dataTable var="subtema" value="#{silaboBean.subtemas}" emptyMessage="No se encontraron subtemas registrados"
+                             selectionMode="single" selection="#{silaboBean.subtemaSel}" rowKey="#{subtema.codSubtema}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Tema">
+                        <h:outputText value="#{subtema.codTema.nombre}" />
+                    </p:column>
+                    <p:column headerText="Codigo Subtema">
+                        <h:outputText value="#{subtema.codSubtema}" />
+                    </p:column>
+                    <p:column headerText="Descripción">
+                        <h:outputText value="#{subtema.descripcion}" />
+                    </p:column>
+                    
+                </p:dataTable>
+                <p:commandButton value="Agregar" actionListener="#{silaboBean.agregarSubtema()}" update="@form"/>
+                <p:commandButton value="Modificar" actionListener="#{silaboBean.modificarSubtema()}" update="@form" disabled="#{silaboBean.subtemaSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{silaboBean.eliminarSubtema()}" update="@form" disabled="#{silaboBean.subtemaSel eq null}">
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el subtema #{silaboBean.subtemaSel.codSubtema}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="Registrar subtema" rendered="#{silaboBean.verFormularioEdicionSubtemas}">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel for="codigo" value="C&#243;digo" />
+                        <p:inputText id="codigo" value="#{silaboBean.subtema.codSubtema}" disabled="#{silaboBean.enModificar}" required="true" requiredMessage="Debe ingresar el codigo"/>
+                        <p:message for="codigo" />
+                        <p:outputLabel for="tema" value="Tema" />
+                        <p:selectOneMenu id="tema" value="#{silaboBean.codigoTema}" style="color: black" >
+                            <f:selectItems id="comboTemas" value="#{silaboBean.temas}" var="temaPadre" itemValue="#{temaPadre.codigo}" itemLabel="#{temaPadre.nombre}"  />                          
+                        </p:selectOneMenu>
+                        <p:message for="tema" />
+                        <p:outputLabel for="descripcion" value="Descripción" />
+                        <p:inputText id="descripcion" value="#{silaboBean.subtema.descripcion}"  required="true" requiredMessage="Debe ingresar una descripción"/>
+                        <p:message for="descripcion" />
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{silaboBean.guardarSubtema()}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{silaboBean.cancelarEdicion()}" update="@form" immediate="true"/>
+                </p:panel>
+            </p:panel>
+            <p:panel id="gestionarTareasSilaboPanel" header="Tareas" style="width: 80%; margin: auto;" rendered="#{silaboBean.mostrarCrudTareas}">
+                <p:dataTable var="tarea" value="#{silaboBean.tareas}" emptyMessage="No se encontraron tareas registrados"
+                             selectionMode="single" selection="#{silaboBean.tareaSel}" rowKey="#{tarea.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Subtema">
+                        <h:outputText value="#{tarea.codSubtema.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Codigo Tarea">
+                        <h:outputText value="#{tarea.codigo}" />
+                    </p:column>
+                    <p:column headerText="Descripción">
+                        <h:outputText value="#{tarea.descripcion}" />
+                    </p:column>
+                    
+                </p:dataTable>
+                <p:commandButton value="Agregar" actionListener="#{silaboBean.agregarTarea()}" update="@form"/>
+                <p:commandButton value="Modificar" actionListener="#{silaboBean.modificarTarea()}" update="@form" disabled="#{silaboBean.tareaSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{silaboBean.eliminarTarea()}" update="@form" disabled="#{silaboBean.tareaSel eq null}">
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar la tarea #{silaboBean.tareaSel.codigo}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="Registrar tarea " rendered="#{silaboBean.verFormularioEdicionTareas}">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel for="codigoTarea" value="C&#243;digo" />
+                        <p:inputText id="codigoTarea" value="#{silaboBean.tarea.codigo}" disabled="#{silaboBean.enModificar}" required="true" requiredMessage="Debe ingresar el codigo"/>
+                        <p:message for="codigoTarea" />
+                        <p:outputLabel for="subtema" value="Subtema" />
+                        <p:selectOneMenu id="subtema" value="#{silaboBean.codigoSubtema}" style="color: black" >
+                            <f:selectItems id="comboSubtemas" value="#{silaboBean.subtemas}" var="subtemaPadre" itemValue="#{subtemaPadre.codSubtema}" itemLabel="#{subtemaPadre.descripcion}"  />                          
+                        </p:selectOneMenu>
+                        <p:message for="subtema" />
+                        <p:outputLabel for="descripcionTarea" value="Descripción" />
+                        <p:inputText id="descripcionTarea" value="#{silaboBean.tarea.descripcion}"  required="true" requiredMessage="Debe ingresar una descripción"/>
+                        <p:message for="descripcionTarea" />
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{silaboBean.guardarTarea()}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{silaboBean.cancelarEdicion()}" update="@form" immediate="true"/>
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
             <ui:include src="administrarSilabo.xhtml"/>
+            
         </ui:define>
     </ui:composition>
 </html>

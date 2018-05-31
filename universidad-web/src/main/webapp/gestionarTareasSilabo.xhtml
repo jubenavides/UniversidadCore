@@ -20,11 +20,11 @@ and open the template in the editor.
               closable="true" 
               resizable="false" 
               appendTo="@(body)"
-              widgetVar="administrarSilabo"
+              widgetVar="gestionarTareasSilabo"
               style="width: 90%; margin: auto;">
-        <o:form id="administrarSilaboForm" useRequestURI="true">
+        <o:form id="gestionarTareasSilaboForm" useRequestURI="true">
             <p:panel header="Silabo #{silaboBean.silaboSel.codigo}: #{silaboBean.silaboSel.codAsignatura.nombre}" style="width: 90%; margin: auto;" >
-                
+                <p:outputLabel value="Gestión de tareas" />
                     <p:panelGrid id="detalleSilabo">
                         <f:facet name="header">
                             <p:row>
