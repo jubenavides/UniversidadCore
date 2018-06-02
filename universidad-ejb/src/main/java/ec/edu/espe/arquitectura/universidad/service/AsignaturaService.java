@@ -20,7 +20,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class AsignaturaService implements AsignaturaServiceLocal {
+public class AsignaturaService{
     @EJB
     private AsignaturaFacade asignaturaFacade;
     
