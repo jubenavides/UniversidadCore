@@ -6,6 +6,9 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.DetalleMatricula;
+import ec.edu.espe.arquitectura.universidad.model.Estudiante;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,4 +34,14 @@ public class DetalleMatriculaFacade extends AbstractFacade<DetalleMatricula> {
         super(DetalleMatricula.class);
     }
     
+    public List<Estudiante> listarEstudiantesPorNrc(String nrc, String periodo) {
+        List<DetalleMatricula> listDetalleMatricula = this.em.createQuery("SELECT e FROM DetalleMatricula e WHERE e.nrc.nrcPK.codNrc=?1 AND  e.nrc.nrcPK.codPeriodo=?2")
+                .setParameter(1, nrc)
+                .setParameter(2, periodo).getResultList();
+        List<Estudiante> estudiantes = new ArrayList<>();
+        for (DetalleMatricula det : listDetalleMatricula) {
+            estudiantes.add(det.getCodMatricula().getCodEstudiante());
+        }
+        return estudiantes;
+    }
 }
