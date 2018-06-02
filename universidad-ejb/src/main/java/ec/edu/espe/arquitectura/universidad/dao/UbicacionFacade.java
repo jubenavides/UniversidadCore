@@ -6,10 +6,12 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.Ubicacion;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,6 +31,11 @@ public class UbicacionFacade extends AbstractFacade<Ubicacion> {
 
     public UbicacionFacade() {
         super(Ubicacion.class);
+    }
+    
+    public List<Ubicacion> listarAulas() {
+        Query q = this.em.createQuery("SELECT obj FROM Ubicacion obj WHERE obj.codigo not like '0%' AND obj.codigo not like '1%' AND obj.codigo not like '2%'");
+        return q.getResultList();
     }
     
 }

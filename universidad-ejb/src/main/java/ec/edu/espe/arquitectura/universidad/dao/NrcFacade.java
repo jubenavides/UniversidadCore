@@ -47,4 +47,10 @@ public class NrcFacade extends AbstractFacade<Nrc> {
         q.setParameter(2, codPeriodo);
         return q.getResultList();
     }
+    
+    public List<Nrc> listarNrcPeriodo(PeriodoLectivo codPeriodo) {
+        Query q = this.em.createQuery("SELECT obj FROM Nrc obj WHERE obj.periodoLectivo = ?1");
+        q.setParameter(1, codPeriodo);
+        return q.getResultList();
+    }
 }
