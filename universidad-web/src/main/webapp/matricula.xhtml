@@ -5,12 +5,65 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-    <body>
-        <div>Aquí va la funcionalidad de matricularse disponible para el estudiante</div>
-    </body>
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <h:body>
+                <p:panel id="mainPnl" header="Matrícula de Estudiante" style="width: 80%; margin: auto;">
+                    <p:panelGrid columns="3" >
+                        <p:outputLabel for="cbxPeriodo"  value="Período Lectivo: "/>
+                        <p:selectOneMenu  id="cbxPeriodo"  value="#{matriculaBean.periodoSeleccionado.codigo}" style="width:300px" required="true" requiredMessage="Debe seleccionar un período">
+                            <p:ajax event="itemSelect" listener="#{matriculaBean.listarNRCDisponibles()}" update="@form"/>
+                            <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
+                            <f:selectItems id="periodos" value="#{matriculaBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
+                        </p:selectOneMenu>
+                        <p:message for="cbxPeriodo" />
+                    </p:panelGrid>
+
+                    <p:panel id="asignaturas" header="Búsqueda" rendered="true">
+                        <p:panelGrid columns="3">
+                            <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
+                            <p:inputText id="bscCodigo" value="#{matriculaBean.nrcSeleccionado.nrcPK.codNrc}"  />
+                            <p:commandButton id="buscarCmd" value="Buscar"  update="@form" />
+                        </p:panelGrid>
+                        <p:dataTable id="nrcDisp" var="asignatura" value="#{matriculaBean.nrcDisponibles}" emptyMessage="No se encontraron asignaturas registradas"
+                                     selectionMode="single" rowKey="#{asignatura.nrcPK.codNrc}" 
+                                     selection="#{matriculaBean.nrcSeleccionado}" 
+                                     scrollable="true" scrollHeight="250" 
+                                     >
+                            <p:ajax event="rowSelect" update="@form" />
+                            <p:column headerText="Codigo" rendered="true">
+                                <h:outputText value="#{asignatura.nrcPK.codNrc}"/>
+                            </p:column>
+                            <p:column headerText="Asignatura" >
+                                <h:outputText value="#{asignatura.codAsignatura.nombre}" />
+                            </p:column>
+                            <p:column headerText="Departamento" >
+                                <h:outputText value="#{asignatura.codAsignatura.codDepartamento.descripcion}" />
+                            </p:column>
+                                <!--<p:confirm header="Confirmaci&#243;n" message=" {generarNRCBean.periodoSeleccionado.codigo}" icon="ui-icon-alert" />-->
+                            
+                        </p:dataTable>
+                        <p:commandButton value="Añadir Materia" actionListener="#{matriculaBean.agregarMateriaMatricula()}" update="@form" />
+                            
+                    </p:panel>
+
+                    <p:panel id="matriculaLista" header="Mi Matrícula" rendered="true">
+                        <p:dataTable>
+                            
+                        </p:dataTable>
+                    </p:panel>
+
+                </p:panel>  
+            </h:body>
+        </ui:define>
+    </ui:composition>
 </html>

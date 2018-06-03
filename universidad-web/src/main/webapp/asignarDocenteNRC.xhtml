@@ -12,68 +12,57 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="/templates/plantilla.xhtml"> 
         <ui:define name="contenido">
-            
+
             <p:panel id="mainPnl" header="Periodo" style="width: 50%;">
                 <p:panelGrid columns="2" >
                     <p:outputLabel for="cbxPeriodo" value="Período Lectivo: " />
-                    <p:selectOneMenu id="cbxPeriodo" value="5" style="width:300px" required="true">
-                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
-                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
+                    <p:selectOneMenu id="cbxPeriodo" value="#{docenteBean.periodoSeleccionado.codigo}" style="width:300px" required="true">
+                        <p:ajax event="itemSelect" listener="#{docenteBean.listarNRCDisponibles()}" update="@form"/>
+                        <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
+                        <f:selectItems id="periodos" value="#{docenteBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
-                <p:panel header="Registrar usuario" rendered="#{generarNRCBean.mostrar}" >
 
-                    <p:outputLabel for="cbxPeriodo2" value="Período Lectivo: " />
-                    <p:selectOneMenu id="cbxPeriodo2" value="5" style="width:300px" required="true">
-                        <f:selectItem itemLabel="Seleccione un período" itemValue="" />
-                        <f:selectItem itemLabel="Periodo 201810" itemValue="PS4"  />
-                    </p:selectOneMenu>
-                </p:panel>
             </p:panel>
-            
+
             <p:panel id="templatemainPnl" header="Lista de NRC" style="width: 50%;">
-                <p:dataTable var="nrc" value="#{generarNRCBean.nrcExistentesAsignatura}" 
-                                 emptyMessage="No se encontraron NRC registrados para la materia"
-                                 rowKey="#{nrc.nrcPK.codNrc}" >
+                <p:dataTable var="nrc" value="#{docenteBean.nrcDisponibles}" 
+                             emptyMessage="No se encontraron NRC registrados para la materia"
+                             rowKey="#{nrc.nrcPK.codNrc}" 
+                             selectionMode="single"  
+                             selection="#{docenteBean.nrcSeleccionado}" 
+                             scrollable="true" scrollHeight="250">
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form" />
                     <p:column headerText="NRC">
                         <h:outputText value="#{nrc.nrcPK.codNrc}"/>
                     </p:column>
-                    <p:column headerText="Materia">
+                    <p:column headerText="Materia" style="width: 300px">
                         <h:outputText value="#{nrc.codAsignatura.nombre}" />
                     </p:column>
                     <p:column headerText="Docente">
-                        <h:outputText value="" />
+                        <h:outputText value="#{nrc.codDocente.nombres} #{nrc.codDocente.apellidos}" />
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Asignar Docente" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
             </p:panel>
-            <p:panel id="mainPnl" header="Lista de Docentes" style="width: 50%;">
+            <p:panel id="istaDocentes" header="Lista de Docentes" style="width: 50%;">
                 <p:dataTable var="docente" value="#{docenteBean.docentes}" emptyMessage= "No se encontraron docentes" 
-                             selectionMode="single" rowKey="#{docente.codigo}">
+                             selectionMode="single" rowKey="#{docente.codigo}" 
+
+                             selection="#{docenteBean.docenteSel}" 
+                             scrollable="true" scrollHeight="250">
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form" />
-                    <p:column headerText="Docente">
+                    <p:column headerText="Nombre">
                         <h:outputText value="#{docente.nombres}" />
                     </p:column>
-                    <p:column headerText="">
+                    <p:column headerText="Apellido">
                         <h:outputText value="#{docente.apellidos}" />
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Asignar" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
+                <p:commandButton value="Asignar" actionListener="#{docenteBean.asignarDocente()}" update="@form" style="width: 200px; margin: initial;"/>
             </p:panel>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
         </ui:define>
     </ui:composition>
 </html>
