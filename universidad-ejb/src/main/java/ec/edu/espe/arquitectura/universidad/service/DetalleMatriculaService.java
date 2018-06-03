@@ -8,6 +8,7 @@
 package ec.edu.espe.arquitectura.universidad.service;
 
 import ec.edu.espe.arquitectura.universidad.dao.DetalleMatriculaFacade;
+import ec.edu.espe.arquitectura.universidad.model.DetalleMatricula;
 import ec.edu.espe.arquitectura.universidad.model.Estudiante;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,5 +28,9 @@ public class DetalleMatriculaService {
     
     public List<Estudiante> obtenerEstudiantesPorNrc(String nrc, String periodo){
         return detalleMatriculaFacade.listarEstudiantesPorNrc(nrc,periodo);
+    }
+    
+    public void crearDetalleMatricula(DetalleMatricula detalleMatricula){
+        this.detalleMatriculaFacade.create(detalleMatricula);
     }
 }

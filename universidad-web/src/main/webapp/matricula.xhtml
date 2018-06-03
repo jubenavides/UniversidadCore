@@ -28,10 +28,10 @@ and open the template in the editor.
                         <p:message for="cbxPeriodo" />
                     </p:panelGrid>
 
-                    <p:panel id="asignaturas" header="Búsqueda" rendered="true">
+                    <p:panel id="asignaturas" header="Búsqueda" rendered="#{matriculaBean.mostrar}">
                         <p:panelGrid columns="3">
                             <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
-                            <p:inputText id="bscCodigo" value="#{matriculaBean.nrcSeleccionado.nrcPK.codNrc}"  />
+                            <p:inputText id="bscCodigo" value="#{matriculaBean.periodoSeleccionado.codigo}"  />
                             <p:commandButton id="buscarCmd" value="Buscar"  update="@form" />
                         </p:panelGrid>
                         <p:dataTable id="nrcDisp" var="asignatura" value="#{matriculaBean.nrcDisponibles}" emptyMessage="No se encontraron asignaturas registradas"
@@ -52,16 +52,24 @@ and open the template in the editor.
                                 <!--<p:confirm header="Confirmaci&#243;n" message=" {generarNRCBean.periodoSeleccionado.codigo}" icon="ui-icon-alert" />-->
                             
                         </p:dataTable>
-                        <p:commandButton value="Añadir Materia" actionListener="#{matriculaBean.agregarMateriaMatricula()}" update="@form" />
+                        <p:commandButton value="Añadir Materia" actionListener="#{matriculaBean.agregarAsignaturaMatricula()}" update="@form" />
                             
                     </p:panel>
 
                     <p:panel id="matriculaLista" header="Mi Matrícula" rendered="true">
-                        <p:dataTable>
-                            
+                        <p:dataTable id="matEst" var="asignatura" value="#{matriculaBean.matriculaEstudiante}" emptyMessage="No se registró asignaturas a su matrícula"
+                                     scrollable="true" scrollHeight="250">
+                            <p:column headerText="NRC" >
+                                <h:outputText value="#{asignatura.nrc.nrcPK.codNrc}" />
+                            </p:column>
+                            <p:column headerText="Materia" >
+                                <h:outputText value="#{asignatura.nrc.codAsignatura.nombre}" />
+                            </p:column>
                         </p:dataTable>
                     </p:panel>
-
+                    <p:commandButton value="Matricular" 
+                                     disabled="#{empty matriculaBean.periodoSeleccionado or empty matriculaBean.matriculaEstudiante}"
+                                     actionListener="#{matriculaBean.guardarMatricula()}" update="@form" />
                 </p:panel>  
             </h:body>
         </ui:define>

@@ -51,13 +51,13 @@ public class DetalleMatricula implements Serializable {
     @Column(name = "APROBACION_NRC", nullable = false, length = 3)
     private AprobacionNRCEnum aprobacionNrc;
     
-    @JoinColumn(name = "COD_MATRICULA", referencedColumnName = "COD_MATRICULA", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_MATRICULA", referencedColumnName = "COD_MATRICULA", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private Matricula codMatricula;
     
     @JoinColumns({
-        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = false, updatable = false)
-        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = true, updatable = false)
+        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = true, updatable = false)})
     @ManyToOne(optional = false)
     private Nrc nrc;
     
