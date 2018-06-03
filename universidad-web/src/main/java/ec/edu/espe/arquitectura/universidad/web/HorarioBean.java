@@ -46,6 +46,7 @@ public class HorarioBean implements Serializable {
     private Ubicacion aula;
     private Ubicacion aulaSel;
     private boolean mostrarListaNrc;
+    private boolean mostrarListaHorarios;
     private boolean listo;
     private Integer secuenciaHorario;
     
@@ -96,8 +97,8 @@ public class HorarioBean implements Serializable {
             this.secuenciaHorario++;
         }
         DecimalFormat formateador = new DecimalFormat("000");
-        this.horario = new Horario();
-        this.horario.setCodigo("H-" + formateador.format(this.secuenciaHorario));
+        this.horario = new Horario("H-" + formateador.format(this.secuenciaHorario));
+        //this.horario.setCodigo();
         this.horario.setNrc(this.nrcSel);
         this.horario.setCodFranjaMatricula(this.franjaHorariaSel);
         this.horario.setCodUbicacion(this.aulaSel);
@@ -246,6 +247,14 @@ public class HorarioBean implements Serializable {
 
     public void setSecuenciaHorario(Integer secuenciaHorario) {
         this.secuenciaHorario = secuenciaHorario;
+    }
+
+    public boolean isMostrarListaHorarios() {
+        return mostrarListaHorarios;
+    }
+
+    public void setMostrarListaHorarios(boolean mostrarListaHorarios) {
+        this.mostrarListaHorarios = mostrarListaHorarios;
     }
 
     
