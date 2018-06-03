@@ -38,6 +38,10 @@ public class NRCService implements NRCServiceLocal {
     public List<Nrc> listarNrcAsignaturaPeriodo(Asignatura codAsignatura, PeriodoLectivo codPeriodo) {
         return this.nrcFacade.listarNrcAsignaturaPeriodo(codAsignatura, codPeriodo);
     }
+    
+    public List<Nrc> listarNrcPorPeriodo(PeriodoLectivo codPeriodo) {
+        return this.nrcFacade.listarNrcPorPeriodo(codPeriodo);
+    }
 
     public void crearNrc(Nrc nrc) {
         this.nrcFacade.create(nrc);
