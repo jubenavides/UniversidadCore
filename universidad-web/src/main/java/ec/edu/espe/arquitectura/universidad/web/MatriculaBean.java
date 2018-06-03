@@ -52,7 +52,7 @@ public class MatriculaBean implements Serializable {
     }
     
     public void listarNRCDisponibles(){
-        this.nrcDisponibles = this.nrcService.listarNrcPorPeriodo(this.periodoSeleccionado);
+        this.nrcDisponibles = this.nrcService.listarNrcPeriodo(this.periodoSeleccionado);
     }
 
     public void ocultarForms() {
