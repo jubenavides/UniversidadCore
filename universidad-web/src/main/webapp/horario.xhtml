@@ -12,7 +12,7 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="/templates/plantilla.xhtml">
         <ui:define name="contenido">
-            <p:panel id="mainPnl" header="Creación de horarios " style="width: 80%; margin: auto;">
+            <p:panel id="mainPnl" header="Creación de horarios" style="width: 80%; margin: auto;">
                 <p:panelGrid columns="3" >
                     <p:outputLabel for="cbxPeriodo"  value="Período Lectivo: "/>
                     <p:selectOneMenu  id="cbxPeriodo"  value="#{horarioBean.periodoSeleccionado.codigo}" style="width:300px" required="true" requiredMessage="Debe seleccionar un período">
@@ -47,7 +47,7 @@ and open the template in the editor.
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                
+
                 <p:panel id="ListaFranjasHorarias" header="Seleccionar Franja Horaria " rendered="#{horarioBean.mostrarListaNrc}">
 
                     <p:dataTable var="franja" value="#{horarioBean.franjasHorarias}" emptyMessage="No se encontraron franjas horarias registradas"
