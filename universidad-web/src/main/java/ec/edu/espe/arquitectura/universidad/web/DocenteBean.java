@@ -51,12 +51,24 @@ public class DocenteBean implements Serializable {
     public void init() {
         this.docentes = this.docenteService.obtenerTodos();
         this.docente = new Docente();
+        this.docenteSel = new Docente();
         this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
         this.periodoSeleccionado = new PeriodoLectivo();
         this.nrcSeleccionado = new Nrc();
         this.nrcDisponibles = this.nrcService.listarNrcPeriodo(this.periodoSeleccionado);
     }
+    public void asignarDocente(){
+        this.nrcSeleccionado.setCodDocente(docenteSel);
+        this.nrcService.modificar(nrcSeleccionado);
+    }
 
+    public Nrc getNrcSeleccionado() {
+        return nrcSeleccionado;
+    }
+
+    public void setNrcSeleccionado(Nrc nrcSeleccionado) {
+        this.nrcSeleccionado = nrcSeleccionado;
+    }
     public boolean isMostrar() {
         return mostrar;
     }

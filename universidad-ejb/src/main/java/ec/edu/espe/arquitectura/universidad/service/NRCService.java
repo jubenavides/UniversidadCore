@@ -46,6 +46,9 @@ public class NRCService {
     public void crearNrc(Nrc nrc) {
         this.nrcFacade.create(nrc);
     }
+    public void modificar(Nrc nrc){
+        this.nrcFacade.edit(nrc);
+    }
 
     public List<Nrc> obtenerNrcPorFecha(String periodo) {
         return nrcFacade.listarNrcPorPeriodo(periodo);

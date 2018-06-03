@@ -30,25 +30,27 @@ and open the template in the editor.
                              emptyMessage="No se encontraron NRC registrados para la materia"
                              rowKey="#{nrc.nrcPK.codNrc}" 
                              selectionMode="single"  
-                                     selection="#{docenteBean.nrcSeleccionado}" 
-                                     scrollable="true" scrollHeight="250">
+                             selection="#{docenteBean.nrcSeleccionado}" 
+                             scrollable="true" scrollHeight="250">
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form" />
                     <p:column headerText="NRC">
                         <h:outputText value="#{nrc.nrcPK.codNrc}"/>
                     </p:column>
-                    <p:column headerText="Materia">
+                    <p:column headerText="Materia" style="width: 300px">
                         <h:outputText value="#{nrc.codAsignatura.nombre}" />
                     </p:column>
                     <p:column headerText="Docente">
                         <h:outputText value="#{nrc.codDocente.nombres} #{nrc.codDocente.apellidos}" />
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Asignar Docente" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
             </p:panel>
             <p:panel id="istaDocentes" header="Lista de Docentes" style="width: 50%;">
                 <p:dataTable var="docente" value="#{docenteBean.docentes}" emptyMessage= "No se encontraron docentes" 
-                             selectionMode="single" rowKey="#{docente.codigo}">
+                             selectionMode="single" rowKey="#{docente.codigo}" 
+
+                             selection="#{docenteBean.docenteSel}" 
+                             scrollable="true" scrollHeight="250">
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form" />
                     <p:column headerText="Nombre">
@@ -58,18 +60,8 @@ and open the template in the editor.
                         <h:outputText value="#{docente.apellidos}" />
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Asignar" actionListener="#{generarNRCBean.generar()}" style="width: 200px; margin: initial;"/>
+                <p:commandButton value="Asignar" actionListener="#{docenteBean.asignarDocente()}" update="@form" style="width: 200px; margin: initial;"/>
             </p:panel>
-
-
-
-
-
-
-
-
-
-
 
         </ui:define>
     </ui:composition>
