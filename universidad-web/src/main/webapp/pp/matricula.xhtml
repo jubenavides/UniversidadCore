@@ -31,8 +31,8 @@ and open the template in the editor.
                     <p:panel id="asignaturas" header="Búsqueda" rendered="#{matriculaBean.mostrar}">
                         <p:panelGrid columns="3">
                             <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
-                            <p:inputText id="bscCodigo" value="#{matriculaBean.periodoSeleccionado.codigo}"  />
-                            <p:commandButton id="buscarCmd" value="Buscar"  update="@form" />
+                            <p:inputText id="bscCodigo" value="#{matriculaBean.usuario.nombre}"  />
+                            <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{matriculaBean.buscarAsignatura()}" update="@form" />
                         </p:panelGrid>
                         <p:dataTable id="nrcDisp" var="asignatura" value="#{matriculaBean.nrcDisponibles}" emptyMessage="No se encontraron asignaturas registradas"
                                      selectionMode="single" rowKey="#{asignatura.nrcPK.codNrc}" 
@@ -49,11 +49,11 @@ and open the template in the editor.
                             <p:column headerText="Departamento" >
                                 <h:outputText value="#{asignatura.codAsignatura.codDepartamento.descripcion}" />
                             </p:column>
-                                <!--<p:confirm header="Confirmaci&#243;n" message=" {generarNRCBean.periodoSeleccionado.codigo}" icon="ui-icon-alert" />-->
-                            
+                            <!--<p:confirm header="Confirmaci&#243;n" message=" {generarNRCBean.periodoSeleccionado.codigo}" icon="ui-icon-alert" />-->
+
                         </p:dataTable>
                         <p:commandButton value="Añadir Materia" actionListener="#{matriculaBean.agregarAsignaturaMatricula()}" update="@form" />
-                            
+
                     </p:panel>
 
                     <p:panel id="matriculaLista" header="Mi Matrícula" rendered="true">

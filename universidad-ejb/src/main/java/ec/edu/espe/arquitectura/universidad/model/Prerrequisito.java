@@ -32,11 +32,11 @@ public class Prerrequisito implements Serializable {
     @Column(name = "COD_PRERREQUISITO")
     private Integer codigo;
     
-    @JoinColumn(name = "COD_MAT_MALLA", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_MAT_MALLA", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private DetalleMalla codMateria;
     
-    @JoinColumn(name = "COD_MAT_PRE", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_MAT_PRE", referencedColumnName = "COD_DETALLE_MALLA", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private DetalleMalla codPreRequisito;
     

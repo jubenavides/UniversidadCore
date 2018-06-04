@@ -31,8 +31,8 @@ public class DetalleMallaService {
         return this.detalleMallaFacade.find(codigo);
     }
     
-    public List<DetalleMalla> obtenerPorNivel(Integer nivel) {
-        return this.detalleMallaFacade.findByLevel(nivel);
+    public List<DetalleMalla> obtenerPorNombre(String nombreAsignatura) {
+        return this.detalleMallaFacade.obtenerPorNombreAsignatura(nombreAsignatura);
     }
     
 }

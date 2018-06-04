@@ -42,6 +42,10 @@ public class NRCService {
     public List<Nrc> listarNrcPeriodo(PeriodoLectivo codPeriodo) {
         return this.nrcFacade.listarNrcPeriodo(codPeriodo);
     }
+    
+    public List<Nrc> listarNRCPorNombre(String nrc){
+        return this.nrcFacade.listarNRCPorNombre(nrc);
+    }
 
     public void crearNrc(Nrc nrc) {
         this.nrcFacade.create(nrc);
