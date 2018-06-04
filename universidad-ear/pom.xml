@@ -53,5 +53,11 @@
             <version>1</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>ec.edu.espe.arquitectura.universidad</groupId>
+            <artifactId>universidad-soap</artifactId>
+            <version>1</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 </project>

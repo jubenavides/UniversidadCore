@@ -52,7 +52,7 @@ public class Matricula implements Serializable {
     @ManyToOne
     private Estudiante codEstudiante;
     
-    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private PeriodoLectivo codPeriodo;
     

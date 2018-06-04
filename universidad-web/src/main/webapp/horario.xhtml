@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Creación de horarios" style="width: 80%; margin: auto;">
+                <p:panelGrid columns="3" >
+                    <p:outputLabel for="cbxPeriodo"  value="Período Lectivo: "/>
+                    <p:selectOneMenu  id="cbxPeriodo"  value="#{horarioBean.periodoSeleccionado.codigo}" style="width:300px" required="true" requiredMessage="Debe seleccionar un período">
+                        <p:ajax event="itemSelect" listener="#{horarioBean.mostrarNrcPorPeriodo()}" update="@form"/>
+                        <f:selectItem itemValue="" itemLabel="Seleccione un período"/>
+                        <f:selectItems id="periodos" value="#{horarioBean.periodosLectivos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="Período-#{periodo.codigo}"/>
+                    </p:selectOneMenu>
+                    <p:message for="cbxPeriodo" />
+                </p:panelGrid>
+                <p:panel id="ListaNrc" header="Seleccionar NRC" rendered="#{horarioBean.mostrarListaNrc}">
+                    <!--<p:panelGrid columns="3">
+                        <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
+                        <p:inputText id="bscCodigo" value="#{generarNRCBean.asignatura.nombre}"  />
+                        <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{generarNRCBean.buscarAsignatura()}" update="@form" />
+                    </p:panelGrid>-->
+                    
+                    <p:dataTable var="nrc" value="#{horarioBean.nrcExistentes}" emptyMessage="No se encontraron NRC registrados"
+                                 selectionMode="single" rowKey="#{nrc.nrcPK.codNrc}" 
+                                 selection="#{horarioBean.nrcSel}" 
+                                 scrollable="true" scrollHeight="250" 
+                                 >
+                        <p:ajax event="rowSelect" update="@form"/>
+                        <p:ajax event="rowUnselect" update="@form"/>
+                        <p:column headerText="NRC" >
+                            <h:outputText value="#{nrc.nrcPK.codNrc}"/>
+                        </p:column>
+                        <p:column headerText="Periodo" rendered="false">
+                            <h:outputText value="#{nrc.periodoLectivo.codigo}" />
+                        </p:column>
+                        <p:column headerText="Asignatura" >
+                            <h:outputText value="#{nrc.codAsignatura.nombre}" />
+                        </p:column>
+                    </p:dataTable>
+                    
+                    <p:commandButton id="btnVerHorarios" 
+                                     value="Ver Horarios" 
+                                     disabled="#{empty horarioBean.nrcSel}" 
+                                     actionListener="#{horarioBean.setMostrarListaHorarios(true)}" 
+                                     update="@form"/>
+                    
+                </p:panel>
+
+                <p:panel id="ListaHorarios" header="Horarios" rendered="#{horarioBean.mostrarListaHorarios}">
+
+                    <p:dataTable var="horario" value="#{horarioBean.horarios}" emptyMessage="No se encontraron horarios registradas"
+                                 selectionMode="single" selection="#{horarioBean.horarioSel}" rowKey="#{horario.codigo}"
+                                 scrollable="true" scrollHeight="250">
+                       <p:ajax event="rowSelect" update="@form" />
+                       <p:ajax event="rowUnselect" update="@form" />
+                       <p:column headerText="Código">
+                           <h:outputText value="#{horario.codigo}" />
+                       </p:column>
+                       <p:column headerText="Día">
+                           <h:outputText value="#{horario.codFranjaMatricula.dia}" />
+                       </p:column>
+                       <p:column headerText="Hora de Inicio ">
+                           <h:outputText value="#{horario.codFranjaMatricula.inicioHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                       </p:column>
+                       <p:column headerText="Hora de Fin">
+                           <h:outputText value="#{horario.codFranjaMatricula.finHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                       </p:column>
+                       <p:column headerText="Aula">
+                           <h:outputText value="#{horario.codUbicacion.descripcion}" />
+                       </p:column>
+
+                   </p:dataTable>
+                   
+                    <p:commandButton value="Agregar" actionListener="#{horarioBean.agregarHorario()}" update="@form"/>
+                    <p:commandButton value="Eliminar" actionListener="#{horarioBean.eliminarHorario()}" update="@form" disabled="#{horarioBean.horarioSel eq null}">
+                        <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el subtema #{horarioBean.horarioSel.codigo}" icon="ui-icon-alert" />
+                   </p:commandButton>
+                    
+                </p:panel>
+                
+                <p:panel id="NuevoHorario" header="Nuevo Horario" rendered="#{horarioBean.verFormularioHorario}">
+                    
+                    <p:panel id="ListaFranjasHorarias" header="Seleccionar Franja Horaria ">
+
+                    <p:dataTable var="franja" value="#{horarioBean.franjasHorarias}" emptyMessage="No se encontraron franjas horarias registradas"
+                                 selectionMode="single" selection="#{horarioBean.franjaHorariaSel}" rowKey="#{franja.codigo}"
+                                 scrollable="true" scrollHeight="250">
+                       <p:ajax event="rowSelect" update="@form" />
+                       <p:ajax event="rowUnselect" update="@form" />
+                       <p:column headerText="Código">
+                           <h:outputText value="#{franja.codigo}" />
+                       </p:column>
+                       <p:column headerText="Día">
+                           <h:outputText value="#{franja.dia}" />
+                       </p:column>
+                       <p:column headerText="Hora de Inicio ">
+                           <h:outputText value="#{horario.codFranjaMatricula.inicioHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                       </p:column>
+                       <p:column headerText="Hora de Fin">
+                           <h:outputText value="#{horario.codFranjaMatricula.finHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                       </p:column>
+
+                   </p:dataTable>
+                   
+                </p:panel>
+                
+                <p:panel id="ListaAulas" header="Seleccionar Aula " >
+
+                    <p:dataTable var="aula" value="#{horarioBean.aulas}" emptyMessage="No se encontraron aulas registradas"
+                                 selectionMode="single" selection="#{horarioBean.aulaSel}" rowKey="#{aula.codigo}"
+                                 scrollable="true" scrollHeight="250">
+                       <p:ajax event="rowSelect" update="@form"/>
+                       <p:ajax event="rowUnselect" update="@form" />
+                       <p:column headerText="Código">
+                           <h:outputText value="#{aula.codigo}" />
+                       </p:column>
+                       <p:column headerText="Descripción">
+                           <h:outputText value="#{aula.descripcion}" />
+                       </p:column>
+                       <p:column headerText="Bloque">
+                           <h:outputText value="#{aula.codUbicacionPadre.descripcion}" />
+                       </p:column>
+                       <p:column headerText="Edificio">
+                           <h:outputText value="#{aula.codUbicacionPadre.codUbicacionPadre.descripcion}" />
+                       </p:column>
+                       <p:column headerText="Campus">
+                           <h:outputText value="#{aula.codUbicacionPadre.codUbicacionPadre.codUbicacionPadre.descripcion}" />
+                       </p:column>
+
+                   </p:dataTable>
+                   
+                </p:panel>
+                
+                
+                
+                <p:commandButton id="btnGuardarHorario" 
+                                     value="Guardar Horario" 
+                                     disabled="#{empty horarioBean.nrcSel or empty horarioBean.franjaHorariaSel or empty horarioBean.aulaSel}" 
+                                     actionListener="#{horarioBean.guardarHorario()}" 
+                                     update="@form"/>
+                    
+                </p:panel>
+                
+                
+                
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

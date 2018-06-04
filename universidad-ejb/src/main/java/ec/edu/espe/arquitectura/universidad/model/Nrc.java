@@ -31,9 +31,6 @@ public class Nrc implements Serializable {
     @EmbeddedId
     protected NrcPK nrcPK;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nrc")
-    private List<DetalleMatricula> detalleMatriculaList;
-    
     @JoinColumn(name = "COD_ASIGNATURA", referencedColumnName = "COD_ASIGNATURA", nullable = false)
     @ManyToOne
     private Asignatura codAsignatura;
@@ -63,15 +60,6 @@ public class Nrc implements Serializable {
 
     public void setNrcPK(NrcPK nrcPK) {
         this.nrcPK = nrcPK;
-    }
-
-    @XmlTransient
-    public List<DetalleMatricula> getDetalleMatriculaList() {
-        return detalleMatriculaList;
-    }
-
-    public void setDetalleMatriculaList(List<DetalleMatricula> detalleMatriculaList) {
-        this.detalleMatriculaList = detalleMatriculaList;
     }
 
     public Asignatura getCodAsignatura() {
@@ -120,7 +108,7 @@ public class Nrc implements Serializable {
 
     @Override
     public String toString() {
-        return "Nrc{" + "nrcPK=" + nrcPK + ", detalleMatriculaList=" + detalleMatriculaList + ", codAsignatura=" + codAsignatura + ", codDocente=" + codDocente + ", periodoLectivo=" + periodoLectivo + '}';
+        return "Nrc{" + "nrcPK=" + nrcPK + ", codAsignatura=" + codAsignatura + ", codDocente=" + codDocente + ", periodoLectivo=" + periodoLectivo + '}';
     }
 
 }

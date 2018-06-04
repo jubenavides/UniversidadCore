@@ -10,5 +10,6 @@
     <module>universidad-ear</module>
     <module>universidad-web</module>
     <module>universidad-ejb</module>
+    <module>universidad-soap</module>
   </modules>
 </project>

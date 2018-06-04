@@ -22,7 +22,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class NRCService implements NRCServiceLocal {
+public class NRCService {
 
     @EJB
     private NrcFacade nrcFacade;
@@ -38,8 +38,24 @@ public class NRCService implements NRCServiceLocal {
     public List<Nrc> listarNrcAsignaturaPeriodo(Asignatura codAsignatura, PeriodoLectivo codPeriodo) {
         return this.nrcFacade.listarNrcAsignaturaPeriodo(codAsignatura, codPeriodo);
     }
+    
+    public List<Nrc> listarNrcPeriodo(PeriodoLectivo codPeriodo) {
+        return this.nrcFacade.listarNrcPeriodo(codPeriodo);
+    }
+    
+    public List<Nrc> listarNRCPorNombre(String nrc){
+        return this.nrcFacade.listarNRCPorNombre(nrc);
+    }
 
     public void crearNrc(Nrc nrc) {
         this.nrcFacade.create(nrc);
     }
+    public void modificar(Nrc nrc){
+        this.nrcFacade.edit(nrc);
+    }
+
+    public List<Nrc> obtenerNrcPorFecha(String periodo) {
+        return nrcFacade.listarNrcPorPeriodo(periodo);
+    }
+   
 }

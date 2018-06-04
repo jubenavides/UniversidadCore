@@ -30,17 +30,17 @@ public class Horario implements Serializable {
     @Column(name = "COD_HORARIO", nullable = false, length = 5)
     private String codigo;
     
-    @JoinColumn(name = "COD_FRANJA_MATRICULA", referencedColumnName = "COD_FRANJA_HORARIA", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_FRANJA_MATRICULA", referencedColumnName = "COD_FRANJA_HORARIA", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private FranjaHoraria codFranjaMatricula;
     
     @JoinColumns({
-        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = false, updatable = false)
-        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "COD_NRC", referencedColumnName = "COD_NRC", nullable = false, insertable = true, updatable = false)
+        , @JoinColumn(name = "COD_PERIODO", referencedColumnName = "COD_PERIODO", nullable = false, insertable = true, updatable = false)})
     @ManyToOne
     private Nrc nrc;
     
-    @JoinColumn(name = "COD_UBICACION", referencedColumnName = "COD_UBICACION", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_UBICACION", referencedColumnName = "COD_UBICACION", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private Ubicacion codUbicacion;
 
