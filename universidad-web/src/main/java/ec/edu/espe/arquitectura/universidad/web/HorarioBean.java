@@ -47,6 +47,7 @@ public class HorarioBean implements Serializable {
     private Ubicacion aulaSel;
     private boolean mostrarListaNrc;
     private boolean mostrarListaHorarios;
+    private boolean verFormularioHorario;
     private boolean listo;
     private Integer secuenciaHorario;
     
@@ -73,11 +74,14 @@ public class HorarioBean implements Serializable {
         this.franjasHorarias = this.franjaHorariaService.obtenerTodos();
         this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
         this.nrcExistentes = this.nrcService.obtenerTodos();
+        this.horarios = this.horarioService.obtenerTodos();
         this.aula = new Ubicacion();
         this.franjaHoraria = new FranjaHoraria();
         this.horario = new Horario();
         this.setMostrarListaNrc(false);
         this.setListo(false);
+        this.setVerFormularioHorario(false);
+        this.setMostrarListaHorarios(false);
         this.periodoSeleccionado = new PeriodoLectivo();
         
     }
@@ -103,6 +107,19 @@ public class HorarioBean implements Serializable {
         this.horario.setCodFranjaMatricula(this.franjaHorariaSel);
         this.horario.setCodUbicacion(this.aulaSel);
         this.horarioService.crear(horario);
+        this.setVerFormularioHorario(false);
+    }
+    
+    public void agregarHorario(){
+        this.setVerFormularioHorario(true);
+        this.horario = new Horario();    
+    }
+
+    public void eliminarHorario(){
+        this.horarioService.eliminar(this.horarioSel.getCodigo());
+        this.horario =  new Horario();
+        this.horarios = this.horarioService.obtenerTodos();
+        this.setVerFormularioHorario(false);
     }
     
     public List<Horario> getHorarios() {
@@ -255,6 +272,14 @@ public class HorarioBean implements Serializable {
 
     public void setMostrarListaHorarios(boolean mostrarListaHorarios) {
         this.mostrarListaHorarios = mostrarListaHorarios;
+    }
+
+    public boolean isVerFormularioHorario() {
+        return verFormularioHorario;
+    }
+
+    public void setVerFormularioHorario(boolean verFormularioHorario) {
+        this.verFormularioHorario = verFormularioHorario;
     }
 
     
