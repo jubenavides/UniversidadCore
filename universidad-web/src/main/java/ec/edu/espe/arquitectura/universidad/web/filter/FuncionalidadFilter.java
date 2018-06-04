@@ -8,13 +8,16 @@
 package ec.edu.espe.arquitectura.universidad.web.filter;
 
 import ec.edu.espe.arquitectura.universidad.model.SegPerfilFuncionalidad;
+import ec.edu.espe.arquitectura.universidad.model.SegRegistroAcceso;
 import ec.edu.espe.arquitectura.universidad.service.SegPerfilFuncionalidadService;
+import ec.edu.espe.arquitectura.universidad.service.SegRegistroAccesoService;
 import ec.edu.espe.arquitectura.universidad.web.UsuarioSesionBean;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -37,6 +40,8 @@ public class FuncionalidadFilter implements Filter {
 
     @Inject
     UsuarioSesionBean session;
+    @Inject
+    private SegRegistroAccesoService registroAccesoService;
 
     @Inject
     SegPerfilFuncionalidadService segPerfilFuncionalidadService;
@@ -138,9 +143,10 @@ public class FuncionalidadFilter implements Filter {
                     }
                 }
                 if (session != null && session.isLoggedIn() && loginRequest) {
-
+                    this.registroAccesoService.crear(registroAcceso(session.getCodUsuario(),requestHttp.getRequestURI(),requestHttp.getRemoteAddr(),"correcto"));
                     chain.doFilter(request, response);
                 } else {
+                    this.registroAccesoService.crear(registroAcceso(session.getCodPerfil(),requestHttp.getRequestURI(),requestHttp.getRemoteAddr(),"incorrecto"));
                     httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
                 }
             } else {
@@ -167,6 +173,17 @@ public class FuncionalidadFilter implements Filter {
             }
             sendProcessingError(problem, response);
         }
+    }
+    
+    private SegRegistroAcceso registroAcceso(String codUsuario,String funcionalidad,String ip,String resultado) {
+        SegRegistroAcceso registro = new SegRegistroAcceso();
+        funcionalidad = funcionalidad.replaceAll("/universidad-web/pp/","");
+        registro.setCodUsuario(codUsuario);
+        registro.setTipoAcceso("menu");
+        registro.setIp(ip);
+        registro.setFuncionalidad(funcionalidad);
+        registro.setResultado(resultado);
+        return registro;
     }
 
     /**

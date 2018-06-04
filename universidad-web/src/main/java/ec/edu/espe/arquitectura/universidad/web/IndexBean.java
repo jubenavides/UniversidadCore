@@ -13,6 +13,7 @@ import ec.edu.espe.arquitectura.universidad.service.AutenticacionService;
 import ec.edu.espe.arquitectura.universidad.service.SegRegistroAccesoService;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
 import ec.edu.espe.arquitectura.universidad.util.BCrypt;
+import ec.edu.espe.arquitectura.universidad.web.filter.ClientIpAddress;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Level;
@@ -51,17 +52,21 @@ public class IndexBean implements Serializable {
         try {
             SegUsuario usuario;
             usuario = this.autenticacionService.login(this.codigoUsuario, this.clave);
-            if (usuario != null && BCrypt.checkpw(clave,usuario.getClave())) {
+            if (usuario != null && BCrypt.checkpw(clave, usuario.getClave())) {
                 if (usuario.getEstado().equals(EstadoSegUsuarioEnum.ACT)) {
                     this.usuarioSessionBean.setUsuario(usuario);
-                    this.registroAccesoService.crear(registroAcceso(usuario.getCodigo()));
+                    this.registroAccesoService.crear(registroAcceso(usuario.getCodigo(),"correcto"));
                     usuario.setIntentosErroneos(0);
                     usuario.setFechaUltimoAcceso(new Date());
                     this.usuarioService.modificar(usuario);
                     return "/pp/menuPrincipal?faces-redirect=true";
                 }
             } else {
+                if (usuario != null) {
+                    this.registroAccesoService.crear(registroAcceso(usuario.getCodigo(),"incorrecto"));
+                }
                 Messages.addGlobalError("Los datos ingresados no corresponden por favor verifique");
+
             }
         } catch (UsuarioBloqueadoException ex) {
             Messages.addGlobalError(ex.toString());
@@ -69,15 +74,14 @@ public class IndexBean implements Serializable {
         return "index";
     }
 
-    public SegRegistroAcceso registroAcceso(String codUsuario) {
+    private SegRegistroAcceso registroAcceso(String codUsuario,String resultado) {
         String ip = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr();
-        String funcionalidad = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath();
         SegRegistroAcceso registro = new SegRegistroAcceso();
         registro.setCodUsuario(codUsuario);
         registro.setTipoAcceso("login");
         registro.setIp(ip);
-        registro.setFuncionalidad(funcionalidad);
-        registro.setResultado("resultado");
+        registro.setFuncionalidad("menuPrincipal");
+        registro.setResultado(resultado);
         return registro;
     }
 
