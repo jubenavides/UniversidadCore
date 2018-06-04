@@ -32,12 +32,15 @@ public class PrerrequisitoBean extends BaseBean implements Serializable {
     //private List<Malla> malla;
     private List<Prerrequisito> prerrequisitos;
     private Prerrequisito prerrequisito;
-
+    private List<DetalleMalla> detalleMallas;
     private DetalleMalla detalleMallaSel;
+    private DetalleMalla detalleMalla;
+    private boolean mostrar;
 
-    private String[] selectedPrerrequisitos;
+    private List<DetalleMalla> selectedPrerrequisitos;
     private List<DetalleMalla> detMaasignaturas;
     private List<DetalleMalla> detMaasignaturasFiltro;
+    private String buscar;
 
     @Inject
     private PrerrequisitoService prerrequisitoService;
@@ -47,39 +50,93 @@ public class PrerrequisitoBean extends BaseBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        //this.prerrequisitos = this.prerrequisitoService.obtenerTodos();
-        this.detMaasignaturas = this.detalleMallaService.obtenerTodos();
 
+        this.detalleMallas = this.detalleMallaService.obtenerTodos();
+        this.selectedPrerrequisitos = new ArrayList<DetalleMalla>();
         this.prerrequisito = new Prerrequisito();
+        this.mostrar = false;
+    }
+
+    public void buscarAsignatura() {
+
+        this.detalleMallas = this.detalleMallaService.obtenerPorNombre(this.buscar);
+
+    }
+    
+     public boolean validarExistencia(Prerrequisito pre) {
+         List<Prerrequisito> aux = this.prerrequisitoService.obtenerTodos();
+         boolean band = false;
+         for(Prerrequisito ap: aux)
+         {
+             if(pre.getCodMateria().getCodAsignatura().getCodigo().equals(ap.getCodMateria().getCodAsignatura().getCodigo()) 
+                     && pre.getCodPreRequisito().getCodAsignatura().getCodigo().equals(ap.getCodPreRequisito().getCodAsignatura().getCodigo()))
+             {
+                 band = true;
+                 break;
+             }
+         }
+         return band;
     }
 
     public void asignarPrerrequisito() {
         agregar();
         List<DetalleMalla> aux = new ArrayList<>();
-        this.detMaasignaturasFiltro = this.detMaasignaturas;
-        for (int i = 0; i < this.detMaasignaturas.size(); i++) {
-            if (this.detMaasignaturas.get(i).getNivel() < this.detalleMallaSel.getNivel()) {
-                aux.add(detMaasignaturas.get(i));
+        this.detMaasignaturasFiltro = this.detalleMallas;
+        for (int i = 0; i < this.detalleMallas.size(); i++) {
+            if (this.detalleMallas.get(i).getNivel() < this.detalleMallaSel.getNivel()) {
+                aux.add(detalleMallas.get(i));
             }
         }
         this.detMaasignaturasFiltro = aux;
+        this.mostrar = true;
     }
 
     public void guardarPrerrequisitos() {
-        if (selectedPrerrequisitos.length > 0) {
-            for (int i = 0; i < selectedPrerrequisitos.length; i++) {
+        if (this.selectedPrerrequisitos.size() > 0) {
+            for (int i = 0; i < this.selectedPrerrequisitos.size(); i++) {
                 Prerrequisito pre = new Prerrequisito();
-                pre.setCodPreRequisito(new DetalleMalla(Integer.parseInt(selectedPrerrequisitos[i].split(",")[0].split("=")[1])));
-                pre.setCodMateria(new DetalleMalla(detalleMallaSel.getCodigo()));
-                pre.setCodigo(0);
-                try {
-                    this.prerrequisitoService.crear(pre);
-                    Messages.addFlashGlobalInfo("Se agrego el prerrequisito");
-                } catch (Exception ex) {
-                    Messages.addGlobalError(null, "Ocurrio un error al guardar prerrequisito");
+                pre.setCodPreRequisito(this.selectedPrerrequisitos.get(i));
+                pre.setCodMateria(this.detalleMallaSel);
+                if (!validarExistencia(pre)) {
+                    try {
+                        this.prerrequisitoService.crear(pre);
+                        Messages.addFlashGlobalInfo("Se agrego el prerrequisito");
+                    } catch (Exception ex) {
+                        Messages.addGlobalError(null, "Ocurrio un error al guardar prerrequisito");
+                    }
                 }
+
             }
+            this.mostrar = false;
         }
+    }
+
+    public void ocultar() {
+        this.mostrar = false;
+    }
+
+    public List<DetalleMalla> getDetalleMallas() {
+        return detalleMallas;
+    }
+
+    public void setDetalleMallas(List<DetalleMalla> detalleMallas) {
+        this.detalleMallas = detalleMallas;
+    }
+
+    public DetalleMalla getDetalleMalla() {
+        return detalleMalla;
+    }
+
+    public void setDetalleMalla(DetalleMalla detalleMalla) {
+        this.detalleMalla = detalleMalla;
+    }
+
+    public String getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(String buscar) {
+        this.buscar = buscar;
     }
 
     public Prerrequisito getPrerrequisito() {
@@ -98,11 +155,11 @@ public class PrerrequisitoBean extends BaseBean implements Serializable {
         this.prerrequisitoService = prerrequisitoService;
     }
 
-    public String[] getSelectedPrerrequisitos() {
+    public List<DetalleMalla> getSelectedPrerrequisitos() {
         return selectedPrerrequisitos;
     }
 
-    public void setSelectedPrerrequisitos(String[] selectedPrerrequisitos) {
+    public void setSelectedPrerrequisitos(List<DetalleMalla> selectedPrerrequisitos) {
         this.selectedPrerrequisitos = selectedPrerrequisitos;
     }
 
@@ -128,6 +185,14 @@ public class PrerrequisitoBean extends BaseBean implements Serializable {
 
     public void setDetMaasignaturasFiltro(List<DetalleMalla> detMaasignaturasFiltro) {
         this.detMaasignaturasFiltro = detMaasignaturasFiltro;
+    }
+
+    public boolean isMostrar() {
+        return mostrar;
+    }
+
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
     }
 
 }

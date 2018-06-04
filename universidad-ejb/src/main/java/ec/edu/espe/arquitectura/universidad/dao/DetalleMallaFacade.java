@@ -33,9 +33,11 @@ public class DetalleMallaFacade extends AbstractFacade<DetalleMalla> {
         super(DetalleMalla.class);
     }
     
-    public List<DetalleMalla> findByLevel(Integer nivel) {
-        Query qry = this.em.createQuery("SELECT obj FROM DetalleMalla obj where obj.nivel<?1");
-        qry.setParameter(1,nivel);
+    public List<DetalleMalla> obtenerPorNombreAsignatura(String nombre) {
+        Query qry = this.em.createQuery("SELECT obj FROM DetalleMalla obj WHERE obj.codAsignatura.nombre LIKE :nomBus");
+        qry.setParameter("nomBus", "%" + nombre + "%");
         return qry.getResultList();
     }
+    
+    
 }
