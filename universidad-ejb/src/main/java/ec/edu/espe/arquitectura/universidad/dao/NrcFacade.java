@@ -70,4 +70,10 @@ public class NrcFacade extends AbstractFacade<Nrc> {
         q.setParameter(1, codPeriodo);
         return q.getResultList();
     }
+    
+    public List<Nrc> listarNRCPorNombre(String nrc){
+        Query q =this.em.createQuery("SELECT obj FROM Nrc obj WHERE obj.codAsignatura.nombre LIKE :nomBus");
+        q.setParameter("nomBus", "%" + nrc + "%");
+        return q.getResultList();
+    }
 }

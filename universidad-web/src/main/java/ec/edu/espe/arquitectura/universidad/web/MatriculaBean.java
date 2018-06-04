@@ -41,11 +41,13 @@ public class MatriculaBean implements Serializable {
     private PeriodoLectivo periodoSeleccionado;
     private List<Nrc> nrcDisponibles;
     private Nrc nrcSeleccionado;
+    private Nrc asignaturaBuscar;
     private List<DetalleMatricula> matriculaEstudiante;
     private List<Matricula> matriculas;
     private DetalleMatricula detMat;
     private Matricula matricula;
     private Integer secuenciaMatricula;
+    private String busqueda;
 
     @Inject
     private PeriodoLectivoService periodoLectivoService;
@@ -61,18 +63,27 @@ public class MatriculaBean implements Serializable {
 
     @Inject
     private DetalleMatriculaService detalleMatriculaService;
+    
+    @Inject
+    private UsuarioSesionBean usuario;
 
     @PostConstruct
     public void init() {
         this.periodosLectivos = this.periodoLectivoService.obtenerTodos();
         this.periodoSeleccionado = new PeriodoLectivo();
         this.matriculaEstudiante = new ArrayList<>();
-
+        this.asignaturaBuscar = new Nrc();
+        busqueda = "";
     }
 
     public void listarNRCDisponibles() {
         this.nrcDisponibles = this.nrcService.listarNrcPeriodo(this.periodoSeleccionado);
         this.mostrar = true;
+    }
+
+    public void buscarAsignatura() {
+//        this.asignaturas = new ArrayList<>();
+        this.nrcDisponibles = this.nrcService.listarNRCPorNombre(this.busqueda);
     }
 
     public void guardarMatricula() {
@@ -105,7 +116,7 @@ public class MatriculaBean implements Serializable {
         boolean band = false;
         for (DetalleMatricula mat : this.matriculaEstudiante) {
             if (this.nrcSeleccionado.getNrcPK().getCodNrc().equals(mat.getNrc().getNrcPK().getCodNrc())
-                    || this.nrcSeleccionado.getCodAsignatura().getNombre().equals(mat.getNrc().getCodAsignatura().getNombre()) 
+                    || this.nrcSeleccionado.getCodAsignatura().getNombre().equals(mat.getNrc().getCodAsignatura().getNombre())
                     || !this.nrcSeleccionado.getNrcPK().getCodPeriodo().equals(mat.getNrc().getNrcPK().getCodPeriodo())) {
                 band = true;
                 break;
@@ -203,5 +214,55 @@ public class MatriculaBean implements Serializable {
     public void setSecuenciaMatricula(Integer secuenciaMatricula) {
         this.secuenciaMatricula = secuenciaMatricula;
     }
+
+    public Nrc getAsignaturaBuscar() {
+        return asignaturaBuscar;
+    }
+
+    public void setAsignaturaBuscar(Nrc asignaturaBuscar) {
+        this.asignaturaBuscar = asignaturaBuscar;
+    }
+
+    public List<Matricula> getMatriculas() {
+        return matriculas;
+    }
+
+    public void setMatriculas(List<Matricula> matriculas) {
+        this.matriculas = matriculas;
+    }
+
+    public DetalleMatricula getDetMat() {
+        return detMat;
+    }
+
+    public void setDetMat(DetalleMatricula detMat) {
+        this.detMat = detMat;
+    }
+
+    public Matricula getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(Matricula matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getBusqueda() {
+        return busqueda;
+    }
+
+    public void setBusqueda(String busqueda) {
+        this.busqueda = busqueda;
+    }
+
+    public UsuarioSesionBean getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioSesionBean usuario) {
+        this.usuario = usuario;
+    }
+    
+    
 
 }
