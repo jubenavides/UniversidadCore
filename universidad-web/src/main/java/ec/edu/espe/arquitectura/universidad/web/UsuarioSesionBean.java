@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author Hendrix
+ * @author jubenavides
  */
 @Named
 @SessionScoped
@@ -20,10 +20,22 @@ public class UsuarioSesionBean implements Serializable{
     
     private SegUsuario usuario;
     
+     public boolean isLoggedIn() {
+        return usuario != null && !usuario.getCodigo().isEmpty();
+    }
+
     public String getNombre() {
         return this.usuario.getNombre();
     }
+    
+    public String getCodUsuario() {
+        return this.usuario.getCodigo();
+    }
 
+    public String getCodPerfil() {
+        return this.usuario.getCodPerfil().getCodigo();
+    }
+    
     public SegUsuario getUsuario() {
         return usuario;
     }
@@ -31,6 +43,5 @@ public class UsuarioSesionBean implements Serializable{
     public void setUsuario(SegUsuario usuario) {
         this.usuario = usuario;
     }
-    
-    
+
 }

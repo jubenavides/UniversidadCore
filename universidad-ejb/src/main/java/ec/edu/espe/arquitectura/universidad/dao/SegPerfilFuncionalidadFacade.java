@@ -6,6 +6,7 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.SegPerfilFuncionalidad;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,4 +32,8 @@ public class SegPerfilFuncionalidadFacade extends AbstractFacade<SegPerfilFuncio
         super(SegPerfilFuncionalidad.class);
     }
     
+    public List<SegPerfilFuncionalidad> findByPerfilCode(String codigo){
+        return this.em.createQuery("SELECT f FROM SegPerfilFuncionalidad f WHERE f.segPerfil.codigo=?1")
+                .setParameter(1, codigo).getResultList();
+    }
 }

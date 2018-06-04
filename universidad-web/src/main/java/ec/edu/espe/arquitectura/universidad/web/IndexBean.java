@@ -58,7 +58,7 @@ public class IndexBean implements Serializable {
                     usuario.setIntentosErroneos(0);
                     usuario.setFechaUltimoAcceso(new Date());
                     this.usuarioService.modificar(usuario);
-                    return "menuPrincipal";
+                    return "/pp/menuPrincipal?faces-redirect=true";
                 }
             } else {
                 Messages.addGlobalError("Los datos ingresados no corresponden por favor verifique");

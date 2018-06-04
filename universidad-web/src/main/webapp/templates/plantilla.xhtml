@@ -21,28 +21,28 @@
                 <h:form>
                     <p:menubar>
                         <p:submenu label="Usuarios" >
-                            <p:menuitem value="Gestionar usuarios" action="usuario" />
+                            <p:menuitem value="Gestionar usuarios" outcome="/pp/usuario" />
                         </p:submenu>
                         <p:submenu label="Sílabo" >
-                            <p:menuitem value="Gestionar sílabo" action="silabo" />
+                            <p:menuitem value="Gestionar sílabo" outcome="/pp/silabo" />
                         </p:submenu>
                         <p:submenu label="Gestión NRC">
-                            <p:menuitem value="Generar NRC" action="generarNRC"/>
-                            <p:menuitem value="Gestionar horarios" action="horario" />
+                            <p:menuitem value="Generar NRC" outcome="generarNRC"/>
+                            <p:menuitem value="Gestionar horarios" outcome="/pp/horario" />
                         </p:submenu>
                         <p:submenu label="Gestion Asignaturas" >
-                            <p:menuitem value="Prerrequisitos Asignaturas" action="prerrequisito" />
+                            <p:menuitem value="Prerrequisitos Asignaturas" outcome="/pp/prerrequisito" />
                         </p:submenu>
-                       
+
                         <p:menuitem value="#{usuarioSesionBean.nombre}" url="#"/>
-                        <p:menuitem value="Salir" icon="ui-icon-extlink" action="#{indexBean.logout()}" />
+                        <p:menuitem value="Salir" icon="ui-icon-extlink" action="#{logoutBean.cerrarSesion()}" />
                     </p:menubar>
                     <p:spacer height="10px"/>
-<ui:insert name="contenido">
+                    <ui:insert name="contenido">
 
-                </ui:insert>
+                    </ui:insert>
                 </h:form>
-                
+
                 <p>&nbsp;</p>
             </div>
             <div id="footer">
