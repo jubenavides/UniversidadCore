@@ -67,9 +67,6 @@
                             <f:selectItem  itemValue="PEN" itemLabel="Pendiente"  /> 
                         </h:selectOneMenu>
                         <p:message for="estado" />
-                        <p:outputLabel for="clave" value="Clave" />
-                        <p:inputText id="clave" value="#{segUsuarioBean.segUsuario.clave}"  required="true" requiredMessage="Campo clave no puede estar vacio" rendered="#{segUsuarioBean.enModificar}"/>
-                        <p:message for="clave" />
                     </p:panelGrid>
                     <p:commandButton value="Aceptar" actionListener="#{segUsuarioBean.guardar}" update="@form" />
                     <p:commandButton value="Cancelar" actionListener="#{segUsuarioBean.cancelar}" update="@form" immediate="true"/>
