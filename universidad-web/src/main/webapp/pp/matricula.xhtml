@@ -31,7 +31,7 @@ and open the template in the editor.
                     <p:panel id="asignaturas" header="Búsqueda" rendered="#{matriculaBean.mostrar}">
                         <p:panelGrid columns="3">
                             <p:outputLabel for="bscCodigo" value="Buscar Asignatura: " />
-                            <p:inputText id="bscCodigo" value="#{matriculaBean.usuario.nombre}"  />
+                            <p:inputText id="bscCodigo" value="#{matriculaBean.busqueda}"  />
                             <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{matriculaBean.buscarAsignatura()}" update="@form" />
                         </p:panelGrid>
                         <p:dataTable id="nrcDisp" var="asignatura" value="#{matriculaBean.nrcDisponibles}" emptyMessage="No se encontraron asignaturas registradas"
@@ -40,7 +40,7 @@ and open the template in the editor.
                                      scrollable="true" scrollHeight="250" 
                                      >
                             <p:ajax event="rowSelect" update="@form" />
-                            <p:column headerText="Codigo" rendered="true">
+                            <p:column headerText="Codigo " rendered="true">
                                 <h:outputText value="#{asignatura.nrcPK.codNrc}"/>
                             </p:column>
                             <p:column headerText="Asignatura" >
