@@ -145,7 +145,7 @@ public class FuncionalidadFilter implements Filter {
                     this.registroAccesoService.crear(registroAcceso(session.getCodUsuario(),requestHttp.getRequestURI(),requestHttp.getRemoteAddr(),"correcto"));
                     chain.doFilter(request, response);
                 } else {
-                    this.registroAccesoService.crear(registroAcceso(session.getCodPerfil(),requestHttp.getRequestURI(),requestHttp.getRemoteAddr(),"incorrecto"));
+                    this.registroAccesoService.crear(registroAcceso(session.getCodUsuario(),requestHttp.getRequestURI(),requestHttp.getRemoteAddr(),"incorrecto"));
                     httpResponse.sendRedirect(requestHttp.getContextPath() + "/access.xhtml");
                 }
             } else {
