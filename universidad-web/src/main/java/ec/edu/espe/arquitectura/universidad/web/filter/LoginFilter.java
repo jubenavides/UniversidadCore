@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jolube
  */
-//@WebFilter(filterName = "LoginFilter", urlPatterns = {"/index"})
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/index"})
 public class LoginFilter implements Filter {
 
     @Inject

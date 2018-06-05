@@ -17,7 +17,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jolube
  */
-//@WebFilter(filterName = "FuncionalidadFilter", urlPatterns = {"/pp/*"})
+@WebFilter(filterName = "FuncionalidadFilter", urlPatterns = {"/pp/*"})
 public class FuncionalidadFilter implements Filter {
 
     private static final boolean debug = false;
