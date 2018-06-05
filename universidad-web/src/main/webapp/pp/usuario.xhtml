@@ -48,7 +48,7 @@
                         <p:inputText id="codigo" value="#{segUsuarioBean.segUsuario.codigo}" disabled="#{segUsuarioBean.enModificar}" required="true" requiredMessage="Debe ingresar el codigo"/>
                         <p:message for="codigo" />
                         <p:outputLabel for="perfil" value="Perfil" />
-                        <h:selectOneMenu id="perfil" value="#{segUsuarioBean.codigoPerfil}" style="background-color: black" >
+                        <h:selectOneMenu id="perfil" value="#{segUsuarioBean.codigoPerfil}">
                             <f:selectItems id="tipo" value="#{segUsuarioBean.segPerfiles}" var="tipoPerfil" itemValue="#{tipoPerfil.codigo}" itemLabel="#{tipoPerfil.nombre}"  />                          
                         </h:selectOneMenu>
                         <p:message for="perfil" />
@@ -59,7 +59,7 @@
                         <p:inputText id="correo" value="#{segUsuarioBean.segUsuario.correoElectronico}"  required="true" requiredMessage="Debe ingresara el correo"/>
                         <p:message for="correo" />
                         <p:outputLabel for="estado" value="Estado" />
-                        <h:selectOneMenu id="estado" value="#{segUsuarioBean.segUsuario.estado}" style="background-color: black" required="true" requiredMessage="Debe seleccionar un estado">
+                        <h:selectOneMenu id="estado" value="#{segUsuarioBean.segUsuario.estado}" required="true" requiredMessage="Debe seleccionar un estado">
                             <f:selectItem  itemValue="ACT" itemLabel="Activo"  />       
                             <f:selectItem  itemValue="INA" itemLabel="Inactivo"  /> 
                             <f:selectItem  itemValue="SUS" itemLabel="Suspendido"  /> 

@@ -89,10 +89,10 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
                 this.segUsuario.setFechaCreacion(new Date());
                 this.segUsuario.setClave(generarClave());
                 this.segUsuario.setIntentosErroneos(0);
+                this.segUsuario.setClave(generarClave());
                 this.segUsuarioService.crear(this.segUsuario);
                 Messages.addFlashGlobalInfo("Se agregó el Usuario: " + this.segUsuario.getCodigo() + ", " + this.segUsuario.getNombre());
             } else {
-                this.segUsuario.setClave(BCrypt.hashpw(this.segUsuario.getClave(), BCrypt.gensalt()));
                 this.segUsuarioService.modificar(segUsuario);
             }
         } catch (Exception ex) {
