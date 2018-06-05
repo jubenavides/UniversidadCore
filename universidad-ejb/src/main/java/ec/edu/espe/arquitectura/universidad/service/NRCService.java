@@ -57,5 +57,9 @@ public class NRCService {
     public List<Nrc> obtenerNrcPorFecha(String periodo) {
         return nrcFacade.listarNrcPorPeriodo(periodo);
     }
+    
+    public List<Nrc> obtenerNrcDocente(String codPeriodo, String codDocente){
+        return nrcFacade.listarNrcDocente(codPeriodo, codDocente);
+    }
    
 }

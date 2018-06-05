@@ -44,4 +44,11 @@ public class DetalleMatriculaFacade extends AbstractFacade<DetalleMatricula> {
         }
         return estudiantes;
     }
+    
+    public List<DetalleMatricula> listadoMatriculasPorNrc(String nrc, String periodo) {
+        List<DetalleMatricula> listDetalleMatricula = this.em.createQuery("SELECT e FROM DetalleMatricula e WHERE e.nrc.nrcPK.codNrc=?1 AND  e.nrc.nrcPK.codPeriodo=?2")
+                .setParameter(1, nrc)
+                .setParameter(2, periodo).getResultList();
+        return listDetalleMatricula;
+    }
 }

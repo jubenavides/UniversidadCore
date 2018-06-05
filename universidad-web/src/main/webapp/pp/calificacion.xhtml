@@ -1,16 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>Aquí va la funcionalidad de calificar a cada estudiante en cada parcial. Disponible para el docente</div>
-    </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+                <p:panel id="mainPnl" header="Usuarios" style="width: 80%; margin: auto;">
+                    <p:panel header="Periodo - Nrc">
+                        <p:panelGrid columns="3">
+                            <p:selectOneMenu id="periodoList" value="#{calificacionesBean.periodoSel}" valueChangeListener="#{calificacionesBean.asignarPeriodo()}">
+                                <p:ajax update="nrcList" process="@this nrcList"/>
+                                <f:selectItems id="periodo" value="#{calificacionesBean.periodos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="#{periodo.codigo}"/> 
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="nrcList" value="#{calificacionesBean.nrcSelect}">
+                                <p:ajax update="parcialList"/>
+                                <f:selectItems id="nrc" value="#{calificacionesBean.listaNrc}" var="nrc" itemValue="#{nrc.nrcPK.codNrc}" itemLabel="#{nrc.nrcPK.codNrc}"  />                          
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="parcialList" value="#{calificacionesBean.parcial}" valueChangeListener="#{calificacionesBean.cargarListado()}">
+                                <p:ajax update="pnlEstudiantes"/>
+                                <f:selectItem id="parcial1" itemValue="1" itemLabel="Primer Parcial"  />                          
+                                <f:selectItem id="parcial2" itemValue="2" itemLabel="Segundo Parcial"  />                          
+                                <f:selectItem id="parcial3" itemValue="3" itemLabel="Tercer Parcial"  />                          
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel id="pnlEstudiantes" header="Calificacion Estudiantes">
+                        <p:dataTable id="ests" var="est" value="#{calificacionesBean.listEstudianteCalificacion}" editable="true" editMode="cell" widgetVar="cellEsts">
+                            <f:facet name="header">
+                                Calificacion de estudiantes Parcial #{calificacionesBean.parcial}
+                            </f:facet>
+                            <p:ajax event="cellEdit" listener="#{calificacionesBean.onCellEdit}" immediate="true" update="ests" process="@this"  />
+                            <p:column headerText="Nombre Estudiante">
+                                <h:outputText value="#{est.nombreEstudiante}" />
+                            </p:column>
+                            <p:column headerText="Calificacion">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{est.calificacion}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{est.calificacion}" style="width:96%" label="Calificacion"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:commandButton value="Guardar" actionListener="#{calificacionesBean.guardar()}" update="@form">
+                        <p:confirm header="Confirmaci&#243;n" message="Desea guardar las calificaciones?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
 </html>

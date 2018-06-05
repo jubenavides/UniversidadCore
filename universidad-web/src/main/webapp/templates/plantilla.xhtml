@@ -27,11 +27,13 @@
                             <p:menuitem value="Gestionar sílabo" outcome="/pp/silabo" />
                         </p:submenu>
                         <p:submenu label="Gestión NRC">
-                            <p:menuitem value="Generar NRC" outcome="generarNRC"/>
+                            <p:menuitem value="Generar NRC" outcome="/pp/generarNRC"/>
                             <p:menuitem value="Gestionar horarios" outcome="/pp/horario" />
+                            <p:menuitem value="Calificaciones" outcome="/pp/calificacion" />
                         </p:submenu>
                         <p:submenu label="Gestion Asignaturas" >
                             <p:menuitem value="Prerrequisitos Asignaturas" outcome="/pp/prerrequisito" />
+                            <p:menuitem value="Matriculas" outcome="/pp/matricula" />
                         </p:submenu>
                         <p:submenu label="Preferencias" >
                             <p:menuitem value="Cambio Contraseña" onclick="PF('cambioContrasenia').show();" />
@@ -61,6 +63,6 @@
                 </div>
             </div>
         </div>
-         <ui:include src="/pp/cambio_contrasenia.xhtml"/>
+        <ui:include src="/pp/cambio_contrasenia.xhtml"/>
     </h:body>
 </html>

@@ -9,9 +9,7 @@ package ec.edu.espe.arquitectura.universidad.web;
 
 import ec.edu.espe.arquitectura.universidad.model.SegUsuario;
 import ec.edu.espe.arquitectura.universidad.service.SegUsuarioService;
-import ec.edu.espe.arquitectura.universidad.web.SegUsuarioBean;
 import java.io.Serializable;
-
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -19,13 +17,12 @@ import javax.inject.Named;
 import ec.edu.espe.arquitectura.universidad.util.BCrypt;
 import java.util.logging.Logger;
 import org.omnifaces.cdi.ViewScoped;
-import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author alterbios
+ * @author jolube
  */
 @Named
 @ViewScoped

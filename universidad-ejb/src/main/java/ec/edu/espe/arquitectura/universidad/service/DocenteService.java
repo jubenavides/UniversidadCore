@@ -28,5 +28,9 @@ public class DocenteService {
     public List<Docente> obtenerTodos(){
         return this.docenteFacade.findAll();
     }
+    
+    public Docente obtenerPorCodigo(String codDocente){
+        return this.docenteFacade.find(codDocente);
+    }
 
 }
