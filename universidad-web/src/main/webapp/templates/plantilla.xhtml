@@ -33,7 +33,9 @@
                         <p:submenu label="Gestion Asignaturas" >
                             <p:menuitem value="Prerrequisitos Asignaturas" outcome="/pp/prerrequisito" />
                         </p:submenu>
-
+                        <p:submenu label="Preferencias" >
+                            <p:menuitem value="Cambio Contraseña" onclick="PF('cambioContrasenia').show();" />
+                        </p:submenu>
                         <p:menuitem value="#{usuarioSesionBean.nombre}" url="#"/>
                         <p:menuitem value="Salir" icon="ui-icon-extlink" action="#{logoutBean.cerrarSesion()}" />
                     </p:menubar>
@@ -59,5 +61,6 @@
                 </div>
             </div>
         </div>
+         <ui:include src="/pp/cambio_contrasenia.xhtml"/>
     </h:body>
 </html>
