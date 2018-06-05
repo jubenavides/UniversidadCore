@@ -43,10 +43,15 @@ public class CalificacionFacade extends AbstractFacade<Calificacion> {
     }
         
     public Calificacion calificacionPorDetalleMatriculaYParcial(Integer codDetalleMatricula, Integer parcial){
+        try{
         Calificacion calificacion = this.em.createQuery("SELECT c FROM Calificacion c WHERE c.calificacionPK.codDetalleMatricula=?1 AND  c.calificacionPK.secCalificacion=?2", Calificacion.class)
                 .setParameter(1, codDetalleMatricula)
                 .setParameter(2, parcial).getSingleResult();
         return calificacion;
+        }catch(Exception ex){
+            System.err.println("No existen resultados de calificacion para las opciones seleccionadas");
+        }
+        return null;
     }
 
     public List<EstudianteCalificacion> listarPorNrc(String codNrc, String periodo, Integer parcial) {

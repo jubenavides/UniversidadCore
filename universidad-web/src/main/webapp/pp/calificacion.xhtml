@@ -12,15 +12,15 @@
                     <p:panel header="Periodo - Nrc">
                         <p:panelGrid columns="3">
                             <p:selectOneMenu id="periodoList" value="#{calificacionesBean.periodoSel}" valueChangeListener="#{calificacionesBean.asignarPeriodo()}">
-                                <p:ajax update="nrcList" process="@this nrcList"/>
+                                <p:ajax event="change" update="nrcList" process="@this nrcList"/>
                                 <f:selectItems id="periodo" value="#{calificacionesBean.periodos}" var="periodo" itemValue="#{periodo.codigo}" itemLabel="#{periodo.codigo}"/> 
                             </p:selectOneMenu>
                             <p:selectOneMenu id="nrcList" value="#{calificacionesBean.nrcSelect}">
-                                <p:ajax update="parcialList"/>
+                                <p:ajax event="change" update="parcialList"/>
                                 <f:selectItems id="nrc" value="#{calificacionesBean.listaNrc}" var="nrc" itemValue="#{nrc.nrcPK.codNrc}" itemLabel="#{nrc.nrcPK.codNrc}"  />                          
                             </p:selectOneMenu>
                             <p:selectOneMenu id="parcialList" value="#{calificacionesBean.parcial}" valueChangeListener="#{calificacionesBean.cargarListado()}">
-                                <p:ajax update="pnlEstudiantes"/>
+                                <p:ajax event="change" update="pnlEstudiantes"/>
                                 <f:selectItem id="parcial1" itemValue="1" itemLabel="Primer Parcial"  />                          
                                 <f:selectItem id="parcial2" itemValue="2" itemLabel="Segundo Parcial"  />                          
                                 <f:selectItem id="parcial3" itemValue="3" itemLabel="Tercer Parcial"  />                          
