@@ -60,7 +60,7 @@ public class SegUsuario implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimoAcceso;
 
-    @JoinColumn(name = "COD_PERFIL", referencedColumnName = "COD_PERFIL", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(name = "COD_PERFIL", referencedColumnName = "COD_PERFIL", nullable = false, updatable = false, insertable = true)
     @ManyToOne
     private SegPerfil codPerfil;
 
