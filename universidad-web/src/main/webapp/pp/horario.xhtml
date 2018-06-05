@@ -50,7 +50,7 @@ and open the template in the editor.
                     <p:commandButton id="btnVerHorarios" 
                                      value="Ver Horarios" 
                                      disabled="#{empty horarioBean.nrcSel}" 
-                                     actionListener="#{horarioBean.setMostrarListaHorarios(true)}" 
+                                     actionListener="#{horarioBean.mostrarHorariosPorNrc()}" 
                                      update="@form"/>
                     
                 </p:panel>
@@ -81,9 +81,9 @@ and open the template in the editor.
                    </p:dataTable>
                    
                     <p:commandButton value="Agregar" actionListener="#{horarioBean.agregarHorario()}" update="@form"/>
-                    <p:commandButton value="Eliminar" actionListener="#{horarioBean.eliminarHorario()}" update="@form" disabled="#{horarioBean.horarioSel eq null}">
-                        <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el subtema #{horarioBean.horarioSel.codigo}" icon="ui-icon-alert" />
-                   </p:commandButton>
+                    <p:commandButton value="Eliminar " actionListener="#{horarioBean.eliminarHorario()}" update="@form" disabled="#{horarioBean.horarioSel eq null}" />
+                        
+                   
                     
                 </p:panel>
                 
@@ -103,10 +103,10 @@ and open the template in the editor.
                            <h:outputText value="#{franja.dia}" />
                        </p:column>
                        <p:column headerText="Hora de Inicio ">
-                           <h:outputText value="#{horario.codFranjaMatricula.inicioHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                           <h:outputText value="#{franja.inicioHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
                        </p:column>
                        <p:column headerText="Hora de Fin">
-                           <h:outputText value="#{horario.codFranjaMatricula.finHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
+                           <h:outputText value="#{franja.finHora}"><f:convertDateTime type="date" timeZone="GMT-5" pattern="HH:mm:ss"/></h:outputText>
                        </p:column>
 
                    </p:dataTable>

@@ -92,6 +92,11 @@ public class HorarioBean implements Serializable {
         this.setMostrarListaNrc(true);
     }
     
+    public void mostrarHorariosPorNrc(){
+        this.horarios = this.horarioService.obtenerPorNrc(this.nrcSel.getNrcPK().getCodNrc());
+        this.setMostrarListaHorarios(true);
+    }
+    
     public void guardarHorario(){
         this.secuenciaHorario = 0;
         this.horarios = horarioService.obtenerTodos();
@@ -107,6 +112,7 @@ public class HorarioBean implements Serializable {
         this.horario.setCodFranjaMatricula(this.franjaHorariaSel);
         this.horario.setCodUbicacion(this.aulaSel);
         this.horarioService.crear(horario);
+        this.horarios = this.horarioService.obtenerPorNrc(this.nrcSel.getNrcPK().getCodNrc());
         this.setVerFormularioHorario(false);
     }
     
@@ -118,7 +124,7 @@ public class HorarioBean implements Serializable {
     public void eliminarHorario(){
         this.horarioService.eliminar(this.horarioSel.getCodigo());
         this.horario =  new Horario();
-        this.horarios = this.horarioService.obtenerTodos();
+        this.horarios = this.horarioService.obtenerPorNrc(this.nrcSel.getNrcPK().getCodNrc());
         this.setVerFormularioHorario(false);
     }
     

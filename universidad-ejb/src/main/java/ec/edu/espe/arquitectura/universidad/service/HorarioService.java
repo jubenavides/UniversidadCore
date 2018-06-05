@@ -32,6 +32,10 @@ public class HorarioService {
         return this.horarioFacade.find(codigo);
     }
     
+    public List<Horario> obtenerPorNrc(String codigo) {
+        return this.horarioFacade.listarHorarioPorNrc(codigo);
+    }
+    
     public void crear(Horario horario) {
         this.horarioFacade.create(horario);
     }

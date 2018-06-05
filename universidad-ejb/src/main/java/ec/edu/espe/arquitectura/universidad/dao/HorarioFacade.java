@@ -6,10 +6,13 @@
 package ec.edu.espe.arquitectura.universidad.dao;
 
 import ec.edu.espe.arquitectura.universidad.model.Horario;
+import ec.edu.espe.arquitectura.universidad.model.NrcPK;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,4 +34,9 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         super(Horario.class);
     }
     
+    public List<Horario> listarHorarioPorNrc(String codNrc) {
+        Query q = this.em.createQuery("SELECT obj FROM Horario obj WHERE obj.nrc.nrcPK.codNrc = ?1");
+        q.setParameter(1, codNrc);
+        return q.getResultList();
+    }
 }
