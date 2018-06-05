@@ -8,6 +8,7 @@ package ec.edu.espe.arquitectura.universidad.web;
 import ec.edu.espe.arquitectura.universidad.enums.AprobacionNRCEnum;
 import ec.edu.espe.arquitectura.universidad.model.Asignatura;
 import ec.edu.espe.arquitectura.universidad.model.DetalleMatricula;
+import ec.edu.espe.arquitectura.universidad.model.Estudiante;
 import ec.edu.espe.arquitectura.universidad.model.Matricula;
 import ec.edu.espe.arquitectura.universidad.model.Nrc;
 import ec.edu.espe.arquitectura.universidad.model.PeriodoLectivo;
@@ -91,19 +92,23 @@ public class MatriculaBean implements Serializable {
         this.matriculas = matriculaService.obtenerTodos();
         if (!this.matriculas.isEmpty()) {
             Integer ultimoHorario = this.matriculas.size();
-            this.secuenciaMatricula = Integer.parseInt(this.matriculas.get(ultimoHorario - 1).getCodigo().split("-")[1]);
+            this.secuenciaMatricula = Integer.parseInt(this.matriculas.get(ultimoHorario - 1).getCodigo().split("M")[1]);
             this.secuenciaMatricula++;
         }
-        DecimalFormat formateador = new DecimalFormat("00000000");
+        DecimalFormat formateador = new DecimalFormat("000000000");
         try {
             this.matricula = new Matricula();
             this.detMat = new DetalleMatricula();
-            String codMatricula = "M-" + formateador.format(this.secuenciaMatricula);
+            String codMatricula = "M" + formateador.format(this.secuenciaMatricula);
+            Estudiante est=new Estudiante();
+            est.setCodigo(usuario.getCodUsuario());
+            est.setNombres(usuario.getNombre());
             this.matricula.setCodigo(codMatricula);
             this.matricula.setCodPeriodo(this.periodoSeleccionado);
             this.matricula.setCostoMatricula(new BigDecimal("0"));
             this.matricula.setPromedio(new BigDecimal("0"));
             this.matricula.setPagado("NO");
+            this.matricula.setCodEstudiante(est);
             this.matriculaService.crearMatricula(matricula);
             guardarDetalleMatricula(matricula);
 //            Messages.addFlashGlobalInfo("Se agregó el Nrc: " + nuevoNrc.getNrcPK().getCodNrc() + ", para la materia" + this.asignaturaSeleccionada.getNombre());

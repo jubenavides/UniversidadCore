@@ -87,6 +87,7 @@ public class SegUsuarioBean extends BaseBean implements Serializable {
             this.segUsuario.setCodPerfil(this.segPerfilService.obtenerPorCodigoPerfil(this.codigoPerfil));
             if (enAgregar) {
                 this.segUsuario.setFechaCreacion(new Date());
+                this.segUsuario.setClave(generarClave());
                 this.segUsuario.setIntentosErroneos(0);
                 this.segUsuarioService.crear(this.segUsuario);
                 Messages.addFlashGlobalInfo("Se agregó el Usuario: " + this.segUsuario.getCodigo() + ", " + this.segUsuario.getNombre());

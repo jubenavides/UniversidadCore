@@ -48,7 +48,7 @@ public class Matricula implements Serializable {
     @Column(name = "PAGADO", length = 3)
     private String pagado;
     
-    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "COD_ESTUDIANTE", referencedColumnName = "COD_ESTUDIANTE", nullable = false, insertable = true, updatable = false)
     @ManyToOne
     private Estudiante codEstudiante;
     
